@@ -48,10 +48,14 @@ set(TANGOCAMERA_SRC  ${TANGOCAMERA}.cpp
 #
 # User additional include, link folders/libraries and source files
 #
-set(USER_INCL_DIR )
+set(USER_INCL_DIR CameraDriver)
 set(USER_LIB_DIR )
 set(USER_LIBS )
-set(USER_SRC_FILES )
+set(USER_SRC_FILES
+        CameraDriver/CameraDriver.cpp
+        CameraDriver/CameraDriver.h
+        CameraDriver/CameraDriverCreator.h
+)
 
 #
 # Set global info and include directories
