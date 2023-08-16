@@ -34,6 +34,8 @@
 #define TANGOCamera_H
 
 #include <tango.h>
+#include <CameraDriver.h>
+#include <CameraDriverCreator.h>
 
 
 /*----- PROTECTED REGION END -----*/	//	TANGOCamera.h
@@ -45,61 +47,6 @@
 
 namespace TANGOCamera_ns
 {
-enum _acquisitionModeEnum {
-	_CONTINUOUS,
-	_SINGLEFRAME,
-	_MULTIFRAME,
-} ;
-typedef _acquisitionModeEnum acquisitionModeEnum;
-
-enum _exposureAutoEnum {
-	_EXPOSUREAUTOOFF,
-	_EXPOSUREAUTOONCE,
-	_EXPOSUREAUTOCONTINUOUS,
-} ;
-typedef _exposureAutoEnum exposureAutoEnum;
-
-enum _exposureModeEnum {
-	_TIMED,
-	_TRIGGERWIDTH,
-} ;
-typedef _exposureModeEnum exposureModeEnum;
-
-enum _gainAutoEnum {
-	_GAINAUTOOFF,
-	_GAINAUTOONCE,
-	_GAINAUTOCONTINUOUS,
-} ;
-typedef _gainAutoEnum gainAutoEnum;
-
-enum _pixelFormatEnum {
-	_MONO8,
-	_MONO16,
-} ;
-typedef _pixelFormatEnum pixelFormatEnum;
-
-enum _triggerActivationEnum {
-	_LEVELLOW,
-	_LEVELHIGH,
-	_FALLINGEDGE,
-	_RISINGEDGE,
-	_ANYEDGE,
-} ;
-typedef _triggerActivationEnum triggerActivationEnum;
-
-enum _triggerSelectorEnum {
-	_ACQUISITIONSTART,
-	_FRAMESTART,
-	_FRAMEBURSTSTART,
-} ;
-typedef _triggerSelectorEnum triggerSelectorEnum;
-
-enum _triggerSourceEnum {
-	_SOFTWARE,
-	_LINE0,
-} ;
-typedef _triggerSourceEnum triggerSourceEnum;
-
 /*----- PROTECTED REGION ID(TANGOCamera::Additional Class Declarations) ENABLED START -----*/
 
 //	Additional Class Declarations
@@ -113,43 +60,19 @@ class TANGOCamera : public TANGO_BASE_CLASS
 
 //	Add your own data members
 
+    CameraDriver* cameraDriverPtr;
+
 /*----- PROTECTED REGION END -----*/	//	TANGOCamera::Data Members
 
 //	Device property data members
 public:
-	//	ImageMaxWidth:	
-	Tango::DevULong64	imageMaxWidth;
-	//	ImageMaxHeight:	
-	Tango::DevULong64	imageMaxHeight;
-	//	DeviceVendorName:	
-	string	deviceVendorName;
-	//	IPAdress:	
-	string	iPAdress;
+	//	ipaddress:	
+	string	ipaddress;
+	//	vendor:	
+	string	vendor;
 
 	bool	mandatoryNotDefined;
 
-//	Attribute data members
-public:
-	Tango::DevULong64	*attr_acquisitionFrameRate_read;
-	Tango::DevBoolean	*attr_acquisitionFrameRateEnable_read;
-	acquisitionModeEnum	*attr_acquisitionMode_read;
-	Tango::DevULong64	*attr_deviceLinkCurrentThroughput_read;
-	Tango::DevULong64	*attr_deviceLinkThroughputLimit_read;
-	exposureAutoEnum	*attr_exposureAuto_read;
-	exposureModeEnum	*attr_exposureMode_read;
-	Tango::DevULong64	*attr_exposureTimeInMicroseconds_read;
-	Tango::DevULong64	*attr_gain_read;
-	gainAutoEnum	*attr_gainAuto_read;
-	pixelFormatEnum	*attr_pixelFormat_read;
-	triggerActivationEnum	*attr_triggerActivation_read;
-	Tango::DevULong64	*attr_triggerDelayInMicroseconds_read;
-	triggerSelectorEnum	*attr_triggerSelector_read;
-	triggerSourceEnum	*attr_triggerSource_read;
-	Tango::DevBoolean	*attr_triggerMode_read;
-	Tango::DevULong64	*attr_roi_xmin_read;
-	Tango::DevULong64	*attr_roi_xmax_read;
-	Tango::DevULong64	*attr_roi_ymin_read;
-	Tango::DevULong64	*attr_roi_ymax_read;
 
 //	Constructors and destructors
 public:
@@ -214,213 +137,6 @@ public:
 	 */
 	//--------------------------------------------------------
 	virtual void read_attr_hardware(vector<long> &attr_list);
-	//--------------------------------------------------------
-	/*
-	 *	Method      : TANGOCamera::write_attr_hardware()
-	 *	Description : Hardware writing for attributes.
-	 */
-	//--------------------------------------------------------
-	virtual void write_attr_hardware(vector<long> &attr_list);
-
-/**
- *	Attribute acquisitionFrameRate related methods
- *	Description: 
- *
- *	Data type:	Tango::DevULong64
- *	Attr type:	Scalar
- */
-	virtual void read_acquisitionFrameRate(Tango::Attribute &attr);
-	virtual void write_acquisitionFrameRate(Tango::WAttribute &attr);
-	virtual bool is_acquisitionFrameRate_allowed(Tango::AttReqType type);
-/**
- *	Attribute acquisitionFrameRateEnable related methods
- *	Description: 
- *
- *	Data type:	Tango::DevBoolean
- *	Attr type:	Scalar
- */
-	virtual void read_acquisitionFrameRateEnable(Tango::Attribute &attr);
-	virtual void write_acquisitionFrameRateEnable(Tango::WAttribute &attr);
-	virtual bool is_acquisitionFrameRateEnable_allowed(Tango::AttReqType type);
-/**
- *	Attribute acquisitionMode related methods
- *	Description: 
- *
- *	Data type:	Tango::DevEnum
- *	Attr type:	Scalar
- */
-	virtual void read_acquisitionMode(Tango::Attribute &attr);
-	virtual void write_acquisitionMode(Tango::WAttribute &attr);
-	virtual bool is_acquisitionMode_allowed(Tango::AttReqType type);
-/**
- *	Attribute deviceLinkCurrentThroughput related methods
- *	Description: 
- *
- *	Data type:	Tango::DevULong64
- *	Attr type:	Scalar
- */
-	virtual void read_deviceLinkCurrentThroughput(Tango::Attribute &attr);
-	virtual bool is_deviceLinkCurrentThroughput_allowed(Tango::AttReqType type);
-/**
- *	Attribute deviceLinkThroughputLimit related methods
- *	Description: 
- *
- *	Data type:	Tango::DevULong64
- *	Attr type:	Scalar
- */
-	virtual void read_deviceLinkThroughputLimit(Tango::Attribute &attr);
-	virtual void write_deviceLinkThroughputLimit(Tango::WAttribute &attr);
-	virtual bool is_deviceLinkThroughputLimit_allowed(Tango::AttReqType type);
-/**
- *	Attribute exposureAuto related methods
- *	Description: 
- *
- *	Data type:	Tango::DevEnum
- *	Attr type:	Scalar
- */
-	virtual void read_exposureAuto(Tango::Attribute &attr);
-	virtual void write_exposureAuto(Tango::WAttribute &attr);
-	virtual bool is_exposureAuto_allowed(Tango::AttReqType type);
-/**
- *	Attribute exposureMode related methods
- *	Description: 
- *
- *	Data type:	Tango::DevEnum
- *	Attr type:	Scalar
- */
-	virtual void read_exposureMode(Tango::Attribute &attr);
-	virtual void write_exposureMode(Tango::WAttribute &attr);
-	virtual bool is_exposureMode_allowed(Tango::AttReqType type);
-/**
- *	Attribute exposureTimeInMicroseconds related methods
- *	Description: 
- *
- *	Data type:	Tango::DevULong64
- *	Attr type:	Scalar
- */
-	virtual void read_exposureTimeInMicroseconds(Tango::Attribute &attr);
-	virtual void write_exposureTimeInMicroseconds(Tango::WAttribute &attr);
-	virtual bool is_exposureTimeInMicroseconds_allowed(Tango::AttReqType type);
-/**
- *	Attribute gain related methods
- *	Description: 
- *
- *	Data type:	Tango::DevULong64
- *	Attr type:	Scalar
- */
-	virtual void read_gain(Tango::Attribute &attr);
-	virtual void write_gain(Tango::WAttribute &attr);
-	virtual bool is_gain_allowed(Tango::AttReqType type);
-/**
- *	Attribute gainAuto related methods
- *	Description: 
- *
- *	Data type:	Tango::DevEnum
- *	Attr type:	Scalar
- */
-	virtual void read_gainAuto(Tango::Attribute &attr);
-	virtual void write_gainAuto(Tango::WAttribute &attr);
-	virtual bool is_gainAuto_allowed(Tango::AttReqType type);
-/**
- *	Attribute pixelFormat related methods
- *	Description: 
- *
- *	Data type:	Tango::DevEnum
- *	Attr type:	Scalar
- */
-	virtual void read_pixelFormat(Tango::Attribute &attr);
-	virtual void write_pixelFormat(Tango::WAttribute &attr);
-	virtual bool is_pixelFormat_allowed(Tango::AttReqType type);
-/**
- *	Attribute triggerActivation related methods
- *	Description: 
- *
- *	Data type:	Tango::DevEnum
- *	Attr type:	Scalar
- */
-	virtual void read_triggerActivation(Tango::Attribute &attr);
-	virtual void write_triggerActivation(Tango::WAttribute &attr);
-	virtual bool is_triggerActivation_allowed(Tango::AttReqType type);
-/**
- *	Attribute triggerDelayInMicroseconds related methods
- *	Description: 
- *
- *	Data type:	Tango::DevULong64
- *	Attr type:	Scalar
- */
-	virtual void read_triggerDelayInMicroseconds(Tango::Attribute &attr);
-	virtual void write_triggerDelayInMicroseconds(Tango::WAttribute &attr);
-	virtual bool is_triggerDelayInMicroseconds_allowed(Tango::AttReqType type);
-/**
- *	Attribute triggerSelector related methods
- *	Description: 
- *
- *	Data type:	Tango::DevEnum
- *	Attr type:	Scalar
- */
-	virtual void read_triggerSelector(Tango::Attribute &attr);
-	virtual void write_triggerSelector(Tango::WAttribute &attr);
-	virtual bool is_triggerSelector_allowed(Tango::AttReqType type);
-/**
- *	Attribute triggerSource related methods
- *	Description: 
- *
- *	Data type:	Tango::DevEnum
- *	Attr type:	Scalar
- */
-	virtual void read_triggerSource(Tango::Attribute &attr);
-	virtual void write_triggerSource(Tango::WAttribute &attr);
-	virtual bool is_triggerSource_allowed(Tango::AttReqType type);
-/**
- *	Attribute triggerMode related methods
- *	Description: 
- *
- *	Data type:	Tango::DevBoolean
- *	Attr type:	Scalar
- */
-	virtual void read_triggerMode(Tango::Attribute &attr);
-	virtual void write_triggerMode(Tango::WAttribute &attr);
-	virtual bool is_triggerMode_allowed(Tango::AttReqType type);
-/**
- *	Attribute roi_xmin related methods
- *	Description: 
- *
- *	Data type:	Tango::DevULong64
- *	Attr type:	Scalar
- */
-	virtual void read_roi_xmin(Tango::Attribute &attr);
-	virtual void write_roi_xmin(Tango::WAttribute &attr);
-	virtual bool is_roi_xmin_allowed(Tango::AttReqType type);
-/**
- *	Attribute roi_xmax related methods
- *	Description: 
- *
- *	Data type:	Tango::DevULong64
- *	Attr type:	Scalar
- */
-	virtual void read_roi_xmax(Tango::Attribute &attr);
-	virtual void write_roi_xmax(Tango::WAttribute &attr);
-	virtual bool is_roi_xmax_allowed(Tango::AttReqType type);
-/**
- *	Attribute roi_ymin related methods
- *	Description: 
- *
- *	Data type:	Tango::DevULong64
- *	Attr type:	Scalar
- */
-	virtual void read_roi_ymin(Tango::Attribute &attr);
-	virtual void write_roi_ymin(Tango::WAttribute &attr);
-	virtual bool is_roi_ymin_allowed(Tango::AttReqType type);
-/**
- *	Attribute roi_ymax related methods
- *	Description: 
- *
- *	Data type:	Tango::DevULong64
- *	Attr type:	Scalar
- */
-	virtual void read_roi_ymax(Tango::Attribute &attr);
-	virtual void write_roi_ymax(Tango::WAttribute &attr);
-	virtual bool is_roi_ymax_allowed(Tango::AttReqType type);
 
 
 	//--------------------------------------------------------
@@ -457,6 +173,13 @@ public:
 	 */
 	virtual void manual_trigger();
 	virtual bool is_ManualTrigger_allowed(const CORBA::Any &any);
+	/**
+	 *	Command Configure related method
+	 *	Description: 
+	 *
+	 */
+	virtual void configure();
+	virtual bool is_Configure_allowed(const CORBA::Any &any);
 
 
 	//--------------------------------------------------------

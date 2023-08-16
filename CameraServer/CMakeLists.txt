@@ -13,8 +13,11 @@
 #
 #
 
-cmake_minimum_required (VERSION 2.8)
+cmake_minimum_required (VERSION 3.12)
 set(CMAKE_SKIP_RPATH TRUE)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED On)
+set(CMAKE_CXX_EXTENSIONS ON)
 
 # MAKE_ENV is the path to find common environment to build project
 #
@@ -28,12 +31,26 @@ project(TANGOCamera)
 # optional compiler flags
 #
 set(CXXFLAGS_USER -g)
-
+add_definitions(-DPCO_LINUX)
 
 #
 # Get global information
 #
 include(${MAKE_ENV}/cmake_tango.opt)
+
+# Dependencies
+find_package(Boost REQUIRED)
+if(Boost_FOUND)
+    find_package(Boost COMPONENTS filesystem system serialization REQUIRED)
+elseif(NOT Boost_FOUND)
+    message("Boost not found!")
+endif()
+
+find_package(pylon REQUIRED)
+find_package(OpenCV REQUIRED)
+find_package(TIFF REQUIRED)
+find_package(PNG REQUIRED)
+find_package(JPEG REQUIRED)
 
 #
 # Files for TANGOCamera TANGO class
@@ -48,13 +65,51 @@ set(TANGOCAMERA_SRC  ${TANGOCAMERA}.cpp
 #
 # User additional include, link folders/libraries and source files
 #
-set(USER_INCL_DIR CameraDriver)
-set(USER_LIB_DIR )
-set(USER_LIBS )
+set(SPINNAKER_DIR
+        /opt/spinnaker
+)
+
+set(CAMERA_DRIVER_DIR
+        ${CMAKE_SOURCE_DIR}/CameraDriver
+)
+
+set(PCO_CPP_DIR
+        /opt/pco/pco.cpp
+)
+
+set(USER_INCL_DIR
+        ${CAMERA_DRIVER_DIR}
+        ${SPINNAKER_DIR}/include
+        ${PCO_CPP_DIR}/runtime/include
+        ${PCO_CPP_DIR}
+        ${Boost_INCLUDE_DIRS}
+)
+
+set(USER_LIB_DIR
+        ${SPINNAKER_DIR}/lib
+        ${PCO_CPP_DIR}/bin64
+        ${PCO_CPP_DIR}/runtime/bin64
+        ${Boost_LIBRARY_DIRS}
+        ${OpenCV_LIB_DIR}
+        ${TIFF_LIB_DIR}
+        ${PNG_LIB_DIR}
+        ${JPEG_LIB_DIR})
+
+set(USER_LIBS
+        Spinnaker
+        pcocam_usb
+        pco_sc2cam
+        pcocom
+        pcocom_usb
+        pco_recorder
+        pco_convert
+        pylon::pylon
+        ${Boost_LIBRARIES}
+)
+
 set(USER_SRC_FILES
-        CameraDriver/CameraDriver.cpp
-        CameraDriver/CameraDriver.h
-        CameraDriver/CameraDriverCreator.h
+        ${CAMERA_DRIVER_DIR}/CameraDriver.cpp
+        ${CAMERA_DRIVER_DIR}/CameraDriver.h
 )
 
 #
@@ -68,5 +123,16 @@ include_directories(${ALL_CLASS_INCLUDE}  ${USER_INCL_DIR} ${TANGO_INCLUDES})
 # Device Server generation
 #
 set(SERVER_NAME TANGOCamera)
-include(${MAKE_ENV}/cmake_common_target.opt)
+#
+#	Set library directories
+#
+link_directories(${USER_LIB_DIR} ${TANGO_LIB_HOME})
+
+#
+#	Compile and link
+#
+message("SERVER_NAME=${SERVER_NAME}")
+message("SERVER_SRC=${SERVER_SRC}")
+add_executable(${SERVER_NAME} ${SERVER_SRC})
+target_link_libraries(${SERVER_NAME} ${USER_LIBS} ${TANGO_LIBS})
 

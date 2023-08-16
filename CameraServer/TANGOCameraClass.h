@@ -52,324 +52,6 @@ namespace TANGOCamera_ns
 /*----- PROTECTED REGION END -----*/	//	TANGOCameraClass::classes for dynamic creation
 
 //=========================================
-//	Define classes for attributes
-//=========================================
-//	Attribute acquisitionFrameRate class definition
-class acquisitionFrameRateAttrib: public Tango::Attr
-{
-public:
-	acquisitionFrameRateAttrib():Attr("acquisitionFrameRate",
-			Tango::DEV_ULONG64, Tango::READ_WRITE) {};
-	~acquisitionFrameRateAttrib() {};
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TANGOCamera *>(dev))->read_acquisitionFrameRate(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<TANGOCamera *>(dev))->write_acquisitionFrameRate(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TANGOCamera *>(dev))->is_acquisitionFrameRate_allowed(ty);}
-};
-
-//	Attribute acquisitionFrameRateEnable class definition
-class acquisitionFrameRateEnableAttrib: public Tango::Attr
-{
-public:
-	acquisitionFrameRateEnableAttrib():Attr("acquisitionFrameRateEnable",
-			Tango::DEV_BOOLEAN, Tango::READ_WRITE) {};
-	~acquisitionFrameRateEnableAttrib() {};
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TANGOCamera *>(dev))->read_acquisitionFrameRateEnable(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<TANGOCamera *>(dev))->write_acquisitionFrameRateEnable(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TANGOCamera *>(dev))->is_acquisitionFrameRateEnable_allowed(ty);}
-};
-
-//	Attribute acquisitionMode class definition
-class acquisitionModeAttrib: public Tango::Attr
-{
-public:
-	acquisitionModeAttrib():Attr("acquisitionMode",
-			Tango::DEV_ENUM, Tango::READ_WRITE) {};
-	~acquisitionModeAttrib() {};
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TANGOCamera *>(dev))->read_acquisitionMode(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<TANGOCamera *>(dev))->write_acquisitionMode(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TANGOCamera *>(dev))->is_acquisitionMode_allowed(ty);}
-	virtual bool same_type(const type_info &in_type) {return typeid(acquisitionModeEnum) == in_type;}
-	virtual string get_enum_type() {return string("acquisitionModeEnum");}
-};
-
-//	Attribute deviceLinkCurrentThroughput class definition
-class deviceLinkCurrentThroughputAttrib: public Tango::Attr
-{
-public:
-	deviceLinkCurrentThroughputAttrib():Attr("deviceLinkCurrentThroughput",
-			Tango::DEV_ULONG64, Tango::READ) {};
-	~deviceLinkCurrentThroughputAttrib() {};
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TANGOCamera *>(dev))->read_deviceLinkCurrentThroughput(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TANGOCamera *>(dev))->is_deviceLinkCurrentThroughput_allowed(ty);}
-};
-
-//	Attribute deviceLinkThroughputLimit class definition
-class deviceLinkThroughputLimitAttrib: public Tango::Attr
-{
-public:
-	deviceLinkThroughputLimitAttrib():Attr("deviceLinkThroughputLimit",
-			Tango::DEV_ULONG64, Tango::READ_WRITE) {};
-	~deviceLinkThroughputLimitAttrib() {};
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TANGOCamera *>(dev))->read_deviceLinkThroughputLimit(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<TANGOCamera *>(dev))->write_deviceLinkThroughputLimit(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TANGOCamera *>(dev))->is_deviceLinkThroughputLimit_allowed(ty);}
-};
-
-//	Attribute exposureAuto class definition
-class exposureAutoAttrib: public Tango::Attr
-{
-public:
-	exposureAutoAttrib():Attr("exposureAuto",
-			Tango::DEV_ENUM, Tango::READ_WRITE) {};
-	~exposureAutoAttrib() {};
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TANGOCamera *>(dev))->read_exposureAuto(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<TANGOCamera *>(dev))->write_exposureAuto(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TANGOCamera *>(dev))->is_exposureAuto_allowed(ty);}
-	virtual bool same_type(const type_info &in_type) {return typeid(exposureAutoEnum) == in_type;}
-	virtual string get_enum_type() {return string("exposureAutoEnum");}
-};
-
-//	Attribute exposureMode class definition
-class exposureModeAttrib: public Tango::Attr
-{
-public:
-	exposureModeAttrib():Attr("exposureMode",
-			Tango::DEV_ENUM, Tango::READ_WRITE) {};
-	~exposureModeAttrib() {};
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TANGOCamera *>(dev))->read_exposureMode(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<TANGOCamera *>(dev))->write_exposureMode(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TANGOCamera *>(dev))->is_exposureMode_allowed(ty);}
-	virtual bool same_type(const type_info &in_type) {return typeid(exposureModeEnum) == in_type;}
-	virtual string get_enum_type() {return string("exposureModeEnum");}
-};
-
-//	Attribute exposureTimeInMicroseconds class definition
-class exposureTimeInMicrosecondsAttrib: public Tango::Attr
-{
-public:
-	exposureTimeInMicrosecondsAttrib():Attr("exposureTimeInMicroseconds",
-			Tango::DEV_ULONG64, Tango::READ_WRITE) {};
-	~exposureTimeInMicrosecondsAttrib() {};
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TANGOCamera *>(dev))->read_exposureTimeInMicroseconds(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<TANGOCamera *>(dev))->write_exposureTimeInMicroseconds(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TANGOCamera *>(dev))->is_exposureTimeInMicroseconds_allowed(ty);}
-};
-
-//	Attribute gain class definition
-class gainAttrib: public Tango::Attr
-{
-public:
-	gainAttrib():Attr("gain",
-			Tango::DEV_ULONG64, Tango::READ_WRITE) {};
-	~gainAttrib() {};
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TANGOCamera *>(dev))->read_gain(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<TANGOCamera *>(dev))->write_gain(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TANGOCamera *>(dev))->is_gain_allowed(ty);}
-};
-
-//	Attribute gainAuto class definition
-class gainAutoAttrib: public Tango::Attr
-{
-public:
-	gainAutoAttrib():Attr("gainAuto",
-			Tango::DEV_ENUM, Tango::READ_WRITE) {};
-	~gainAutoAttrib() {};
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TANGOCamera *>(dev))->read_gainAuto(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<TANGOCamera *>(dev))->write_gainAuto(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TANGOCamera *>(dev))->is_gainAuto_allowed(ty);}
-	virtual bool same_type(const type_info &in_type) {return typeid(gainAutoEnum) == in_type;}
-	virtual string get_enum_type() {return string("gainAutoEnum");}
-};
-
-//	Attribute pixelFormat class definition
-class pixelFormatAttrib: public Tango::Attr
-{
-public:
-	pixelFormatAttrib():Attr("pixelFormat",
-			Tango::DEV_ENUM, Tango::READ_WRITE) {};
-	~pixelFormatAttrib() {};
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TANGOCamera *>(dev))->read_pixelFormat(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<TANGOCamera *>(dev))->write_pixelFormat(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TANGOCamera *>(dev))->is_pixelFormat_allowed(ty);}
-	virtual bool same_type(const type_info &in_type) {return typeid(pixelFormatEnum) == in_type;}
-	virtual string get_enum_type() {return string("pixelFormatEnum");}
-};
-
-//	Attribute triggerActivation class definition
-class triggerActivationAttrib: public Tango::Attr
-{
-public:
-	triggerActivationAttrib():Attr("triggerActivation",
-			Tango::DEV_ENUM, Tango::READ_WRITE) {};
-	~triggerActivationAttrib() {};
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TANGOCamera *>(dev))->read_triggerActivation(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<TANGOCamera *>(dev))->write_triggerActivation(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TANGOCamera *>(dev))->is_triggerActivation_allowed(ty);}
-	virtual bool same_type(const type_info &in_type) {return typeid(triggerActivationEnum) == in_type;}
-	virtual string get_enum_type() {return string("triggerActivationEnum");}
-};
-
-//	Attribute triggerDelayInMicroseconds class definition
-class triggerDelayInMicrosecondsAttrib: public Tango::Attr
-{
-public:
-	triggerDelayInMicrosecondsAttrib():Attr("triggerDelayInMicroseconds",
-			Tango::DEV_ULONG64, Tango::READ_WRITE) {};
-	~triggerDelayInMicrosecondsAttrib() {};
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TANGOCamera *>(dev))->read_triggerDelayInMicroseconds(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<TANGOCamera *>(dev))->write_triggerDelayInMicroseconds(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TANGOCamera *>(dev))->is_triggerDelayInMicroseconds_allowed(ty);}
-};
-
-//	Attribute triggerSelector class definition
-class triggerSelectorAttrib: public Tango::Attr
-{
-public:
-	triggerSelectorAttrib():Attr("triggerSelector",
-			Tango::DEV_ENUM, Tango::READ_WRITE) {};
-	~triggerSelectorAttrib() {};
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TANGOCamera *>(dev))->read_triggerSelector(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<TANGOCamera *>(dev))->write_triggerSelector(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TANGOCamera *>(dev))->is_triggerSelector_allowed(ty);}
-	virtual bool same_type(const type_info &in_type) {return typeid(triggerSelectorEnum) == in_type;}
-	virtual string get_enum_type() {return string("triggerSelectorEnum");}
-};
-
-//	Attribute triggerSource class definition
-class triggerSourceAttrib: public Tango::Attr
-{
-public:
-	triggerSourceAttrib():Attr("triggerSource",
-			Tango::DEV_ENUM, Tango::READ_WRITE) {};
-	~triggerSourceAttrib() {};
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TANGOCamera *>(dev))->read_triggerSource(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<TANGOCamera *>(dev))->write_triggerSource(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TANGOCamera *>(dev))->is_triggerSource_allowed(ty);}
-	virtual bool same_type(const type_info &in_type) {return typeid(triggerSourceEnum) == in_type;}
-	virtual string get_enum_type() {return string("triggerSourceEnum");}
-};
-
-//	Attribute triggerMode class definition
-class triggerModeAttrib: public Tango::Attr
-{
-public:
-	triggerModeAttrib():Attr("triggerMode",
-			Tango::DEV_BOOLEAN, Tango::READ_WRITE) {};
-	~triggerModeAttrib() {};
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TANGOCamera *>(dev))->read_triggerMode(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<TANGOCamera *>(dev))->write_triggerMode(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TANGOCamera *>(dev))->is_triggerMode_allowed(ty);}
-};
-
-//	Attribute roi_xmin class definition
-class roi_xminAttrib: public Tango::Attr
-{
-public:
-	roi_xminAttrib():Attr("roi_xmin",
-			Tango::DEV_ULONG64, Tango::READ_WRITE) {};
-	~roi_xminAttrib() {};
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TANGOCamera *>(dev))->read_roi_xmin(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<TANGOCamera *>(dev))->write_roi_xmin(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TANGOCamera *>(dev))->is_roi_xmin_allowed(ty);}
-};
-
-//	Attribute roi_xmax class definition
-class roi_xmaxAttrib: public Tango::Attr
-{
-public:
-	roi_xmaxAttrib():Attr("roi_xmax",
-			Tango::DEV_ULONG64, Tango::READ_WRITE) {};
-	~roi_xmaxAttrib() {};
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TANGOCamera *>(dev))->read_roi_xmax(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<TANGOCamera *>(dev))->write_roi_xmax(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TANGOCamera *>(dev))->is_roi_xmax_allowed(ty);}
-};
-
-//	Attribute roi_ymin class definition
-class roi_yminAttrib: public Tango::Attr
-{
-public:
-	roi_yminAttrib():Attr("roi_ymin",
-			Tango::DEV_ULONG64, Tango::READ_WRITE) {};
-	~roi_yminAttrib() {};
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TANGOCamera *>(dev))->read_roi_ymin(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<TANGOCamera *>(dev))->write_roi_ymin(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TANGOCamera *>(dev))->is_roi_ymin_allowed(ty);}
-};
-
-//	Attribute roi_ymax class definition
-class roi_ymaxAttrib: public Tango::Attr
-{
-public:
-	roi_ymaxAttrib():Attr("roi_ymax",
-			Tango::DEV_ULONG64, Tango::READ_WRITE) {};
-	~roi_ymaxAttrib() {};
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TANGOCamera *>(dev))->read_roi_ymax(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<TANGOCamera *>(dev))->write_roi_ymax(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TANGOCamera *>(dev))->is_roi_ymax_allowed(ty);}
-};
-
-
-//=========================================
 //	Define classes for commands
 //=========================================
 //	Command StartAcquisition class definition
@@ -439,6 +121,29 @@ public:
 	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
 	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
 	{return (static_cast<TANGOCamera *>(dev))->is_ManualTrigger_allowed(any);}
+};
+
+//	Command Configure class definition
+class ConfigureClass : public Tango::Command
+{
+public:
+	ConfigureClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out,
+				   const char        *in_desc,
+				   const char        *out_desc,
+				   Tango::DispLevel  level)
+	:Command(name,in,out,in_desc,out_desc, level)	{};
+
+	ConfigureClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out)
+	:Command(name,in,out)	{};
+	~ConfigureClass() {};
+	
+	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
+	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
+	{return (static_cast<TANGOCamera *>(dev))->is_Configure_allowed(any);}
 };
 
 

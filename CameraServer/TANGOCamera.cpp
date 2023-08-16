@@ -55,31 +55,12 @@
 //  StartAcquisition  |  start_acquisition
 //  StopAcquisition   |  stop_acquisition
 //  ManualTrigger     |  manual_trigger
+//  Configure         |  configure
 //================================================================
 
 //================================================================
-//  Attributes managed are:
+//  Attributes managed is:
 //================================================================
-//  acquisitionFrameRate         |  Tango::DevULong64	Scalar
-//  acquisitionFrameRateEnable   |  Tango::DevBoolean	Scalar
-//  acquisitionMode              |  Tango::DevEnum	Scalar
-//  deviceLinkCurrentThroughput  |  Tango::DevULong64	Scalar
-//  deviceLinkThroughputLimit    |  Tango::DevULong64	Scalar
-//  exposureAuto                 |  Tango::DevEnum	Scalar
-//  exposureMode                 |  Tango::DevEnum	Scalar
-//  exposureTimeInMicroseconds   |  Tango::DevULong64	Scalar
-//  gain                         |  Tango::DevULong64	Scalar
-//  gainAuto                     |  Tango::DevEnum	Scalar
-//  pixelFormat                  |  Tango::DevEnum	Scalar
-//  triggerActivation            |  Tango::DevEnum	Scalar
-//  triggerDelayInMicroseconds   |  Tango::DevULong64	Scalar
-//  triggerSelector              |  Tango::DevEnum	Scalar
-//  triggerSource                |  Tango::DevEnum	Scalar
-//  triggerMode                  |  Tango::DevBoolean	Scalar
-//  roi_xmin                     |  Tango::DevULong64	Scalar
-//  roi_xmax                     |  Tango::DevULong64	Scalar
-//  roi_ymin                     |  Tango::DevULong64	Scalar
-//  roi_ymax                     |  Tango::DevULong64	Scalar
 //================================================================
 
 namespace TANGOCamera_ns
@@ -134,30 +115,10 @@ void TANGOCamera::delete_device()
 {
 	DEBUG_STREAM << "TANGOCamera::delete_device() " << device_name << endl;
 	/*----- PROTECTED REGION ID(TANGOCamera::delete_device) ENABLED START -----*/
-	
+
 	//	Delete device allocated objects
-	
+
 	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::delete_device
-	delete[] attr_acquisitionFrameRate_read;
-	delete[] attr_acquisitionFrameRateEnable_read;
-	delete[] attr_acquisitionMode_read;
-	delete[] attr_deviceLinkCurrentThroughput_read;
-	delete[] attr_deviceLinkThroughputLimit_read;
-	delete[] attr_exposureAuto_read;
-	delete[] attr_exposureMode_read;
-	delete[] attr_exposureTimeInMicroseconds_read;
-	delete[] attr_gain_read;
-	delete[] attr_gainAuto_read;
-	delete[] attr_pixelFormat_read;
-	delete[] attr_triggerActivation_read;
-	delete[] attr_triggerDelayInMicroseconds_read;
-	delete[] attr_triggerSelector_read;
-	delete[] attr_triggerSource_read;
-	delete[] attr_triggerMode_read;
-	delete[] attr_roi_xmin_read;
-	delete[] attr_roi_xmax_read;
-	delete[] attr_roi_ymin_read;
-	delete[] attr_roi_ymax_read;
 }
 
 //--------------------------------------------------------
@@ -179,26 +140,6 @@ void TANGOCamera::init_device()
 	//	Get the device properties from database
 	get_device_property();
 	
-	attr_acquisitionFrameRate_read = new Tango::DevULong64[1];
-	attr_acquisitionFrameRateEnable_read = new Tango::DevBoolean[1];
-	attr_acquisitionMode_read = new acquisitionModeEnum[1];
-	attr_deviceLinkCurrentThroughput_read = new Tango::DevULong64[1];
-	attr_deviceLinkThroughputLimit_read = new Tango::DevULong64[1];
-	attr_exposureAuto_read = new exposureAutoEnum[1];
-	attr_exposureMode_read = new exposureModeEnum[1];
-	attr_exposureTimeInMicroseconds_read = new Tango::DevULong64[1];
-	attr_gain_read = new Tango::DevULong64[1];
-	attr_gainAuto_read = new gainAutoEnum[1];
-	attr_pixelFormat_read = new pixelFormatEnum[1];
-	attr_triggerActivation_read = new triggerActivationEnum[1];
-	attr_triggerDelayInMicroseconds_read = new Tango::DevULong64[1];
-	attr_triggerSelector_read = new triggerSelectorEnum[1];
-	attr_triggerSource_read = new triggerSourceEnum[1];
-	attr_triggerMode_read = new Tango::DevBoolean[1];
-	attr_roi_xmin_read = new Tango::DevULong64[1];
-	attr_roi_xmax_read = new Tango::DevULong64[1];
-	attr_roi_ymin_read = new Tango::DevULong64[1];
-	attr_roi_ymax_read = new Tango::DevULong64[1];
 	//	No longer if mandatory property not set. 
 	if (mandatoryNotDefined)
 		return;
@@ -206,6 +147,7 @@ void TANGOCamera::init_device()
 	/*----- PROTECTED REGION ID(TANGOCamera::init_device) ENABLED START -----*/
 	
 	//	Initialize device
+    cameraDriverPtr = CameraDriverCreator::FactoryMethod(vendor, ipaddress);
 	
 	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::init_device
 }
@@ -228,10 +170,8 @@ void TANGOCamera::get_device_property()
 
 	//	Read device properties from database.
 	Tango::DbData	dev_prop;
-	dev_prop.push_back(Tango::DbDatum("ImageMaxWidth"));
-	dev_prop.push_back(Tango::DbDatum("ImageMaxHeight"));
-	dev_prop.push_back(Tango::DbDatum("DeviceVendorName"));
-	dev_prop.push_back(Tango::DbDatum("IPAdress"));
+	dev_prop.push_back(Tango::DbDatum("ipaddress"));
+	dev_prop.push_back(Tango::DbDatum("vendor"));
 
 	//	is there at least one property to be read ?
 	if (dev_prop.size()>0)
@@ -246,55 +186,29 @@ void TANGOCamera::get_device_property()
 			(static_cast<TANGOCameraClass *>(get_device_class()));
 		int	i = -1;
 
-		//	Try to initialize ImageMaxWidth from class property
+		//	Try to initialize ipaddress from class property
 		cl_prop = ds_class->get_class_property(dev_prop[++i].name);
-		if (cl_prop.is_empty()==false)	cl_prop  >>  imageMaxWidth;
+		if (cl_prop.is_empty()==false)	cl_prop  >>  ipaddress;
 		else {
-			//	Try to initialize ImageMaxWidth from default device value
+			//	Try to initialize ipaddress from default device value
 			def_prop = ds_class->get_default_device_property(dev_prop[i].name);
-			if (def_prop.is_empty()==false)	def_prop  >>  imageMaxWidth;
+			if (def_prop.is_empty()==false)	def_prop  >>  ipaddress;
 		}
-		//	And try to extract ImageMaxWidth value from database
-		if (dev_prop[i].is_empty()==false)	dev_prop[i]  >>  imageMaxWidth;
+		//	And try to extract ipaddress value from database
+		if (dev_prop[i].is_empty()==false)	dev_prop[i]  >>  ipaddress;
 		//	Property StartDsPath is mandatory, check if has been defined in database.
 		check_mandatory_property(cl_prop, dev_prop[i]);
 
-		//	Try to initialize ImageMaxHeight from class property
+		//	Try to initialize vendor from class property
 		cl_prop = ds_class->get_class_property(dev_prop[++i].name);
-		if (cl_prop.is_empty()==false)	cl_prop  >>  imageMaxHeight;
+		if (cl_prop.is_empty()==false)	cl_prop  >>  vendor;
 		else {
-			//	Try to initialize ImageMaxHeight from default device value
+			//	Try to initialize vendor from default device value
 			def_prop = ds_class->get_default_device_property(dev_prop[i].name);
-			if (def_prop.is_empty()==false)	def_prop  >>  imageMaxHeight;
+			if (def_prop.is_empty()==false)	def_prop  >>  vendor;
 		}
-		//	And try to extract ImageMaxHeight value from database
-		if (dev_prop[i].is_empty()==false)	dev_prop[i]  >>  imageMaxHeight;
-		//	Property StartDsPath is mandatory, check if has been defined in database.
-		check_mandatory_property(cl_prop, dev_prop[i]);
-
-		//	Try to initialize DeviceVendorName from class property
-		cl_prop = ds_class->get_class_property(dev_prop[++i].name);
-		if (cl_prop.is_empty()==false)	cl_prop  >>  deviceVendorName;
-		else {
-			//	Try to initialize DeviceVendorName from default device value
-			def_prop = ds_class->get_default_device_property(dev_prop[i].name);
-			if (def_prop.is_empty()==false)	def_prop  >>  deviceVendorName;
-		}
-		//	And try to extract DeviceVendorName value from database
-		if (dev_prop[i].is_empty()==false)	dev_prop[i]  >>  deviceVendorName;
-		//	Property StartDsPath is mandatory, check if has been defined in database.
-		check_mandatory_property(cl_prop, dev_prop[i]);
-
-		//	Try to initialize IPAdress from class property
-		cl_prop = ds_class->get_class_property(dev_prop[++i].name);
-		if (cl_prop.is_empty()==false)	cl_prop  >>  iPAdress;
-		else {
-			//	Try to initialize IPAdress from default device value
-			def_prop = ds_class->get_default_device_property(dev_prop[i].name);
-			if (def_prop.is_empty()==false)	def_prop  >>  iPAdress;
-		}
-		//	And try to extract IPAdress value from database
-		if (dev_prop[i].is_empty()==false)	dev_prop[i]  >>  iPAdress;
+		//	And try to extract vendor value from database
+		if (dev_prop[i].is_empty()==false)	dev_prop[i]  >>  vendor;
 		//	Property StartDsPath is mandatory, check if has been defined in database.
 		check_mandatory_property(cl_prop, dev_prop[i]);
 
@@ -371,762 +285,7 @@ void TANGOCamera::read_attr_hardware(TANGO_UNUSED(vector<long> &attr_list))
 	
 	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::read_attr_hardware
 }
-//--------------------------------------------------------
-/**
- *	Method      : TANGOCamera::write_attr_hardware()
- *	Description : Hardware writing for attributes
- */
-//--------------------------------------------------------
-void TANGOCamera::write_attr_hardware(TANGO_UNUSED(vector<long> &attr_list))
-{
-	DEBUG_STREAM << "TANGOCamera::write_attr_hardware(vector<long> &attr_list) entering... " << endl;
-	/*----- PROTECTED REGION ID(TANGOCamera::write_attr_hardware) ENABLED START -----*/
-	
-	//	Add your own code
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::write_attr_hardware
-}
 
-//--------------------------------------------------------
-/**
- *	Read attribute acquisitionFrameRate related method
- *	Description: 
- *
- *	Data type:	Tango::DevULong64
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::read_acquisitionFrameRate(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::read_acquisitionFrameRate(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TANGOCamera::read_acquisitionFrameRate) ENABLED START -----*/
-	//	Set the attribute value
-	attr.set_value(attr_acquisitionFrameRate_read);
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::read_acquisitionFrameRate
-}
-//--------------------------------------------------------
-/**
- *	Write attribute acquisitionFrameRate related method
- *	Description: 
- *
- *	Data type:	Tango::DevULong64
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::write_acquisitionFrameRate(Tango::WAttribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::write_acquisitionFrameRate(Tango::WAttribute &attr) entering... " << endl;
-	//	Retrieve write value
-	Tango::DevULong64	w_val;
-	attr.get_write_value(w_val);
-	/*----- PROTECTED REGION ID(TANGOCamera::write_acquisitionFrameRate) ENABLED START -----*/
-	
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::write_acquisitionFrameRate
-}
-//--------------------------------------------------------
-/**
- *	Read attribute acquisitionFrameRateEnable related method
- *	Description: 
- *
- *	Data type:	Tango::DevBoolean
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::read_acquisitionFrameRateEnable(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::read_acquisitionFrameRateEnable(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TANGOCamera::read_acquisitionFrameRateEnable) ENABLED START -----*/
-	//	Set the attribute value
-	attr.set_value(attr_acquisitionFrameRateEnable_read);
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::read_acquisitionFrameRateEnable
-}
-//--------------------------------------------------------
-/**
- *	Write attribute acquisitionFrameRateEnable related method
- *	Description: 
- *
- *	Data type:	Tango::DevBoolean
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::write_acquisitionFrameRateEnable(Tango::WAttribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::write_acquisitionFrameRateEnable(Tango::WAttribute &attr) entering... " << endl;
-	//	Retrieve write value
-	Tango::DevBoolean	w_val;
-	attr.get_write_value(w_val);
-	/*----- PROTECTED REGION ID(TANGOCamera::write_acquisitionFrameRateEnable) ENABLED START -----*/
-	
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::write_acquisitionFrameRateEnable
-}
-//--------------------------------------------------------
-/**
- *	Read attribute acquisitionMode related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (acquisitionModeEnum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::read_acquisitionMode(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::read_acquisitionMode(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TANGOCamera::read_acquisitionMode) ENABLED START -----*/
-	//	Set the attribute value
-	attr.set_value(attr_acquisitionMode_read);
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::read_acquisitionMode
-}
-//--------------------------------------------------------
-/**
- *	Write attribute acquisitionMode related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (acquisitionModeEnum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::write_acquisitionMode(Tango::WAttribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::write_acquisitionMode(Tango::WAttribute &attr) entering... " << endl;
-	//	Retrieve write value
-	acquisitionModeEnum	w_val;
-	attr.get_write_value(w_val);
-	/*----- PROTECTED REGION ID(TANGOCamera::write_acquisitionMode) ENABLED START -----*/
-	
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::write_acquisitionMode
-}
-//--------------------------------------------------------
-/**
- *	Read attribute deviceLinkCurrentThroughput related method
- *	Description: 
- *
- *	Data type:	Tango::DevULong64
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::read_deviceLinkCurrentThroughput(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::read_deviceLinkCurrentThroughput(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TANGOCamera::read_deviceLinkCurrentThroughput) ENABLED START -----*/
-	//	Set the attribute value
-	attr.set_value(attr_deviceLinkCurrentThroughput_read);
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::read_deviceLinkCurrentThroughput
-}
-//--------------------------------------------------------
-/**
- *	Read attribute deviceLinkThroughputLimit related method
- *	Description: 
- *
- *	Data type:	Tango::DevULong64
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::read_deviceLinkThroughputLimit(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::read_deviceLinkThroughputLimit(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TANGOCamera::read_deviceLinkThroughputLimit) ENABLED START -----*/
-	//	Set the attribute value
-	attr.set_value(attr_deviceLinkThroughputLimit_read);
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::read_deviceLinkThroughputLimit
-}
-//--------------------------------------------------------
-/**
- *	Write attribute deviceLinkThroughputLimit related method
- *	Description: 
- *
- *	Data type:	Tango::DevULong64
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::write_deviceLinkThroughputLimit(Tango::WAttribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::write_deviceLinkThroughputLimit(Tango::WAttribute &attr) entering... " << endl;
-	//	Retrieve write value
-	Tango::DevULong64	w_val;
-	attr.get_write_value(w_val);
-	/*----- PROTECTED REGION ID(TANGOCamera::write_deviceLinkThroughputLimit) ENABLED START -----*/
-	
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::write_deviceLinkThroughputLimit
-}
-//--------------------------------------------------------
-/**
- *	Read attribute exposureAuto related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (exposureAutoEnum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::read_exposureAuto(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::read_exposureAuto(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TANGOCamera::read_exposureAuto) ENABLED START -----*/
-	//	Set the attribute value
-	attr.set_value(attr_exposureAuto_read);
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::read_exposureAuto
-}
-//--------------------------------------------------------
-/**
- *	Write attribute exposureAuto related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (exposureAutoEnum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::write_exposureAuto(Tango::WAttribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::write_exposureAuto(Tango::WAttribute &attr) entering... " << endl;
-	//	Retrieve write value
-	exposureAutoEnum	w_val;
-	attr.get_write_value(w_val);
-	/*----- PROTECTED REGION ID(TANGOCamera::write_exposureAuto) ENABLED START -----*/
-	
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::write_exposureAuto
-}
-//--------------------------------------------------------
-/**
- *	Read attribute exposureMode related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (exposureModeEnum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::read_exposureMode(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::read_exposureMode(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TANGOCamera::read_exposureMode) ENABLED START -----*/
-	//	Set the attribute value
-	attr.set_value(attr_exposureMode_read);
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::read_exposureMode
-}
-//--------------------------------------------------------
-/**
- *	Write attribute exposureMode related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (exposureModeEnum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::write_exposureMode(Tango::WAttribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::write_exposureMode(Tango::WAttribute &attr) entering... " << endl;
-	//	Retrieve write value
-	exposureModeEnum	w_val;
-	attr.get_write_value(w_val);
-	/*----- PROTECTED REGION ID(TANGOCamera::write_exposureMode) ENABLED START -----*/
-	
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::write_exposureMode
-}
-//--------------------------------------------------------
-/**
- *	Read attribute exposureTimeInMicroseconds related method
- *	Description: 
- *
- *	Data type:	Tango::DevULong64
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::read_exposureTimeInMicroseconds(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::read_exposureTimeInMicroseconds(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TANGOCamera::read_exposureTimeInMicroseconds) ENABLED START -----*/
-	//	Set the attribute value
-	attr.set_value(attr_exposureTimeInMicroseconds_read);
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::read_exposureTimeInMicroseconds
-}
-//--------------------------------------------------------
-/**
- *	Write attribute exposureTimeInMicroseconds related method
- *	Description: 
- *
- *	Data type:	Tango::DevULong64
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::write_exposureTimeInMicroseconds(Tango::WAttribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::write_exposureTimeInMicroseconds(Tango::WAttribute &attr) entering... " << endl;
-	//	Retrieve write value
-	Tango::DevULong64	w_val;
-	attr.get_write_value(w_val);
-	/*----- PROTECTED REGION ID(TANGOCamera::write_exposureTimeInMicroseconds) ENABLED START -----*/
-	
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::write_exposureTimeInMicroseconds
-}
-//--------------------------------------------------------
-/**
- *	Read attribute gain related method
- *	Description: 
- *
- *	Data type:	Tango::DevULong64
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::read_gain(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::read_gain(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TANGOCamera::read_gain) ENABLED START -----*/
-	//	Set the attribute value
-	attr.set_value(attr_gain_read);
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::read_gain
-}
-//--------------------------------------------------------
-/**
- *	Write attribute gain related method
- *	Description: 
- *
- *	Data type:	Tango::DevULong64
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::write_gain(Tango::WAttribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::write_gain(Tango::WAttribute &attr) entering... " << endl;
-	//	Retrieve write value
-	Tango::DevULong64	w_val;
-	attr.get_write_value(w_val);
-	/*----- PROTECTED REGION ID(TANGOCamera::write_gain) ENABLED START -----*/
-	
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::write_gain
-}
-//--------------------------------------------------------
-/**
- *	Read attribute gainAuto related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (gainAutoEnum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::read_gainAuto(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::read_gainAuto(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TANGOCamera::read_gainAuto) ENABLED START -----*/
-	//	Set the attribute value
-	attr.set_value(attr_gainAuto_read);
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::read_gainAuto
-}
-//--------------------------------------------------------
-/**
- *	Write attribute gainAuto related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (gainAutoEnum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::write_gainAuto(Tango::WAttribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::write_gainAuto(Tango::WAttribute &attr) entering... " << endl;
-	//	Retrieve write value
-	gainAutoEnum	w_val;
-	attr.get_write_value(w_val);
-	/*----- PROTECTED REGION ID(TANGOCamera::write_gainAuto) ENABLED START -----*/
-	
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::write_gainAuto
-}
-//--------------------------------------------------------
-/**
- *	Read attribute pixelFormat related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (pixelFormatEnum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::read_pixelFormat(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::read_pixelFormat(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TANGOCamera::read_pixelFormat) ENABLED START -----*/
-	//	Set the attribute value
-	attr.set_value(attr_pixelFormat_read);
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::read_pixelFormat
-}
-//--------------------------------------------------------
-/**
- *	Write attribute pixelFormat related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (pixelFormatEnum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::write_pixelFormat(Tango::WAttribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::write_pixelFormat(Tango::WAttribute &attr) entering... " << endl;
-	//	Retrieve write value
-	pixelFormatEnum	w_val;
-	attr.get_write_value(w_val);
-	/*----- PROTECTED REGION ID(TANGOCamera::write_pixelFormat) ENABLED START -----*/
-	
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::write_pixelFormat
-}
-//--------------------------------------------------------
-/**
- *	Read attribute triggerActivation related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (triggerActivationEnum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::read_triggerActivation(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::read_triggerActivation(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TANGOCamera::read_triggerActivation) ENABLED START -----*/
-	//	Set the attribute value
-	attr.set_value(attr_triggerActivation_read);
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::read_triggerActivation
-}
-//--------------------------------------------------------
-/**
- *	Write attribute triggerActivation related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (triggerActivationEnum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::write_triggerActivation(Tango::WAttribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::write_triggerActivation(Tango::WAttribute &attr) entering... " << endl;
-	//	Retrieve write value
-	triggerActivationEnum	w_val;
-	attr.get_write_value(w_val);
-	/*----- PROTECTED REGION ID(TANGOCamera::write_triggerActivation) ENABLED START -----*/
-	
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::write_triggerActivation
-}
-//--------------------------------------------------------
-/**
- *	Read attribute triggerDelayInMicroseconds related method
- *	Description: 
- *
- *	Data type:	Tango::DevULong64
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::read_triggerDelayInMicroseconds(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::read_triggerDelayInMicroseconds(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TANGOCamera::read_triggerDelayInMicroseconds) ENABLED START -----*/
-	//	Set the attribute value
-	attr.set_value(attr_triggerDelayInMicroseconds_read);
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::read_triggerDelayInMicroseconds
-}
-//--------------------------------------------------------
-/**
- *	Write attribute triggerDelayInMicroseconds related method
- *	Description: 
- *
- *	Data type:	Tango::DevULong64
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::write_triggerDelayInMicroseconds(Tango::WAttribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::write_triggerDelayInMicroseconds(Tango::WAttribute &attr) entering... " << endl;
-	//	Retrieve write value
-	Tango::DevULong64	w_val;
-	attr.get_write_value(w_val);
-	/*----- PROTECTED REGION ID(TANGOCamera::write_triggerDelayInMicroseconds) ENABLED START -----*/
-	
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::write_triggerDelayInMicroseconds
-}
-//--------------------------------------------------------
-/**
- *	Read attribute triggerSelector related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (triggerSelectorEnum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::read_triggerSelector(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::read_triggerSelector(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TANGOCamera::read_triggerSelector) ENABLED START -----*/
-	//	Set the attribute value
-	attr.set_value(attr_triggerSelector_read);
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::read_triggerSelector
-}
-//--------------------------------------------------------
-/**
- *	Write attribute triggerSelector related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (triggerSelectorEnum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::write_triggerSelector(Tango::WAttribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::write_triggerSelector(Tango::WAttribute &attr) entering... " << endl;
-	//	Retrieve write value
-	triggerSelectorEnum	w_val;
-	attr.get_write_value(w_val);
-	/*----- PROTECTED REGION ID(TANGOCamera::write_triggerSelector) ENABLED START -----*/
-	
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::write_triggerSelector
-}
-//--------------------------------------------------------
-/**
- *	Read attribute triggerSource related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (triggerSourceEnum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::read_triggerSource(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::read_triggerSource(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TANGOCamera::read_triggerSource) ENABLED START -----*/
-	//	Set the attribute value
-	attr.set_value(attr_triggerSource_read);
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::read_triggerSource
-}
-//--------------------------------------------------------
-/**
- *	Write attribute triggerSource related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (triggerSourceEnum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::write_triggerSource(Tango::WAttribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::write_triggerSource(Tango::WAttribute &attr) entering... " << endl;
-	//	Retrieve write value
-	triggerSourceEnum	w_val;
-	attr.get_write_value(w_val);
-	/*----- PROTECTED REGION ID(TANGOCamera::write_triggerSource) ENABLED START -----*/
-	
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::write_triggerSource
-}
-//--------------------------------------------------------
-/**
- *	Read attribute triggerMode related method
- *	Description: 
- *
- *	Data type:	Tango::DevBoolean
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::read_triggerMode(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::read_triggerMode(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TANGOCamera::read_triggerMode) ENABLED START -----*/
-	//	Set the attribute value
-	attr.set_value(attr_triggerMode_read);
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::read_triggerMode
-}
-//--------------------------------------------------------
-/**
- *	Write attribute triggerMode related method
- *	Description: 
- *
- *	Data type:	Tango::DevBoolean
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::write_triggerMode(Tango::WAttribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::write_triggerMode(Tango::WAttribute &attr) entering... " << endl;
-	//	Retrieve write value
-	Tango::DevBoolean	w_val;
-	attr.get_write_value(w_val);
-	/*----- PROTECTED REGION ID(TANGOCamera::write_triggerMode) ENABLED START -----*/
-	
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::write_triggerMode
-}
-//--------------------------------------------------------
-/**
- *	Read attribute roi_xmin related method
- *	Description: 
- *
- *	Data type:	Tango::DevULong64
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::read_roi_xmin(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::read_roi_xmin(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TANGOCamera::read_roi_xmin) ENABLED START -----*/
-	//	Set the attribute value
-	attr.set_value(attr_roi_xmin_read);
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::read_roi_xmin
-}
-//--------------------------------------------------------
-/**
- *	Write attribute roi_xmin related method
- *	Description: 
- *
- *	Data type:	Tango::DevULong64
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::write_roi_xmin(Tango::WAttribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::write_roi_xmin(Tango::WAttribute &attr) entering... " << endl;
-	//	Retrieve write value
-	Tango::DevULong64	w_val;
-	attr.get_write_value(w_val);
-	/*----- PROTECTED REGION ID(TANGOCamera::write_roi_xmin) ENABLED START -----*/
-	
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::write_roi_xmin
-}
-//--------------------------------------------------------
-/**
- *	Read attribute roi_xmax related method
- *	Description: 
- *
- *	Data type:	Tango::DevULong64
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::read_roi_xmax(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::read_roi_xmax(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TANGOCamera::read_roi_xmax) ENABLED START -----*/
-	//	Set the attribute value
-	attr.set_value(attr_roi_xmax_read);
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::read_roi_xmax
-}
-//--------------------------------------------------------
-/**
- *	Write attribute roi_xmax related method
- *	Description: 
- *
- *	Data type:	Tango::DevULong64
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::write_roi_xmax(Tango::WAttribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::write_roi_xmax(Tango::WAttribute &attr) entering... " << endl;
-	//	Retrieve write value
-	Tango::DevULong64	w_val;
-	attr.get_write_value(w_val);
-	/*----- PROTECTED REGION ID(TANGOCamera::write_roi_xmax) ENABLED START -----*/
-	
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::write_roi_xmax
-}
-//--------------------------------------------------------
-/**
- *	Read attribute roi_ymin related method
- *	Description: 
- *
- *	Data type:	Tango::DevULong64
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::read_roi_ymin(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::read_roi_ymin(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TANGOCamera::read_roi_ymin) ENABLED START -----*/
-	//	Set the attribute value
-	attr.set_value(attr_roi_ymin_read);
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::read_roi_ymin
-}
-//--------------------------------------------------------
-/**
- *	Write attribute roi_ymin related method
- *	Description: 
- *
- *	Data type:	Tango::DevULong64
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::write_roi_ymin(Tango::WAttribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::write_roi_ymin(Tango::WAttribute &attr) entering... " << endl;
-	//	Retrieve write value
-	Tango::DevULong64	w_val;
-	attr.get_write_value(w_val);
-	/*----- PROTECTED REGION ID(TANGOCamera::write_roi_ymin) ENABLED START -----*/
-	
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::write_roi_ymin
-}
-//--------------------------------------------------------
-/**
- *	Read attribute roi_ymax related method
- *	Description: 
- *
- *	Data type:	Tango::DevULong64
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::read_roi_ymax(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::read_roi_ymax(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TANGOCamera::read_roi_ymax) ENABLED START -----*/
-	//	Set the attribute value
-	attr.set_value(attr_roi_ymax_read);
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::read_roi_ymax
-}
-//--------------------------------------------------------
-/**
- *	Write attribute roi_ymax related method
- *	Description: 
- *
- *	Data type:	Tango::DevULong64
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::write_roi_ymax(Tango::WAttribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::write_roi_ymax(Tango::WAttribute &attr) entering... " << endl;
-	//	Retrieve write value
-	Tango::DevULong64	w_val;
-	attr.get_write_value(w_val);
-	/*----- PROTECTED REGION ID(TANGOCamera::write_roi_ymax) ENABLED START -----*/
-	
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::write_roi_ymax
-}
 
 //--------------------------------------------------------
 /**
@@ -1157,6 +316,7 @@ void TANGOCamera::start_acquisition()
 	/*----- PROTECTED REGION ID(TANGOCamera::start_acquisition) ENABLED START -----*/
 	
 	//	Add your own code
+    cameraDriverPtr->start_acquisition();
 	
 	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::start_acquisition
 }
@@ -1173,6 +333,7 @@ void TANGOCamera::stop_acquisition()
 	/*----- PROTECTED REGION ID(TANGOCamera::stop_acquisition) ENABLED START -----*/
 	
 	//	Add your own code
+    cameraDriverPtr->stop_acquisition();
 	
 	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::stop_acquisition
 }
@@ -1189,8 +350,26 @@ void TANGOCamera::manual_trigger()
 	/*----- PROTECTED REGION ID(TANGOCamera::manual_trigger) ENABLED START -----*/
 	
 	//	Add your own code
+    cameraDriverPtr->manual_trigger();
 	
 	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::manual_trigger
+}
+//--------------------------------------------------------
+/**
+ *	Command Configure related method
+ *	Description: 
+ *
+ */
+//--------------------------------------------------------
+void TANGOCamera::configure()
+{
+	DEBUG_STREAM << "TANGOCamera::Configure()  - " << device_name << endl;
+	/*----- PROTECTED REGION ID(TANGOCamera::configure) ENABLED START -----*/
+	
+	//	Add your own code
+    cameraDriverPtr->configure();
+	
+	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::configure
 }
 //--------------------------------------------------------
 /**
@@ -1209,8 +388,6 @@ void TANGOCamera::add_dynamic_commands()
 }
 
 /*----- PROTECTED REGION ID(TANGOCamera::namespace_ending) ENABLED START -----*/
-
-//	Additional Methods
 
 /*----- PROTECTED REGION END -----*/	//	TANGOCamera::namespace_ending
 } //	namespace
