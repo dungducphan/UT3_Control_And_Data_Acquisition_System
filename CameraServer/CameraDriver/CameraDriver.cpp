@@ -1,16 +1,17 @@
 #include <TANGOCamera.h>
 #include <CameraDriver.h>
+
 #include <utility>
 
-CameraDriver::CameraDriver(std::string ip_addr) : IPAddress(std::move(ip_addr)), ParentTangoCameraPtr(nullptr) {
+CameraDriver::CameraDriver(const TANGOCamera_ns::TANGOCamera *tango_device_ptr) :
+        TangoCameraPtr(const_cast<TANGOCamera_ns::TANGOCamera *>(tango_device_ptr)) {
     std::cout << "CameraDriver constructor" << std::endl;
 }
 
-void CameraDriver::SetTangoCameraPtr(const TANGOCamera_ns::TANGOCamera* dev_ptr) {
-    ParentTangoCameraPtr = const_cast<TANGOCamera_ns::TANGOCamera*>(dev_ptr);
-}
+/*--------------------------------------------------------------------------------------------------------------------*/
 
-BaslerCameraDriver::BaslerCameraDriver(const std::string &ip_addr) : CameraDriver(ip_addr) {
+BaslerCameraDriver::BaslerCameraDriver(const TANGOCamera_ns::TANGOCamera *tango_device_ptr) : CameraDriver(
+        tango_device_ptr) {
     std::cout << "BaslerCameraDriver constructor" << std::endl;
 }
 
@@ -27,10 +28,12 @@ void BaslerCameraDriver::ManualTrigger() {
 }
 
 void BaslerCameraDriver::Configure() {
-std::cout << "BaslerCameraDriver configure" << std::endl;
+    std::cout << "BaslerCameraDriver configure" << std::endl;
 }
 
-PCOCameraDriver::PCOCameraDriver(const std::string &ip_addr) : CameraDriver(ip_addr) {
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+PCOCameraDriver::PCOCameraDriver(const TANGOCamera_ns::TANGOCamera *tango_device_ptr) : CameraDriver(tango_device_ptr) {
     std::cout << "PCOCameraDriver constructor" << std::endl;
 }
 
@@ -50,8 +53,32 @@ void PCOCameraDriver::Configure() {
     std::cout << "PCOCameraDriver configure" << std::endl;
 }
 
-FLIRCameraDriver::FLIRCameraDriver(const std::string &ip_addr) : CameraDriver(ip_addr) {
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+FLIRCameraDriver::FLIRCameraDriver(const TANGOCamera_ns::TANGOCamera *tango_device_ptr) : CameraDriver(
+        tango_device_ptr) {
     std::cout << "FLIRCameraDriver constructor" << std::endl;
+
+    Spinnaker::CameraList camList = Spinnaker::System::GetInstance()->GetCameras();
+    bool foundDevice = false;
+    for (int i = 0; i < camList.GetSize(); i++) {
+        Spinnaker::CameraPtr pCam = camList.GetByIndex(i);
+        if (IsReadable(pCam->TLDevice.GevDeviceIPAddress)) {
+            std::cout << pCam->TLDevice.GevDeviceIPAddress.GetValue() << std::endl;
+            if (pCam->TLDevice.GevDeviceIPAddress.GetValue() == stoi(TangoCameraPtr->ipaddress)) {
+                foundDevice = true;
+                pCam->Init();
+                SpinnakerCameraPtr.reset(&pCam);
+                std::cout << "Found device " << TangoCameraPtr->get_name() << "." << std::endl;
+            }
+        }
+    }
+    if (!foundDevice) {
+        std::cout << "Device " << TangoCameraPtr->get_name() << " not found!" << std::endl;
+        TangoCameraPtr->set_state(Tango::OFF);
+    }
+
+    camList.Clear();
 }
 
 void FLIRCameraDriver::StartAcquisition() {
@@ -68,25 +95,5 @@ void FLIRCameraDriver::ManualTrigger() {
 
 void FLIRCameraDriver::Configure() {
     std::cout << "FLIRCameraDriver configure" << std::endl;
-
-//    Spinnaker::CameraList camList = Spinnaker::System::GetInstance()->GetCameras();
-//    bool foundDevice = false;
-//    for (int i = 0; i < camList.GetSize(); i++) {
-//        Spinnaker::CameraPtr pCam = camList.GetByIndex(i);
-//        if (IsReadable(pCam->TLDevice.GevDeviceIPAddress)) {
-//            if (pCam->TLDevice.GevDeviceIPAddress.GetValue() == deviceSerialNumber) {
-//                foundDevice = true;
-//                pCam->Init();
-//                SpinnakerCameraPtr.reset(&pCam);
-//                std::cout << "Found device " << device_name << "." << std::endl;
-//            }
-//        }
-//    }
-//    if (!foundDevice) {
-//        std::cout << "Device " << device_name << " not found!" << std::endl;
-//        set_state(Tango::OFF);
-//    }
-//
-//    camList.Clear();
 }
 

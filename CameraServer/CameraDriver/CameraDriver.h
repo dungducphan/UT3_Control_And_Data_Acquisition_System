@@ -3,39 +3,38 @@
 #include <string>
 #include <iostream>
 
-#include <pylon/PylonIncludes.h>
-#include <pylon/Device.h>
-#include <pylon/TypeMappings.h>
-#include <pylon/ConfigurationEventHandler.h>
-#include <pylon/ImageEventHandler.h>
-
-#include <Spinnaker.h>
-#include <SpinGenApi/SpinnakerGenApi.h>
-
-#include <pco.camera/stdafx.h>
-#include <pco.camera/camera.h>
-#include <pco.camera/cameraexception.h>
-
 namespace TANGOCamera_ns {
     class TANGOCamera;
 };
 
 class CameraDriver {
 public:
-    explicit CameraDriver(std::string  ip_addr);
+    explicit CameraDriver(const TANGOCamera_ns::TANGOCamera* tango_device_ptr);
     virtual void StartAcquisition() = 0;
     virtual void StopAcquisition() = 0;
     virtual void ManualTrigger() = 0;
     virtual void Configure() = 0;
-    virtual void SetTangoCameraPtr(const TANGOCamera_ns::TANGOCamera* dev_ptr);
-private:
-    std::string IPAddress;
-    TANGOCamera_ns::TANGOCamera* ParentTangoCameraPtr;
+
+    TANGOCamera_ns::TANGOCamera* TangoCameraPtr;
 };
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+#include <pylon/PylonIncludes.h>
+#include <pylon/Device.h>
+#include <pylon/TypeMappings.h>
+#include <pylon/ConfigurationEventHandler.h>
+#include <pylon/ImageEventHandler.h>
+#include <pylon/GrabResultPtr.h>
+#include <pylon/GrabResultData.h>
+#include <pylon/InstantCamera.h>
+#include <pylon/ParameterIncludes.h>
+#include <pylon/EnumParameterT.h>
+#include <pylon/EnumParameter.h>
 
 class BaslerCameraDriver : public CameraDriver {
 public:
-    explicit BaslerCameraDriver(const std::string& ip_addr);
+    explicit BaslerCameraDriver(const TANGOCamera_ns::TANGOCamera* tango_device_ptr);
     void StartAcquisition() override;
     void StopAcquisition() override;
     void ManualTrigger() override;
@@ -44,9 +43,15 @@ private:
     std::unique_ptr<Pylon::CInstantCamera> PylonCameraPtr;
 };
 
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+#include <pco.camera/stdafx.h>
+#include <pco.camera/camera.h>
+#include <pco.camera/cameraexception.h>
+
 class PCOCameraDriver : public CameraDriver {
 public:
-    explicit PCOCameraDriver(const std::string& ip_addr);
+    explicit PCOCameraDriver(const TANGOCamera_ns::TANGOCamera* tango_device_ptr);
     void StartAcquisition() override;
     void StopAcquisition() override;
     void ManualTrigger() override;
@@ -55,9 +60,15 @@ private:
     std::shared_ptr<pco::Camera> PCOCameraPtr;
 };
 
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+#include <Spinnaker.h>
+#include <SpinGenApi/SpinnakerGenApi.h>
+#include <SpinnakerDefs.h>
+
 class FLIRCameraDriver : public CameraDriver {
 public:
-    explicit FLIRCameraDriver(const std::string& ip_addr);
+    explicit FLIRCameraDriver(const TANGOCamera_ns::TANGOCamera* tango_device_ptr);\
     void StartAcquisition() override;
     void StopAcquisition() override;
     void ManualTrigger() override;

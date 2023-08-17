@@ -33,6 +33,8 @@
 //=============================================================================
 #include <tango.h>
 
+#include <Spinnaker.h>
+
 // Check if crash reporting is used.
 #if defined(ENABLE_CRASH_REPORT)
 #  include <crashreporting/crash_report.h>
@@ -45,6 +47,8 @@ DECLARE_CRASH_HANDLER
 
 int main(int argc,char *argv[])
 {
+    Spinnaker::SystemPtr system = Spinnaker::System::GetInstance();
+
 	INSTALL_CRASH_HANDLER
 	try
 	{
@@ -75,6 +79,9 @@ int main(int argc,char *argv[])
 		cout << "Exiting" << endl;
 	}
 	Tango::Util::instance()->server_cleanup();
+
+    Spinnaker::System::GetInstance()->ReleaseInstance();
+
 	return(0);
 }
 

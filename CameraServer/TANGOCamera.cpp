@@ -147,7 +147,12 @@ void TANGOCamera::init_device()
 	/*----- PROTECTED REGION ID(TANGOCamera::init_device) ENABLED START -----*/
 	
 	//	Initialize device
+
+    // Return a specific camera driver (PCO, Basler, FLIR) based on the vendor name
+    // The "tango_device_ptr" is a pointer to the Tango device that is using the camera driver
+    // This allows the camera driver to call methods on the Tango device (set_state, get_device_name, etc.)
     cameraDriverPtr = CameraDriverFactory::FactoryMethod(this);
+    std::cout << std::endl;
 	
 	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::init_device
 }

@@ -1,25 +1,20 @@
 #include <TANGOCamera.h>
 #include <CameraDriverFactory.h>
 
-CameraDriver* CameraDriverFactory::FactoryMethod(TANGOCamera_ns::TANGOCamera* dev_ptr) {
+CameraDriver* CameraDriverFactory::FactoryMethod(TANGOCamera_ns::TANGOCamera* tango_device_ptr) {
     try {
-        if (dev_ptr->vendor == "pco") {
-            auto driver = new PCOCameraDriver(dev_ptr->ipaddress);
-            driver->SetTangoCameraPtr(dev_ptr);
-            return driver;
-        } else if (dev_ptr->vendor == "basler") {
-            auto driver = new BaslerCameraDriver(dev_ptr->ipaddress);
-            driver->SetTangoCameraPtr(dev_ptr);
-            return driver;
-        } else if (dev_ptr->vendor == "flir") {
-            auto driver = new FLIRCameraDriver(dev_ptr->ipaddress);
-            driver->SetTangoCameraPtr(dev_ptr);
-            return driver;
+        auto vendor = tango_device_ptr->vendor;
+        if (vendor == "pco" || vendor == "Pco" || vendor == "PCO") {
+            return new PCOCameraDriver(tango_device_ptr);
+        } else if (vendor == "basler" || vendor == "Basler" || vendor == "BASLER") {
+            return new BaslerCameraDriver(tango_device_ptr);
+        } else if (vendor == "flir" || vendor == "Flir" || vendor == "FLIR") {
+            return new FLIRCameraDriver(tango_device_ptr);
         } else {
             throw std::runtime_error("Unknown camera vendor");
         }
     } catch (std::exception& e) {
-        dev_ptr->set_state(Tango::FAULT);
+        tango_device_ptr->set_state(Tango::FAULT);
         Tango::Except::throw_exception("CameraDriverFactory::FactoryMethod",
                                        e.what(),
                                        "CameraDriverFactory::FactoryMethod");
