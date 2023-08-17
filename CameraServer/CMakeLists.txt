@@ -15,7 +15,7 @@
 
 cmake_minimum_required (VERSION 3.12)
 set(CMAKE_SKIP_RPATH TRUE)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED On)
 set(CMAKE_CXX_EXTENSIONS ON)
 
@@ -38,6 +38,8 @@ add_definitions(-DPCO_LINUX)
 #
 include(${MAKE_ENV}/cmake_tango.opt)
 
+option(ENABLE_DEBUG_FEATURES "Enable debug-specific features" OFF)
+
 # Dependencies
 find_package(Boost REQUIRED)
 if(Boost_FOUND)
@@ -45,7 +47,6 @@ if(Boost_FOUND)
 elseif(NOT Boost_FOUND)
     message("Boost not found!")
 endif()
-
 find_package(pylon REQUIRED)
 find_package(OpenCV REQUIRED)
 find_package(TIFF REQUIRED)
@@ -60,7 +61,6 @@ set(TANGOCAMERA_INCLUDE ${CMAKE_SOURCE_DIR})
 set(TANGOCAMERA_SRC  ${TANGOCAMERA}.cpp
                      ${TANGOCAMERA}Class.cpp
                      ${TANGOCAMERA}StateMachine.cpp)
-
 
 #
 # User additional include, link folders/libraries and source files

@@ -72,6 +72,9 @@ public:
 
 	bool	mandatoryNotDefined;
 
+//	Attribute data members
+public:
+	Tango::DevString	*attr_baseOutputPath_read;
 
 //	Constructors and destructors
 public:
@@ -136,6 +139,24 @@ public:
 	 */
 	//--------------------------------------------------------
 	virtual void read_attr_hardware(vector<long> &attr_list);
+	//--------------------------------------------------------
+	/*
+	 *	Method      : TANGOCamera::write_attr_hardware()
+	 *	Description : Hardware writing for attributes.
+	 */
+	//--------------------------------------------------------
+	virtual void write_attr_hardware(vector<long> &attr_list);
+
+/**
+ *	Attribute baseOutputPath related methods
+ *	Description: The base directory to save the images from the camera.
+ *
+ *	Data type:	Tango::DevString
+ *	Attr type:	Scalar
+ */
+	virtual void read_baseOutputPath(Tango::Attribute &attr);
+	virtual void write_baseOutputPath(Tango::WAttribute &attr);
+	virtual bool is_baseOutputPath_allowed(Tango::AttReqType type);
 
 
 	//--------------------------------------------------------
@@ -167,18 +188,11 @@ public:
 	virtual bool is_StopAcquisition_allowed(const CORBA::Any &any);
 	/**
 	 *	Command ManualTrigger related method
-	 *	Description: Reset camera if in FAULT state
+	 *	Description: Issue manual trigger
 	 *
 	 */
 	virtual void manual_trigger();
 	virtual bool is_ManualTrigger_allowed(const CORBA::Any &any);
-	/**
-	 *	Command Configure related method
-	 *	Description: 
-	 *
-	 */
-	virtual void configure();
-	virtual bool is_Configure_allowed(const CORBA::Any &any);
 
 
 	//--------------------------------------------------------

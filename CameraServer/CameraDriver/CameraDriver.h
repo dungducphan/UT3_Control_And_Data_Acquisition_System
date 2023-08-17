@@ -2,10 +2,13 @@
 
 #include <string>
 #include <iostream>
+#include <thread>
+#include <chrono>
+#include <arpa/inet.h>
 
 namespace TANGOCamera_ns {
     class TANGOCamera;
-};
+}
 
 class CameraDriver {
 public:
@@ -14,8 +17,16 @@ public:
     virtual void StopAcquisition() = 0;
     virtual void ManualTrigger() = 0;
     virtual void Configure() = 0;
+    [[nodiscard]] int64_t GetIPv4AddressInteger() const;
 
     TANGOCamera_ns::TANGOCamera* TangoCameraPtr;
+    int64_t LinuxTimestampMilliseconds;
+    std::string FullOutputPath;
+    bool ManualTriggerSet;
+    uint32_t ShotID;
+
+private:
+    void CreateFullOutputPath();
 };
 
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -68,11 +79,16 @@ private:
 
 class FLIRCameraDriver : public CameraDriver {
 public:
-    explicit FLIRCameraDriver(const TANGOCamera_ns::TANGOCamera* tango_device_ptr);\
+    explicit FLIRCameraDriver(const TANGOCamera_ns::TANGOCamera* tango_device_ptr);
     void StartAcquisition() override;
     void StopAcquisition() override;
     void ManualTrigger() override;
     void Configure() override;
 private:
-    std::unique_ptr<Spinnaker::CameraPtr> SpinnakerCameraPtr;
+    Spinnaker::CameraPtr SpinnakerCameraPtr;
+    Spinnaker::ImagePtr ResultImagePtr;
+    std::thread* SpinnakerAcquisitionThread{};
+
+    void FLIRCameraInit();
+    void AcquisitionLoop();
 };

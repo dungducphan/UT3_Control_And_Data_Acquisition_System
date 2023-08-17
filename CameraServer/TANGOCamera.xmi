@@ -51,10 +51,10 @@
         <type xsi:type="pogoDsl:VoidType"/>
       </argout>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
-      <excludedStates>FAULT</excludedStates>
+      <excludedStates>ON</excludedStates>
       <excludedStates>OFF</excludedStates>
     </commands>
-    <commands name="ManualTrigger" description="Reset camera if in FAULT state" execMethod="manual_trigger" displayLevel="OPERATOR" polledPeriod="0" isDynamic="false">
+    <commands name="ManualTrigger" description="Issue manual trigger" execMethod="manual_trigger" displayLevel="EXPERT" polledPeriod="0" isDynamic="false">
       <argin description="">
         <type xsi:type="pogoDsl:VoidType"/>
       </argin>
@@ -66,18 +66,19 @@
       <excludedStates>FAULT</excludedStates>
       <excludedStates>OFF</excludedStates>
     </commands>
-    <commands name="Configure" description="" execMethod="configure" displayLevel="OPERATOR" polledPeriod="0" isDynamic="false">
-      <argin description="">
-        <type xsi:type="pogoDsl:VoidType"/>
-      </argin>
-      <argout description="">
-        <type xsi:type="pogoDsl:VoidType"/>
-      </argout>
+    <attributes name="baseOutputPath" attType="Scalar" rwType="READ_WRITE" displayLevel="EXPERT" polledPeriod="0" maxX="" maxY="" memorized="true" memorizedAtInit="true" allocReadMember="true" isDynamic="false">
+      <dataType xsi:type="pogoDsl:StringType"/>
+      <changeEvent fire="false" libCheckCriteria="false"/>
+      <archiveEvent fire="false" libCheckCriteria="false"/>
+      <dataReadyEvent fire="false" libCheckCriteria="true"/>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
-      <excludedStates>RUNNING</excludedStates>
-      <excludedStates>FAULT</excludedStates>
-      <excludedStates>OFF</excludedStates>
-    </commands>
+      <properties description="The base directory to save the images from the camera." label="Base Output Directory" unit="" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
+      <readExcludedStates>FAULT</readExcludedStates>
+      <readExcludedStates>OFF</readExcludedStates>
+      <writeExcludedStates>RUNNING</writeExcludedStates>
+      <writeExcludedStates>FAULT</writeExcludedStates>
+      <writeExcludedStates>OFF</writeExcludedStates>
+    </attributes>
     <states name="ON" description="">
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
     </states>

@@ -52,15 +52,15 @@
 //================================================================
 //  State             |  Inherited (no method)
 //  Status            |  Inherited (no method)
-//  StartAcquisition  |  StartAcquisition
-//  StopAcquisition   |  StopAcquisition
+//  StartAcquisition  |  start_acquisition
+//  StopAcquisition   |  stop_acquisition
 //  ManualTrigger     |  manual_trigger
-//  Configure         |  configure
 //================================================================
 
 //================================================================
 //  Attributes managed is:
 //================================================================
+//  baseOutputPath  |  Tango::DevString	Scalar
 //================================================================
 
 namespace TANGOCamera_ns
@@ -119,6 +119,7 @@ void TANGOCamera::delete_device()
 	//	Delete device allocated objects
 
 	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::delete_device
+	delete[] attr_baseOutputPath_read;
 }
 
 //--------------------------------------------------------
@@ -140,6 +141,7 @@ void TANGOCamera::init_device()
 	//	Get the device properties from database
 	get_device_property();
 	
+	attr_baseOutputPath_read = new Tango::DevString[1];
 	//	No longer if mandatory property not set. 
 	if (mandatoryNotDefined)
 		return;
@@ -147,12 +149,12 @@ void TANGOCamera::init_device()
 	/*----- PROTECTED REGION ID(TANGOCamera::init_device) ENABLED START -----*/
 	
 	//	Initialize device
+    attr_baseOutputPath_read[0] = Tango::DevString("/home/dphan/Workspace/JunkYard/");
 
     // Return a specific camera driver (PCO, Basler, FLIR) based on the vendor name
     // The "tango_device_ptr" is a pointer to the Tango device that is using the camera driver
     // This allows the camera driver to call methods on the Tango device (set_state, get_device_name, etc.)
     cameraDriverPtr = CameraDriverFactory::FactoryMethod(this);
-    std::cout << std::endl;
 	
 	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::init_device
 }
@@ -290,7 +292,60 @@ void TANGOCamera::read_attr_hardware(TANGO_UNUSED(vector<long> &attr_list))
 	
 	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::read_attr_hardware
 }
+//--------------------------------------------------------
+/**
+ *	Method      : TANGOCamera::write_attr_hardware()
+ *	Description : Hardware writing for attributes
+ */
+//--------------------------------------------------------
+void TANGOCamera::write_attr_hardware(TANGO_UNUSED(vector<long> &attr_list))
+{
+	DEBUG_STREAM << "TANGOCamera::write_attr_hardware(vector<long> &attr_list) entering... " << endl;
+	/*----- PROTECTED REGION ID(TANGOCamera::write_attr_hardware) ENABLED START -----*/
+	
+	//	Add your own code
+	
+	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::write_attr_hardware
+}
 
+//--------------------------------------------------------
+/**
+ *	Read attribute baseOutputPath related method
+ *	Description: The base directory to save the images from the camera.
+ *
+ *	Data type:	Tango::DevString
+ *	Attr type:	Scalar
+ */
+//--------------------------------------------------------
+void TANGOCamera::read_baseOutputPath(Tango::Attribute &attr)
+{
+	DEBUG_STREAM << "TANGOCamera::read_baseOutputPath(Tango::Attribute &attr) entering... " << endl;
+	/*----- PROTECTED REGION ID(TANGOCamera::read_baseOutputPath) ENABLED START -----*/
+	//	Set the attribute value
+	attr.set_value(attr_baseOutputPath_read);
+	
+	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::read_baseOutputPath
+}
+//--------------------------------------------------------
+/**
+ *	Write attribute baseOutputPath related method
+ *	Description: The base directory to save the images from the camera.
+ *
+ *	Data type:	Tango::DevString
+ *	Attr type:	Scalar
+ */
+//--------------------------------------------------------
+void TANGOCamera::write_baseOutputPath(Tango::WAttribute &attr)
+{
+	DEBUG_STREAM << "TANGOCamera::write_baseOutputPath(Tango::WAttribute &attr) entering... " << endl;
+	//	Retrieve write value
+	Tango::DevString	w_val;
+	attr.get_write_value(w_val);
+	/*----- PROTECTED REGION ID(TANGOCamera::write_baseOutputPath) ENABLED START -----*/
+	
+	
+	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::write_baseOutputPath
+}
 
 //--------------------------------------------------------
 /**
@@ -318,12 +373,12 @@ void TANGOCamera::add_dynamic_attributes()
 void TANGOCamera::start_acquisition()
 {
 	DEBUG_STREAM << "TANGOCamera::StartAcquisition()  - " << device_name << endl;
-	/*----- PROTECTED REGION ID(TANGOCamera::StartAcquisition) ENABLED START -----*/
+	/*----- PROTECTED REGION ID(TANGOCamera::start_acquisition) ENABLED START -----*/
 	
 	//	Add your own code
     cameraDriverPtr->StartAcquisition();
 	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::StartAcquisition
+	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::start_acquisition
 }
 //--------------------------------------------------------
 /**
@@ -335,17 +390,17 @@ void TANGOCamera::start_acquisition()
 void TANGOCamera::stop_acquisition()
 {
 	DEBUG_STREAM << "TANGOCamera::StopAcquisition()  - " << device_name << endl;
-	/*----- PROTECTED REGION ID(TANGOCamera::StopAcquisition) ENABLED START -----*/
+	/*----- PROTECTED REGION ID(TANGOCamera::stop_acquisition) ENABLED START -----*/
 	
 	//	Add your own code
     cameraDriverPtr->StopAcquisition();
 	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::StopAcquisition
+	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::stop_acquisition
 }
 //--------------------------------------------------------
 /**
  *	Command ManualTrigger related method
- *	Description: Reset camera if in FAULT state
+ *	Description: Issue manual trigger
  *
  */
 //--------------------------------------------------------
@@ -358,23 +413,6 @@ void TANGOCamera::manual_trigger()
     cameraDriverPtr->ManualTrigger();
 	
 	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::manual_trigger
-}
-//--------------------------------------------------------
-/**
- *	Command Configure related method
- *	Description: 
- *
- */
-//--------------------------------------------------------
-void TANGOCamera::configure()
-{
-	DEBUG_STREAM << "TANGOCamera::Configure()  - " << device_name << endl;
-	/*----- PROTECTED REGION ID(TANGOCamera::configure) ENABLED START -----*/
-	
-	//	Add your own code
-    cameraDriverPtr->Configure();
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::configure
 }
 //--------------------------------------------------------
 /**
@@ -393,6 +431,8 @@ void TANGOCamera::add_dynamic_commands()
 }
 
 /*----- PROTECTED REGION ID(TANGOCamera::namespace_ending) ENABLED START -----*/
+
+
 
 /*----- PROTECTED REGION END -----*/	//	TANGOCamera::namespace_ending
 } //	namespace

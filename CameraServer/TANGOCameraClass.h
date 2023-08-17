@@ -52,6 +52,25 @@ namespace TANGOCamera_ns
 /*----- PROTECTED REGION END -----*/	//	TANGOCameraClass::classes for dynamic creation
 
 //=========================================
+//	Define classes for attributes
+//=========================================
+//	Attribute baseOutputPath class definition
+class baseOutputPathAttrib: public Tango::Attr
+{
+public:
+	baseOutputPathAttrib():Attr("baseOutputPath",
+			Tango::DEV_STRING, Tango::READ_WRITE) {};
+	~baseOutputPathAttrib() {};
+	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
+		{(static_cast<TANGOCamera *>(dev))->read_baseOutputPath(att);}
+	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
+		{(static_cast<TANGOCamera *>(dev))->write_baseOutputPath(att);}
+	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
+		{return (static_cast<TANGOCamera *>(dev))->is_baseOutputPath_allowed(ty);}
+};
+
+
+//=========================================
 //	Define classes for commands
 //=========================================
 //	Command StartAcquisition class definition
@@ -121,29 +140,6 @@ public:
 	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
 	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
 	{return (static_cast<TANGOCamera *>(dev))->is_ManualTrigger_allowed(any);}
-};
-
-//	Command Configure class definition
-class ConfigureClass : public Tango::Command
-{
-public:
-	ConfigureClass(const char   *name,
-	               Tango::CmdArgType in,
-				   Tango::CmdArgType out,
-				   const char        *in_desc,
-				   const char        *out_desc,
-				   Tango::DispLevel  level)
-	:Command(name,in,out,in_desc,out_desc, level)	{};
-
-	ConfigureClass(const char   *name,
-	               Tango::CmdArgType in,
-				   Tango::CmdArgType out)
-	:Command(name,in,out)	{};
-	~ConfigureClass() {};
-	
-	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
-	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
-	{return (static_cast<TANGOCamera *>(dev))->is_Configure_allowed(any);}
 };
 
 
