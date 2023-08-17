@@ -110,6 +110,8 @@ set(USER_LIBS
 set(USER_SRC_FILES
         ${CAMERA_DRIVER_DIR}/CameraDriver.cpp
         ${CAMERA_DRIVER_DIR}/CameraDriver.h
+        ${CAMERA_DRIVER_DIR}/CameraDriverFactory.cpp
+        ${CAMERA_DRIVER_DIR}/CameraDriverFactory.h
 )
 
 #

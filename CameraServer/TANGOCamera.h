@@ -34,8 +34,7 @@
 #define TANGOCamera_H
 
 #include <tango.h>
-#include <CameraDriver.h>
-#include <CameraDriverCreator.h>
+#include <CameraDriverFactory.h>
 
 
 /*----- PROTECTED REGION END -----*/	//	TANGOCamera.h

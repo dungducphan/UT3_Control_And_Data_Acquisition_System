@@ -52,8 +52,8 @@
 //================================================================
 //  State             |  Inherited (no method)
 //  Status            |  Inherited (no method)
-//  StartAcquisition  |  start_acquisition
-//  StopAcquisition   |  stop_acquisition
+//  StartAcquisition  |  StartAcquisition
+//  StopAcquisition   |  StopAcquisition
 //  ManualTrigger     |  manual_trigger
 //  Configure         |  configure
 //================================================================
@@ -147,7 +147,7 @@ void TANGOCamera::init_device()
 	/*----- PROTECTED REGION ID(TANGOCamera::init_device) ENABLED START -----*/
 	
 	//	Initialize device
-    cameraDriverPtr = CameraDriverCreator::FactoryMethod(vendor, ipaddress);
+    cameraDriverPtr = CameraDriverFactory::FactoryMethod(this);
 	
 	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::init_device
 }
@@ -313,12 +313,12 @@ void TANGOCamera::add_dynamic_attributes()
 void TANGOCamera::start_acquisition()
 {
 	DEBUG_STREAM << "TANGOCamera::StartAcquisition()  - " << device_name << endl;
-	/*----- PROTECTED REGION ID(TANGOCamera::start_acquisition) ENABLED START -----*/
+	/*----- PROTECTED REGION ID(TANGOCamera::StartAcquisition) ENABLED START -----*/
 	
 	//	Add your own code
-    cameraDriverPtr->start_acquisition();
+    cameraDriverPtr->StartAcquisition();
 	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::start_acquisition
+	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::StartAcquisition
 }
 //--------------------------------------------------------
 /**
@@ -330,12 +330,12 @@ void TANGOCamera::start_acquisition()
 void TANGOCamera::stop_acquisition()
 {
 	DEBUG_STREAM << "TANGOCamera::StopAcquisition()  - " << device_name << endl;
-	/*----- PROTECTED REGION ID(TANGOCamera::stop_acquisition) ENABLED START -----*/
+	/*----- PROTECTED REGION ID(TANGOCamera::StopAcquisition) ENABLED START -----*/
 	
 	//	Add your own code
-    cameraDriverPtr->stop_acquisition();
+    cameraDriverPtr->StopAcquisition();
 	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::stop_acquisition
+	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::StopAcquisition
 }
 //--------------------------------------------------------
 /**
@@ -350,7 +350,7 @@ void TANGOCamera::manual_trigger()
 	/*----- PROTECTED REGION ID(TANGOCamera::manual_trigger) ENABLED START -----*/
 	
 	//	Add your own code
-    cameraDriverPtr->manual_trigger();
+    cameraDriverPtr->ManualTrigger();
 	
 	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::manual_trigger
 }
@@ -367,7 +367,7 @@ void TANGOCamera::configure()
 	/*----- PROTECTED REGION ID(TANGOCamera::configure) ENABLED START -----*/
 	
 	//	Add your own code
-    cameraDriverPtr->configure();
+    cameraDriverPtr->Configure();
 	
 	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::configure
 }
