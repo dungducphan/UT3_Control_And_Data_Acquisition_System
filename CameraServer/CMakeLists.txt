@@ -136,5 +136,8 @@ link_directories(${USER_LIB_DIR} ${TANGO_LIB_HOME})
 message("SERVER_NAME=${SERVER_NAME}")
 message("SERVER_SRC=${SERVER_SRC}")
 add_executable(${SERVER_NAME} ${SERVER_SRC})
+if(ENABLE_DEBUG_FEATURES)
+    target_compile_definitions(${SERVER_NAME} PRIVATE ENABLE_DEBUG_FEATURES)
+endif()
 target_link_libraries(${SERVER_NAME} ${USER_LIBS} ${TANGO_LIBS})
 

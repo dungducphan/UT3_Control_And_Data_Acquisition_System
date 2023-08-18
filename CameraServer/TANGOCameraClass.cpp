@@ -271,7 +271,7 @@ void TANGOCameraClass::set_default_property()
 	//	Set Default Class Properties
 
 	//	Set Default device Properties
-	prop_name = "ipaddress";
+	prop_name = "serialNumber";
 	prop_desc = "";
 	prop_def  = "";
 	vect_data.clear();

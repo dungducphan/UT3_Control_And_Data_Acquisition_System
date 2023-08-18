@@ -17,12 +17,12 @@ public:
     virtual void StopAcquisition() = 0;
     virtual void ManualTrigger() = 0;
     virtual void Configure() = 0;
-    [[nodiscard]] int64_t GetIPv4AddressInteger() const;
+
+    [[nodiscard]] int64_t GetIPv4AddressInteger(const std::string& ipaddress) const;
 
     TANGOCamera_ns::TANGOCamera* TangoCameraPtr;
     int64_t LinuxTimestampMilliseconds;
     std::string FullOutputPath;
-    bool ManualTriggerSet;
     uint32_t ShotID;
 
 private:
@@ -46,10 +46,10 @@ private:
 class BaslerCameraDriver : public CameraDriver {
 public:
     explicit BaslerCameraDriver(const TANGOCamera_ns::TANGOCamera* tango_device_ptr);
-    void StartAcquisition() override;
-    void StopAcquisition() override;
-    void ManualTrigger() override;
-    void Configure() override;
+    void StartAcquisition() final;
+    void StopAcquisition() final;
+    void ManualTrigger() final;
+    void Configure() final;
 private:
     std::unique_ptr<Pylon::CInstantCamera> PylonCameraPtr;
 };
@@ -63,10 +63,10 @@ private:
 class PCOCameraDriver : public CameraDriver {
 public:
     explicit PCOCameraDriver(const TANGOCamera_ns::TANGOCamera* tango_device_ptr);
-    void StartAcquisition() override;
-    void StopAcquisition() override;
-    void ManualTrigger() override;
-    void Configure() override;
+    void StartAcquisition() final;
+    void StopAcquisition() final;
+    void ManualTrigger() final;
+    void Configure() final;
 private:
     std::shared_ptr<pco::Camera> PCOCameraPtr;
 };
@@ -80,10 +80,10 @@ private:
 class FLIRCameraDriver : public CameraDriver {
 public:
     explicit FLIRCameraDriver(const TANGOCamera_ns::TANGOCamera* tango_device_ptr);
-    void StartAcquisition() override;
-    void StopAcquisition() override;
-    void ManualTrigger() override;
-    void Configure() override;
+    void StartAcquisition() final;
+    void StopAcquisition() final;
+    void ManualTrigger() final;
+    void Configure() final;
 private:
     Spinnaker::CameraPtr SpinnakerCameraPtr;
     Spinnaker::ImagePtr ResultImagePtr;

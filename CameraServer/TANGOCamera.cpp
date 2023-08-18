@@ -151,6 +151,9 @@ void TANGOCamera::init_device()
 	//	Initialize device
     attr_baseOutputPath_read[0] = Tango::DevString("/home/dphan/Workspace/JunkYard/");
 
+    // Avoid init when an AcquisitionLoop thread is still running
+    if (get_state() == Tango::RUNNING) cameraDriverPtr->StopAcquisition();
+
     // Return a specific camera driver (PCO, Basler, FLIR) based on the vendor name
     // The "tango_device_ptr" is a pointer to the Tango device that is using the camera driver
     // This allows the camera driver to call methods on the Tango device (set_state, get_device_name, etc.)
@@ -177,7 +180,7 @@ void TANGOCamera::get_device_property()
 
 	//	Read device properties from database.
 	Tango::DbData	dev_prop;
-	dev_prop.push_back(Tango::DbDatum("ipaddress"));
+	dev_prop.push_back(Tango::DbDatum("serialNumber"));
 	dev_prop.push_back(Tango::DbDatum("vendor"));
 
 	//	is there at least one property to be read ?
@@ -193,16 +196,16 @@ void TANGOCamera::get_device_property()
 			(static_cast<TANGOCameraClass *>(get_device_class()));
 		int	i = -1;
 
-		//	Try to initialize ipaddress from class property
+		//	Try to initialize serialNumber from class property
 		cl_prop = ds_class->get_class_property(dev_prop[++i].name);
-		if (cl_prop.is_empty()==false)	cl_prop  >>  ipaddress;
+		if (cl_prop.is_empty()==false)	cl_prop  >>  serialNumber;
 		else {
-			//	Try to initialize ipaddress from default device value
+			//	Try to initialize serialNumber from default device value
 			def_prop = ds_class->get_default_device_property(dev_prop[i].name);
-			if (def_prop.is_empty()==false)	def_prop  >>  ipaddress;
+			if (def_prop.is_empty()==false)	def_prop  >>  serialNumber;
 		}
-		//	And try to extract ipaddress value from database
-		if (dev_prop[i].is_empty()==false)	dev_prop[i]  >>  ipaddress;
+		//	And try to extract serialNumber value from database
+		if (dev_prop[i].is_empty()==false)	dev_prop[i]  >>  serialNumber;
 		//	Property StartDsPath is mandatory, check if has been defined in database.
 		check_mandatory_property(cl_prop, dev_prop[i]);
 

@@ -65,8 +65,8 @@ class TANGOCamera : public TANGO_BASE_CLASS
 
 //	Device property data members
 public:
-	//	ipaddress:	
-	string	ipaddress;
+	//	serialNumber:	
+	string	serialNumber;
 	//	vendor:	
 	string	vendor;
 
