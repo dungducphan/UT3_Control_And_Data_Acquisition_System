@@ -2,7 +2,7 @@
  [TANGO Control System and Data Aacquisition Front-End for UT3 Laboratory](https://publish.obsidian.md/ut3/Project+00+-+UT3+DAQCS/Camera+Server+Development/UT3+Front-End+CDAq)
 
 ## Dependencies:
-- [TANGO control}(https://tango-controls.readthedocs.io/en/latest/contents.html).
+- [TANGO control](https://tango-controls.readthedocs.io/en/latest/contents.html).
 - Camera SDKs: PCO **pco.cpp**, Basler **pylon**, and FLIR **spinnaker**.
 - Boost libraries: filesystem, concurrency, interprocess.
 - OpenCV: for image preprocessing.
