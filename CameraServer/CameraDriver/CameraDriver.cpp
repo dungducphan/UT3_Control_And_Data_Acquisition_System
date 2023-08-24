@@ -108,6 +108,7 @@ void FLIRCameraDriver::StopAcquisition() {
 }
 
 void FLIRCameraDriver::ManualTrigger() {
+    ShotID--;
     SpinnakerCameraPtr->TriggerSource.SetValue(Spinnaker::TriggerSourceEnums::TriggerSource_Software);
     SpinnakerCameraPtr->TriggerSoftware();
 }
@@ -186,11 +187,14 @@ void FLIRCameraDriver::AcquisitionLoop() {
                         filename = (boost::format("%s/shot_%05d_%d.tiff") % FullOutputPath % ShotID % LinuxTimestampMilliseconds).str();
                     } else {
                         filename = (boost::format("%s/test_%05d_%d.tiff") % FullOutputPath % ShotID % LinuxTimestampMilliseconds).str();
+                        SpinnakerCameraPtr->TriggerSource.SetValue(Spinnaker::TriggerSourceEnums::TriggerSource_Line0);
                     }
                     ResultImagePtr->Save(filename.c_str());
 #ifdef ENABLE_DEBUG_FEATURES
                     std::cout << "Image saved at " << filename << std::endl;
 #endif
+                } else {
+                    ShotID--;
                 }
             }
             try {
@@ -203,8 +207,7 @@ void FLIRCameraDriver::AcquisitionLoop() {
             std::cout << "Error: " << e.what() << std::endl;
         }
 
-        // Only increasing ShotID in AutomaticTrigger mode (shot mode)
-        if (SpinnakerCameraPtr->TriggerSource.GetValue() == Spinnaker::TriggerSourceEnums::TriggerSource_Line0) ShotID++;
+        ShotID++;
     }
 }
 
