@@ -58,9 +58,10 @@
 //================================================================
 
 //================================================================
-//  Attributes managed is:
+//  Attributes managed are:
 //================================================================
 //  baseOutputPath  |  Tango::DevString	Scalar
+//  image           |  Tango::DevDouble	Image  ( max = 1440 x 1080)
 //================================================================
 
 namespace TANGOCamera_ns
@@ -120,6 +121,7 @@ void TANGOCamera::delete_device()
 
 	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::delete_device
 	delete[] attr_baseOutputPath_read;
+	delete[] attr_image_read;
 }
 
 //--------------------------------------------------------
@@ -142,6 +144,7 @@ void TANGOCamera::init_device()
 	get_device_property();
 	
 	attr_baseOutputPath_read = new Tango::DevString[1];
+	attr_image_read = new Tango::DevDouble[1440*1080];
 	//	No longer if mandatory property not set. 
 	if (mandatoryNotDefined)
 		return;
@@ -348,6 +351,24 @@ void TANGOCamera::write_baseOutputPath(Tango::WAttribute &attr)
 	
 	
 	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::write_baseOutputPath
+}
+//--------------------------------------------------------
+/**
+ *	Read attribute image related method
+ *	Description: An image acquired by the camera
+ *
+ *	Data type:	Tango::DevDouble
+ *	Attr type:	Image max = 1440 x 1080
+ */
+//--------------------------------------------------------
+void TANGOCamera::read_image(Tango::Attribute &attr)
+{
+	DEBUG_STREAM << "TANGOCamera::read_image(Tango::Attribute &attr) entering... " << endl;
+	/*----- PROTECTED REGION ID(TANGOCamera::read_image) ENABLED START -----*/
+	//	Set the attribute value
+	attr.set_value(attr_image_read, 1440, 1080);
+	cameraDriverPtr
+	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::read_image
 }
 
 //--------------------------------------------------------

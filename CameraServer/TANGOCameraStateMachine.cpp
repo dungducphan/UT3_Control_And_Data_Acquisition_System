@@ -90,6 +90,22 @@ bool TANGOCamera::is_baseOutputPath_allowed(TANGO_UNUSED(Tango::AttReqType type)
 	return true;
 }
 
+//--------------------------------------------------------
+/**
+ *	Method      : TANGOCamera::is_image_allowed()
+ *	Description : Execution allowed for image attribute
+ */
+//--------------------------------------------------------
+bool TANGOCamera::is_image_allowed(TANGO_UNUSED(Tango::AttReqType type))
+{
+
+	//	Not any excluded states for image attribute in read access.
+	/*----- PROTECTED REGION ID(TANGOCamera::imageStateAllowed_READ) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::imageStateAllowed_READ
+	return true;
+}
+
 
 //=================================================
 //		Commands Allowed Methods

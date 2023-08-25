@@ -75,6 +75,7 @@ public:
 //	Attribute data members
 public:
 	Tango::DevString	*attr_baseOutputPath_read;
+	Tango::DevDouble	*attr_image_read;
 
 //	Constructors and destructors
 public:
@@ -157,6 +158,15 @@ public:
 	virtual void read_baseOutputPath(Tango::Attribute &attr);
 	virtual void write_baseOutputPath(Tango::WAttribute &attr);
 	virtual bool is_baseOutputPath_allowed(Tango::AttReqType type);
+/**
+ *	Attribute image related methods
+ *	Description: An image acquired by the camera
+ *
+ *	Data type:	Tango::DevDouble
+ *	Attr type:	Image max = 1440 x 1080
+ */
+	virtual void read_image(Tango::Attribute &attr);
+	virtual bool is_image_allowed(Tango::AttReqType type);
 
 
 	//--------------------------------------------------------

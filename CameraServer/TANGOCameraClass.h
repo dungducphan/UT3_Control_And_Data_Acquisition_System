@@ -69,6 +69,19 @@ public:
 		{return (static_cast<TANGOCamera *>(dev))->is_baseOutputPath_allowed(ty);}
 };
 
+//	Attribute image class definition
+class imageAttrib: public Tango::ImageAttr
+{
+public:
+	imageAttrib():ImageAttr("image",
+			Tango::DEV_DOUBLE, Tango::READ, 1440, 1080) {};
+	~imageAttrib() {};
+	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
+		{(static_cast<TANGOCamera *>(dev))->read_image(att);}
+	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
+		{return (static_cast<TANGOCamera *>(dev))->is_image_allowed(ty);}
+};
+
 
 //=========================================
 //	Define classes for commands

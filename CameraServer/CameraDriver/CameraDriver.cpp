@@ -183,16 +183,11 @@ void FLIRCameraDriver::AcquisitionLoop() {
 
                 // Only saving data if the StopAcquisition has NOT been issue
                 if (TangoCameraPtr->get_state() == Tango::RUNNING) {
-                    if (SpinnakerCameraPtr->TriggerSource.GetValue() == Spinnaker::TriggerSourceEnums::TriggerSource_Line0) {
-                        filename = (boost::format("%s/shot_%05d_%d.tiff") % FullOutputPath % ShotID % LinuxTimestampMilliseconds).str();
-                    } else {
-                        filename = (boost::format("%s/test_%05d_%d.tiff") % FullOutputPath % ShotID % LinuxTimestampMilliseconds).str();
-                        SpinnakerCameraPtr->TriggerSource.SetValue(Spinnaker::TriggerSourceEnums::TriggerSource_Line0);
-                    }
-                    ResultImagePtr->Save(filename.c_str());
-#ifdef ENABLE_DEBUG_FEATURES
-                    std::cout << "Image saved at " << filename << std::endl;
-#endif
+
+                    // TODO: this needs an adapter between the ImageData* on the right
+                    // and the TANGO::DevDouble[] on the left.
+                    TangoCameraPtr->attr_image_read = ResultImage->GetImageData();
+
                 } else {
                     ShotID--;
                 }
