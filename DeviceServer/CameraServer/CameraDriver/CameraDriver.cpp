@@ -187,6 +187,8 @@ void FLIRCameraDriver::AcquisitionLoop() {
                     // TODO: this needs an adapter between the ImageData* on the right
                     // and the TANGO::DevDouble[] on the left.
                     TangoCameraPtr->attr_image_read = ResultImage->GetImageData();
+                    // notify clients that a new image is available
+                    TangoCameraPtr->push_data_ready_event("image", ShotID);
 
                 } else {
                     ShotID--;

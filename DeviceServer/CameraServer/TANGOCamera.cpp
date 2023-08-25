@@ -162,6 +162,9 @@ void TANGOCamera::init_device()
     // This allows the camera driver to call methods on the Tango device (set_state, get_device_name, etc.)
     cameraDriverPtr = CameraDriverFactory::FactoryMethod(this);
 	
+	// Declare that this attribute sends events
+	attr_image_read.set_data_ready_event(true);
+
 	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::init_device
 }
 
