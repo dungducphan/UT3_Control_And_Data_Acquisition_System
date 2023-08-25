@@ -20,4 +20,4 @@ set(CMAKE_CXX_EXTENSIONS ON)
 project(UT3-CDAq)
 
 # Subprojects
-add_subdirectory(CameraServer)
+add_subdirectory(DeviceServer/CameraServer)
