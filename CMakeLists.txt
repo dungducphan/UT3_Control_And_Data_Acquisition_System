@@ -14,10 +14,45 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED On)
 set(CMAKE_CXX_EXTENSIONS ON)
 
+# MAKE_ENV is the path to find common environment to build project
+#
+set(MAKE_ENV /usr/local/tango/share/pogo/preferences)
+
 #
 # Project definitions
 #
 project(UT3-CDAq)
 
+#
+# optional compiler flags
+#
+set(CXXFLAGS_USER -g)
+if(UNIX AND NOT APPLE)
+    # for Linux, BSD, Solaris, Minix
+    add_definitions(-DPCO_LINUX)
+endif()
+
+#
+# Get global information
+#
+include(${MAKE_ENV}/cmake_tango.opt)
+
+option(ENABLE_DEBUG_FEATURES "Enable debug-specific features" OFF)
+
+# Dependencies
+find_package(Boost REQUIRED)
+if(Boost_FOUND)
+    find_package(Boost COMPONENTS filesystem system serialization REQUIRED)
+elseif(NOT Boost_FOUND)
+    message("Boost not found!")
+endif()
+find_package(pylon REQUIRED)
+find_package(OpenCV REQUIRED)
+find_package(TIFF REQUIRED)
+find_package(PNG REQUIRED)
+find_package(JPEG REQUIRED)
+
+
 # Subprojects
-add_subdirectory(DeviceServer/CameraServer)
+set (CAMERA_SERVER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/DeviceServer/CameraServer)
+add_subdirectory(${CAMERA_SERVER_DIR})
