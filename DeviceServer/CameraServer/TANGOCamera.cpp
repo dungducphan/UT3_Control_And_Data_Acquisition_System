@@ -161,9 +161,6 @@ void TANGOCamera::init_device()
     // The "tango_device_ptr" is a pointer to the Tango device that is using the camera driver
     // This allows the camera driver to call methods on the Tango device (set_state, get_device_name, etc.)
     cameraDriverPtr = CameraDriverFactory::FactoryMethod(this);
-	
-	// Declare that this attribute sends events
-	attr_image_read.set_data_ready_event(true);
 
 	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::init_device
 }
@@ -369,8 +366,7 @@ void TANGOCamera::read_image(Tango::Attribute &attr)
 	DEBUG_STREAM << "TANGOCamera::read_image(Tango::Attribute &attr) entering... " << endl;
 	/*----- PROTECTED REGION ID(TANGOCamera::read_image) ENABLED START -----*/
 	//	Set the attribute value
-	attr.set_value(attr_image_read, 1440, 1080);
-	cameraDriverPtr
+	attr.set_value(attr_image_read, 2048, 1596);
 	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::read_image
 }
 
