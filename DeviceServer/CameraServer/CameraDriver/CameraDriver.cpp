@@ -169,42 +169,29 @@ void FLIRCameraDriver::FLIRCameraInit() {
 }
 
 void FLIRCameraDriver::AcquisitionLoop() {
-    // FIXME: No software synchronization between cameras.
-
-    std::string filename;
     while (TangoCameraPtr->get_state() == Tango::RUNNING) {
-        try {
-            ResultImagePtr = SpinnakerCameraPtr->GetNextImage();
-            if (ResultImagePtr->IsIncomplete()) {
-                std::cout << Spinnaker::Image::GetImageStatusDescription(ResultImagePtr->GetImageStatus()) << std::endl;
-            } else {
-                auto now = chrono::system_clock::now();
-                LinuxTimestampMilliseconds = duration_cast<chrono::milliseconds>(now.time_since_epoch()).count();
+        ResultImagePtr = SpinnakerCameraPtr->GetNextImage();
+        if (ResultImagePtr->IsIncomplete()) {
+            std::cout << Spinnaker::Image::GetImageStatusDescription(ResultImagePtr->GetImageStatus()) << std::endl;
+        } else {
+            auto now = chrono::system_clock::now();
+            LinuxTimestampMilliseconds = duration_cast<chrono::milliseconds>(now.time_since_epoch()).count();
 
-                // Only saving data if the StopAcquisition has NOT been issue
-                if (TangoCameraPtr->get_state() == Tango::RUNNING) {
+            // Only saving data if the StopAcquisition has NOT been issue
+            if (TangoCameraPtr->get_state() == Tango::RUNNING) {
+                // TODO: this needs an adapter between the ImageData* on the right
+                //  and the TANGO::DevDouble[] on the left.
 
-                    // TODO: this needs an adapter between the ImageData* on the right
-                    // and the TANGO::DevDouble[] on the left.
-                    TangoCameraPtr->attr_image_read = ResultImage->GetImageData();
-                    // notify clients that a new image is available
-                    TangoCameraPtr->push_data_ready_event("image", ShotID);
+                // TODO: how to generalize the image size?
 
-                } else {
-                    ShotID--;
-                }
-            }
-            try {
-                ResultImagePtr->Release();
-            } catch (Spinnaker::Exception& e) {
-                std::cout << "Error: " << e.what() << std::endl;
+                auto *imageDataPtr = (Tango::DevUChar *) ResultImagePtr->GetData();
+                std::copy(imageDataPtr, imageDataPtr + 2048 * 1536, TangoCameraPtr->attr_image_read);
+
+                // Notify clients that a new image is available
+                TangoCameraPtr->push_data_ready_event("image");
             }
         }
-        catch (Spinnaker::Exception& e) {
-            std::cout << "Error: " << e.what() << std::endl;
-        }
-
-        ShotID++;
+        ResultImagePtr->Release();
     }
 }
 
