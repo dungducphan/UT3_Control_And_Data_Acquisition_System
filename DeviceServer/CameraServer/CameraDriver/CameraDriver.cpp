@@ -184,7 +184,9 @@ void FLIRCameraDriver::AcquisitionLoop() {
                 ImageDataPtr.reset((unsigned short *) ResultImagePtr->GetData(), std::default_delete<unsigned short[]>());
                 // TODO: make sure the name of the attribute is correct.
                 //  This test can be done from the client code. Asking Reinier to implement.
-                TangoCameraPtr->push_data_ready_event("Image");
+
+                std::cout << "Pushing data ready event for " << TangoCameraPtr->get_name() << std::endl;
+                TangoCameraPtr->push_data_ready_event("DynamicImage");
             }
         }
         ResultImagePtr->Release();

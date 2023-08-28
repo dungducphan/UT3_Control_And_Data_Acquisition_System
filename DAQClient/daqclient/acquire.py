@@ -4,6 +4,7 @@ import argparse
 
 from tango import AttributeProxy, EventType, DataReadyEventData
 
+
 class Acquirer:
     def __init__(self, device_list: list[str]):
         """
@@ -14,19 +15,29 @@ class Acquirer:
         """
 
         self.image_attributes = [
-            AttributeProxy(f"{device}/image")
+            AttributeProxy(f"{device}/DynamicImage")
             for device in device_list
         ]
 
         # subscribe to the image attributes' data ready events
         for image_attr in self.image_attributes:
             image_attr.subscribe_event(EventType.DATA_READY_EVENT, self.handle_data_ready_event)
+            print(image_attr.name())
 
     def handle_data_ready_event(self, event: DataReadyEventData):
-        pass
+        """
+        Parameters
+        ----------
+        event : DataReadyEventData
+            DataReady event data
+        """
+        print(f"Received data ready event from {event.device.name}")
 
     def run(self):
-        pass
+        while True:
+            # TODO: wait for events and handle them
+            #  - check the image size send from server
+
 
 if __name__ == '__main__':
     argparser = argparse.ArgumentParser(
@@ -38,4 +49,3 @@ if __name__ == '__main__':
 
     acquirer = Acquirer(args.device_list)
     acquirer.run()
-

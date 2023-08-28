@@ -390,8 +390,7 @@ void TANGOCamera::add_dynamic_attributes()
     std::cout << "Image Width: " << cameraDriverPtr->ImageWidth << std::endl;
     std::cout << "Image Height: " << cameraDriverPtr->ImageHeight << std::endl;
 #endif
-    add_dynImage_dynamic_attribute("Image", cameraDriverPtr->ImageDataPtr.get());
-	
+    add_dynImage_dynamic_attribute("DynamicImage", cameraDriverPtr->ImageDataPtr.get());
 	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::add_dynamic_attributes
 }
 
