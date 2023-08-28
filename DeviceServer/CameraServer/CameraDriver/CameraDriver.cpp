@@ -179,10 +179,7 @@ void FLIRCameraDriver::AcquisitionLoop() {
         if (ResultImagePtr->IsIncomplete()) {
             std::cout << Spinnaker::Image::GetImageStatusDescription(ResultImagePtr->GetImageStatus()) << std::endl;
         } else {
-            auto now = chrono::system_clock::now();
-            LinuxTimestampMilliseconds = duration_cast<chrono::milliseconds>(now.time_since_epoch()).count();
-
-            // Only saving data if the StopAcquisition has NOT been issue
+            // Only handling data if the StopAcquisition has NOT been issue
             if (TangoCameraPtr->get_state() == Tango::RUNNING) {
                 ImageDataPtr.reset((unsigned short *) ResultImagePtr->GetData(), std::default_delete<unsigned short[]>());
                 // TODO: make sure the name of the attribute is correct.
