@@ -23,10 +23,9 @@ public:
     TANGOCamera_ns::TANGOCamera* TangoCameraPtr;
     int64_t LinuxTimestampMilliseconds;
     std::string FullOutputPath;
-    uint32_t ShotID;
     unsigned short ImageWidth;
     unsigned short ImageHeight;
-    std::shared_ptr<unsigned short> ImageDataPtr;
+    std::shared_ptr<Tango::DevUShort> ImageDataPtr;
 
 private:
     void CreateFullOutputPath();

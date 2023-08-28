@@ -70,7 +70,7 @@ void TANGOCamera::add_dynImage_dynamic_attribute(string attname, Tango::DevUShor
 {
 	//	Attribute : dynImage
 	if (ptr == NULL)
-		ptr = new Tango::DevUShort[cameraDriverPtr->ImageWidth*cameraDriverPtr->ImageHeight];
+		ptr = new Tango::DevUShort[cameraDriverPtr->ImageWidth * cameraDriverPtr->ImageHeight];
 	auto	*dynimage = new dynImageAttrib(attname);
 	Tango::UserDefaultAttrProp	dynimage_prop;
 	//	description	not set for dynImage
