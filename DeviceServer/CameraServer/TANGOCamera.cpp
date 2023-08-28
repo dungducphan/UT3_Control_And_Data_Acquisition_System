@@ -149,6 +149,7 @@ void TANGOCamera::init_device()
 	/*----- PROTECTED REGION ID(TANGOCamera::init_device) ENABLED START -----*/
 	
 	//	Initialize device
+    // TODO: I don't like this hard-coded path, delete as soon as client can set this property in Tango::Group
     attr_baseOutputPath_read[0] = Tango::DevString("/home/dphan/Workspace/JunkYard/");
 
     // Avoid init when an AcquisitionLoop thread is still running
@@ -385,8 +386,10 @@ void TANGOCamera::add_dynamic_attributes()
 	/*----- PROTECTED REGION ID(TANGOCamera::add_dynamic_attributes) ENABLED START -----*/
 	
 	//	Add your own code to create and add dynamic attributes if any
-    // TODO: is a specific camera driver has been created at this point?
-    // TODO: is the pointer to camera image data available?
+#ifdef ENABLE_DEBUG_FEATURES
+    std::cout << "Image Width: " << cameraDriverPtr->ImageWidth << std::endl;
+    std::cout << "Image Height: " << cameraDriverPtr->ImageHeight << std::endl;
+#endif
     add_dynImage_dynamic_attribute("Image", cameraDriverPtr->ImageDataPtr.get());
 	
 	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::add_dynamic_attributes

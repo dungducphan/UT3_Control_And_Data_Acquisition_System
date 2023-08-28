@@ -185,7 +185,8 @@ void FLIRCameraDriver::AcquisitionLoop() {
             // Only saving data if the StopAcquisition has NOT been issue
             if (TangoCameraPtr->get_state() == Tango::RUNNING) {
                 ImageDataPtr.reset((unsigned short *) ResultImagePtr->GetData(), std::default_delete<unsigned short[]>());
-                // TODO: make sure the name of the atrribute is correct
+                // TODO: make sure the name of the attribute is correct.
+                //  This test can be done from the client code. Asking Reinier to implement.
                 TangoCameraPtr->push_data_ready_event("Image");
             }
         }
