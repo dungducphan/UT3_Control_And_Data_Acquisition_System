@@ -50,48 +50,6 @@ namespace TANGOCamera_ns
 
 //--------------------------------------------------------
 /**
- *	Method      : TANGOCamera::is_baseOutputPath_allowed()
- *	Description : Execution allowed for baseOutputPath attribute
- */
-//--------------------------------------------------------
-bool TANGOCamera::is_baseOutputPath_allowed(TANGO_UNUSED(Tango::AttReqType type))
-{
-	//	Check access type.
-	if ( type!=Tango::READ_REQ )
-	{
-		//	Compare device state with not allowed states for WRITE 
-		if (get_state()==Tango::RUNNING ||
-			get_state()==Tango::FAULT ||
-			get_state()==Tango::OFF)
-		{
-		/*----- PROTECTED REGION ID(TANGOCamera::baseOutputPathStateAllowed_WRITE) ENABLED START -----*/
-		
-		/*----- PROTECTED REGION END -----*/	//	TANGOCamera::baseOutputPathStateAllowed_WRITE
-			return false;
-		}
-		return true;
-	}
-	else
-
-	//	Check access type.
-	if ( type==Tango::READ_REQ )
-	{
-		//	Compare device state with not allowed states for READ 
-		if (get_state()==Tango::FAULT ||
-			get_state()==Tango::OFF)
-		{
-		/*----- PROTECTED REGION ID(TANGOCamera::baseOutputPathStateAllowed_READ) ENABLED START -----*/
-		
-		/*----- PROTECTED REGION END -----*/	//	TANGOCamera::baseOutputPathStateAllowed_READ
-			return false;
-		}
-		return true;
-	}
-	return true;
-}
-
-//--------------------------------------------------------
-/**
  *	Method      : TANGOCamera::is_dynImage_allowed()
  *	Description : Execution allowed for dynImage attribute
  */
@@ -168,6 +126,69 @@ bool TANGOCamera::is_ManualTrigger_allowed(TANGO_UNUSED(const CORBA::Any &any))
 	/*----- PROTECTED REGION ID(TANGOCamera::ManualTriggerStateAllowed) ENABLED START -----*/
 	
 	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::ManualTriggerStateAllowed
+		return false;
+	}
+	return true;
+}
+
+//--------------------------------------------------------
+/**
+ *	Method      : TANGOCamera::is_ConfigureFreeRunMode_allowed()
+ *	Description : Execution allowed for ConfigureFreeRunMode attribute
+ */
+//--------------------------------------------------------
+bool TANGOCamera::is_ConfigureFreeRunMode_allowed(TANGO_UNUSED(const CORBA::Any &any))
+{
+	//	Compare device state with not allowed states.
+	if (get_state()==Tango::RUNNING ||
+		get_state()==Tango::FAULT ||
+		get_state()==Tango::OFF)
+	{
+	/*----- PROTECTED REGION ID(TANGOCamera::ConfigureFreeRunModeStateAllowed) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::ConfigureFreeRunModeStateAllowed
+		return false;
+	}
+	return true;
+}
+
+//--------------------------------------------------------
+/**
+ *	Method      : TANGOCamera::is_ConfigureShotMode_allowed()
+ *	Description : Execution allowed for ConfigureShotMode attribute
+ */
+//--------------------------------------------------------
+bool TANGOCamera::is_ConfigureShotMode_allowed(TANGO_UNUSED(const CORBA::Any &any))
+{
+	//	Compare device state with not allowed states.
+	if (get_state()==Tango::RUNNING ||
+		get_state()==Tango::FAULT ||
+		get_state()==Tango::OFF)
+	{
+	/*----- PROTECTED REGION ID(TANGOCamera::ConfigureShotModeStateAllowed) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::ConfigureShotModeStateAllowed
+		return false;
+	}
+	return true;
+}
+
+//--------------------------------------------------------
+/**
+ *	Method      : TANGOCamera::is_ConfigureManualTriggerMode_allowed()
+ *	Description : Execution allowed for ConfigureManualTriggerMode attribute
+ */
+//--------------------------------------------------------
+bool TANGOCamera::is_ConfigureManualTriggerMode_allowed(TANGO_UNUSED(const CORBA::Any &any))
+{
+	//	Compare device state with not allowed states.
+	if (get_state()==Tango::RUNNING ||
+		get_state()==Tango::FAULT ||
+		get_state()==Tango::OFF)
+	{
+	/*----- PROTECTED REGION ID(TANGOCamera::ConfigureManualTriggerModeStateAllowed) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::ConfigureManualTriggerModeStateAllowed
 		return false;
 	}
 	return true;

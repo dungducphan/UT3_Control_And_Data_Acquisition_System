@@ -48,19 +48,21 @@
 //  The following table gives the correspondence
 //  between command and method names.
 //
-//  Command name      |  Method name
+//  Command name                |  Method name
 //================================================================
-//  State             |  Inherited (no method)
-//  Status            |  Inherited (no method)
-//  StartAcquisition  |  start_acquisition
-//  StopAcquisition   |  stop_acquisition
-//  ManualTrigger     |  manual_trigger
+//  State                       |  Inherited (no method)
+//  Status                      |  Inherited (no method)
+//  StartAcquisition            |  start_acquisition
+//  StopAcquisition             |  stop_acquisition
+//  ManualTrigger               |  manual_trigger
+//  ConfigureFreeRunMode        |  configure_free_run_mode
+//  ConfigureShotMode           |  configure_shot_mode
+//  ConfigureManualTriggerMode  |  configure_manual_trigger_mode
 //================================================================
 
 //================================================================
 //  Attributes managed is:
 //================================================================
-//  baseOutputPath  |  Tango::DevString	Scalar
 //================================================================
 
 namespace TANGOCamera_ns
@@ -119,7 +121,6 @@ void TANGOCamera::delete_device()
 	//	Delete device allocated objects
 
 	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::delete_device
-	delete[] attr_baseOutputPath_read;
 }
 
 //--------------------------------------------------------
@@ -141,7 +142,6 @@ void TANGOCamera::init_device()
 	//	Get the device properties from database
 	get_device_property();
 	
-	attr_baseOutputPath_read = new Tango::DevString[1];
 	//	No longer if mandatory property not set. 
 	if (mandatoryNotDefined)
 		return;
@@ -149,8 +149,6 @@ void TANGOCamera::init_device()
 	/*----- PROTECTED REGION ID(TANGOCamera::init_device) ENABLED START -----*/
 	
 	//	Initialize device
-    // TODO: I don't like this hard-coded path, delete as soon as client can set this property in Tango::Group
-    attr_baseOutputPath_read[0] = Tango::DevString("/home/dphan/Workspace/JunkYard/");
 
     // Avoid init when an AcquisitionLoop thread is still running
     if (get_state() == Tango::RUNNING) cameraDriverPtr->StopAcquisition();
@@ -159,7 +157,10 @@ void TANGOCamera::init_device()
     // The "tango_device_ptr" is a pointer to the Tango device that is using the camera driver
     // This allows the camera driver to call methods on the Tango device (set_state, get_device_name, etc.)
     cameraDriverPtr = CameraDriverFactory::FactoryMethod(this);
-
+    if (!dynImage_data.empty()) {
+        remove_dynImage_dynamic_attribute("DynamicImage", true);
+        add_dynImage_dynamic_attribute("DynamicImage", cameraDriverPtr->ImageDataPtr.get());
+    }
 	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::init_device
 }
 
@@ -296,60 +297,7 @@ void TANGOCamera::read_attr_hardware(TANGO_UNUSED(vector<long> &attr_list))
 	
 	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::read_attr_hardware
 }
-//--------------------------------------------------------
-/**
- *	Method      : TANGOCamera::write_attr_hardware()
- *	Description : Hardware writing for attributes
- */
-//--------------------------------------------------------
-void TANGOCamera::write_attr_hardware(TANGO_UNUSED(vector<long> &attr_list))
-{
-	DEBUG_STREAM << "TANGOCamera::write_attr_hardware(vector<long> &attr_list) entering... " << endl;
-	/*----- PROTECTED REGION ID(TANGOCamera::write_attr_hardware) ENABLED START -----*/
-	
-	//	Add your own code
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::write_attr_hardware
-}
 
-//--------------------------------------------------------
-/**
- *	Read attribute baseOutputPath related method
- *	Description: The base directory to save the images from the camera.
- *
- *	Data type:	Tango::DevString
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::read_baseOutputPath(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::read_baseOutputPath(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TANGOCamera::read_baseOutputPath) ENABLED START -----*/
-	//	Set the attribute value
-	attr.set_value(attr_baseOutputPath_read);
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::read_baseOutputPath
-}
-//--------------------------------------------------------
-/**
- *	Write attribute baseOutputPath related method
- *	Description: The base directory to save the images from the camera.
- *
- *	Data type:	Tango::DevString
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TANGOCamera::write_baseOutputPath(Tango::WAttribute &attr)
-{
-	DEBUG_STREAM << "TANGOCamera::write_baseOutputPath(Tango::WAttribute &attr) entering... " << endl;
-	//	Retrieve write value
-	Tango::DevString	w_val;
-	attr.get_write_value(w_val);
-	/*----- PROTECTED REGION ID(TANGOCamera::write_baseOutputPath) ENABLED START -----*/
-	
-	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::write_baseOutputPath
-}
 
 //--------------------------------------------------------
 /**
@@ -447,6 +395,57 @@ void TANGOCamera::manual_trigger()
 }
 //--------------------------------------------------------
 /**
+ *	Command ConfigureFreeRunMode related method
+ *	Description: 
+ *
+ */
+//--------------------------------------------------------
+void TANGOCamera::configure_free_run_mode()
+{
+	DEBUG_STREAM << "TANGOCamera::ConfigureFreeRunMode()  - " << device_name << endl;
+	/*----- PROTECTED REGION ID(TANGOCamera::configure_free_run_mode) ENABLED START -----*/
+	
+	//	Add your own code
+    cameraDriverPtr->ConfigureFreeRunMode();
+	
+	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::configure_free_run_mode
+}
+//--------------------------------------------------------
+/**
+ *	Command ConfigureShotMode related method
+ *	Description: 
+ *
+ */
+//--------------------------------------------------------
+void TANGOCamera::configure_shot_mode()
+{
+	DEBUG_STREAM << "TANGOCamera::ConfigureShotMode()  - " << device_name << endl;
+	/*----- PROTECTED REGION ID(TANGOCamera::configure_shot_mode) ENABLED START -----*/
+	
+	//	Add your own code
+    cameraDriverPtr->ConfigureShotMode();
+	
+	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::configure_shot_mode
+}
+//--------------------------------------------------------
+/**
+ *	Command ConfigureManualTriggerMode related method
+ *	Description: 
+ *
+ */
+//--------------------------------------------------------
+void TANGOCamera::configure_manual_trigger_mode()
+{
+	DEBUG_STREAM << "TANGOCamera::ConfigureManualTriggerMode()  - " << device_name << endl;
+	/*----- PROTECTED REGION ID(TANGOCamera::configure_manual_trigger_mode) ENABLED START -----*/
+	
+	//	Add your own code
+    cameraDriverPtr->ConfigureManualTriggerMode();
+	
+	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::configure_manual_trigger_mode
+}
+//--------------------------------------------------------
+/**
  *	Method      : TANGOCamera::add_dynamic_commands()
  *	Description : Create the dynamic commands if any
  *                for specified device.
@@ -462,23 +461,6 @@ void TANGOCamera::add_dynamic_commands()
 }
 
 /*----- PROTECTED REGION ID(TANGOCamera::namespace_ending) ENABLED START -----*/
-
-
-// //--------------------------------------------------------
-// /**
-//  *	Read attribute image related method
-//  *	Description: An image acquired by the camera
-//  *
-//  *	Data type:	Tango::DevDouble
-//  *	Attr type:	Image max = 1440 x 1080
-//  */
-// //--------------------------------------------------------
-// void TANGOCamera::read_image(Tango::Attribute &attr)
-// {
-// 	DEBUG_STREAM << "TANGOCamera::read_image(Tango::Attribute &attr) entering... " << endl;
-// 	//	Set the attribute value
-// 	attr.set_value(attr_image_read, 2048, 1596);
-// }
 
 
 /*----- PROTECTED REGION END -----*/	//	TANGOCamera::namespace_ending

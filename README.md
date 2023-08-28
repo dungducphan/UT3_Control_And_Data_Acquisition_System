@@ -19,7 +19,7 @@
 
 ## 2023-08-21
 - Finished basic functionality:
-	- Configure cameras in shot mode (reveicing external trigger from timing unit) and test mode (receiving manual software trigger from clients).
+	- ConfigureShotMode cameras in shot mode (reveicing external trigger from timing unit) and test mode (receiving manual software trigger from clients).
 	- Multithreaded: individual threads to collect acquired images while one thread to handle client requests.
 	- Saving image to a specified directory. Naming convention:
 		- `<TANGO_device_name>\shot_<shotID:%05d>_<millisec_linuxtimestamp>.tiff` for external trigger shots.

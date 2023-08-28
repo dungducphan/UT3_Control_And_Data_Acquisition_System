@@ -69,9 +69,9 @@ namespace TANGOCamera_ns
 void TANGOCamera::add_dynImage_dynamic_attribute(string attname, Tango::DevUShort *ptr)
 {
 	//	Attribute : dynImage
-	if (ptr == NULL)
-		ptr = new Tango::DevUShort[cameraDriverPtr->ImageWidth * cameraDriverPtr->ImageHeight];
-	auto	*dynimage = new dynImageAttrib(attname);
+	if (ptr==NULL)
+		ptr = new Tango::DevUShort[3840*2160];
+	dynImageAttrib	*dynimage = new dynImageAttrib(attname);
 	Tango::UserDefaultAttrProp	dynimage_prop;
 	//	description	not set for dynImage
 	//	label	not set for dynImage

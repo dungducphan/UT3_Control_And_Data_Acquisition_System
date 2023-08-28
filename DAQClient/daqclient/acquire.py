@@ -35,8 +35,9 @@ class Acquirer:
 
     def run(self):
         while True:
-            # TODO: wait for events and handle them
-            #  - check the image size send from server
+            '''
+                TODO: wait for events and handle them: check the image size send from server 
+            '''
 
 
 if __name__ == '__main__':

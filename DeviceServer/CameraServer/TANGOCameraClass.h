@@ -52,25 +52,6 @@ namespace TANGOCamera_ns
 /*----- PROTECTED REGION END -----*/	//	TANGOCameraClass::classes for dynamic creation
 
 //=========================================
-//	Define classes for attributes
-//=========================================
-//	Attribute baseOutputPath class definition
-class baseOutputPathAttrib: public Tango::Attr
-{
-public:
-	baseOutputPathAttrib():Attr("baseOutputPath",
-			Tango::DEV_STRING, Tango::READ_WRITE) {};
-	~baseOutputPathAttrib() {};
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TANGOCamera *>(dev))->read_baseOutputPath(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<TANGOCamera *>(dev))->write_baseOutputPath(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TANGOCamera *>(dev))->is_baseOutputPath_allowed(ty);}
-};
-
-
-//=========================================
 //	Define classes for dynamic attributes
 //=========================================
 //	Attribute dynImage class definition
@@ -157,6 +138,75 @@ public:
 	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
 	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
 	{return (static_cast<TANGOCamera *>(dev))->is_ManualTrigger_allowed(any);}
+};
+
+//	Command ConfigureFreeRunMode class definition
+class ConfigureFreeRunModeClass : public Tango::Command
+{
+public:
+	ConfigureFreeRunModeClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out,
+				   const char        *in_desc,
+				   const char        *out_desc,
+				   Tango::DispLevel  level)
+	:Command(name,in,out,in_desc,out_desc, level)	{};
+
+	ConfigureFreeRunModeClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out)
+	:Command(name,in,out)	{};
+	~ConfigureFreeRunModeClass() {};
+	
+	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
+	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
+	{return (static_cast<TANGOCamera *>(dev))->is_ConfigureFreeRunMode_allowed(any);}
+};
+
+//	Command ConfigureShotMode class definition
+class ConfigureShotModeClass : public Tango::Command
+{
+public:
+	ConfigureShotModeClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out,
+				   const char        *in_desc,
+				   const char        *out_desc,
+				   Tango::DispLevel  level)
+	:Command(name,in,out,in_desc,out_desc, level)	{};
+
+	ConfigureShotModeClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out)
+	:Command(name,in,out)	{};
+	~ConfigureShotModeClass() {};
+	
+	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
+	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
+	{return (static_cast<TANGOCamera *>(dev))->is_ConfigureShotMode_allowed(any);}
+};
+
+//	Command ConfigureManualTriggerMode class definition
+class ConfigureManualTriggerModeClass : public Tango::Command
+{
+public:
+	ConfigureManualTriggerModeClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out,
+				   const char        *in_desc,
+				   const char        *out_desc,
+				   Tango::DispLevel  level)
+	:Command(name,in,out,in_desc,out_desc, level)	{};
+
+	ConfigureManualTriggerModeClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out)
+	:Command(name,in,out)	{};
+	~ConfigureManualTriggerModeClass() {};
+	
+	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
+	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
+	{return (static_cast<TANGOCamera *>(dev))->is_ConfigureManualTriggerMode_allowed(any);}
 };
 
 

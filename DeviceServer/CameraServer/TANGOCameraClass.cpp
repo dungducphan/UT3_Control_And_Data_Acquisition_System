@@ -202,6 +202,60 @@ CORBA::Any *ManualTriggerClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(
 	return new CORBA::Any();
 }
 
+//--------------------------------------------------------
+/**
+ * method : 		ConfigureFreeRunModeClass::execute()
+ * description : 	method to trigger the execution of the command.
+ *
+ * @param	device	The device on which the command must be executed
+ * @param	in_any	The command input data
+ *
+ *	returns The command output data (packed in the Any object)
+ */
+//--------------------------------------------------------
+CORBA::Any *ConfigureFreeRunModeClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+{
+	cout2 << "ConfigureFreeRunModeClass::execute(): arrived" << endl;
+	((static_cast<TANGOCamera *>(device))->configure_free_run_mode());
+	return new CORBA::Any();
+}
+
+//--------------------------------------------------------
+/**
+ * method : 		ConfigureShotModeClass::execute()
+ * description : 	method to trigger the execution of the command.
+ *
+ * @param	device	The device on which the command must be executed
+ * @param	in_any	The command input data
+ *
+ *	returns The command output data (packed in the Any object)
+ */
+//--------------------------------------------------------
+CORBA::Any *ConfigureShotModeClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+{
+	cout2 << "ConfigureShotModeClass::execute(): arrived" << endl;
+	((static_cast<TANGOCamera *>(device))->configure_shot_mode());
+	return new CORBA::Any();
+}
+
+//--------------------------------------------------------
+/**
+ * method : 		ConfigureManualTriggerModeClass::execute()
+ * description : 	method to trigger the execution of the command.
+ *
+ * @param	device	The device on which the command must be executed
+ * @param	in_any	The command input data
+ *
+ *	returns The command output data (packed in the Any object)
+ */
+//--------------------------------------------------------
+CORBA::Any *ConfigureManualTriggerModeClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+{
+	cout2 << "ConfigureManualTriggerModeClass::execute(): arrived" << endl;
+	((static_cast<TANGOCamera *>(device))->configure_manual_trigger_mode());
+	return new CORBA::Any();
+}
+
 
 //===================================================================
 //	Properties management
@@ -403,31 +457,6 @@ void TANGOCameraClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	Add your own code
 	
 	/*----- PROTECTED REGION END -----*/	//	TANGOCameraClass::attribute_factory_before
-	//	Attribute : baseOutputPath
-	baseOutputPathAttrib	*baseoutputpath = new baseOutputPathAttrib();
-	Tango::UserDefaultAttrProp	baseoutputpath_prop;
-	baseoutputpath_prop.set_description("The base directory to save the images from the camera.");
-	baseoutputpath_prop.set_label("Base Output Directory");
-	//	unit	not set for baseOutputPath
-	//	standard_unit	not set for baseOutputPath
-	//	display_unit	not set for baseOutputPath
-	//	format	not set for baseOutputPath
-	//	max_value	not set for baseOutputPath
-	//	min_value	not set for baseOutputPath
-	//	max_alarm	not set for baseOutputPath
-	//	min_alarm	not set for baseOutputPath
-	//	max_warning	not set for baseOutputPath
-	//	min_warning	not set for baseOutputPath
-	//	delta_t	not set for baseOutputPath
-	//	delta_val	not set for baseOutputPath
-	
-	baseoutputpath->set_default_properties(baseoutputpath_prop);
-	//	Not Polled
-	baseoutputpath->set_disp_level(Tango::EXPERT);
-	baseoutputpath->set_memorized();
-	baseoutputpath->set_memorized_init(true);
-	att_list.push_back(baseoutputpath);
-
 
 	//	Create a list of static attributes
 	create_static_attribute_list(get_class_attr()->get_attr_list());
@@ -497,8 +526,35 @@ void TANGOCameraClass::command_factory()
 			Tango::DEV_VOID, Tango::DEV_VOID,
 			"",
 			"",
-			Tango::EXPERT);
+			Tango::OPERATOR);
 	command_list.push_back(pManualTriggerCmd);
+
+	//	Command ConfigureFreeRunMode
+	ConfigureFreeRunModeClass	*pConfigureFreeRunModeCmd =
+		new ConfigureFreeRunModeClass("ConfigureFreeRunMode",
+			Tango::DEV_VOID, Tango::DEV_VOID,
+			"",
+			"",
+			Tango::OPERATOR);
+	command_list.push_back(pConfigureFreeRunModeCmd);
+
+	//	Command ConfigureShotMode
+	ConfigureShotModeClass	*pConfigureShotModeCmd =
+		new ConfigureShotModeClass("ConfigureShotMode",
+			Tango::DEV_VOID, Tango::DEV_VOID,
+			"",
+			"",
+			Tango::OPERATOR);
+	command_list.push_back(pConfigureShotModeCmd);
+
+	//	Command ConfigureManualTriggerMode
+	ConfigureManualTriggerModeClass	*pConfigureManualTriggerModeCmd =
+		new ConfigureManualTriggerModeClass("ConfigureManualTriggerMode",
+			Tango::DEV_VOID, Tango::DEV_VOID,
+			"",
+			"",
+			Tango::OPERATOR);
+	command_list.push_back(pConfigureManualTriggerModeCmd);
 
 	/*----- PROTECTED REGION ID(TANGOCameraClass::command_factory_after) ENABLED START -----*/
 	

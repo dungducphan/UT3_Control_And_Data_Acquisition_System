@@ -54,7 +54,7 @@
       <excludedStates>ON</excludedStates>
       <excludedStates>OFF</excludedStates>
     </commands>
-    <commands name="ManualTrigger" description="Issue manual trigger" execMethod="manual_trigger" displayLevel="EXPERT" polledPeriod="0" isDynamic="false">
+    <commands name="ManualTrigger" description="Issue manual trigger" execMethod="manual_trigger" displayLevel="OPERATOR" polledPeriod="0" isDynamic="false">
       <argin description="">
         <type xsi:type="pogoDsl:VoidType"/>
       </argin>
@@ -66,19 +66,42 @@
       <excludedStates>FAULT</excludedStates>
       <excludedStates>OFF</excludedStates>
     </commands>
-    <attributes name="baseOutputPath" attType="Scalar" rwType="READ_WRITE" displayLevel="EXPERT" polledPeriod="0" maxX="" maxY="" memorized="true" memorizedAtInit="true" allocReadMember="true" isDynamic="false">
-      <dataType xsi:type="pogoDsl:StringType"/>
-      <changeEvent fire="false" libCheckCriteria="false"/>
-      <archiveEvent fire="false" libCheckCriteria="false"/>
-      <dataReadyEvent fire="false" libCheckCriteria="true"/>
+    <commands name="ConfigureFreeRunMode" description="" execMethod="configure_free_run_mode" displayLevel="OPERATOR" polledPeriod="0" isDynamic="false">
+      <argin description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
-      <properties description="The base directory to save the images from the camera." label="Base Output Directory" unit="" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
-      <readExcludedStates>FAULT</readExcludedStates>
-      <readExcludedStates>OFF</readExcludedStates>
-      <writeExcludedStates>RUNNING</writeExcludedStates>
-      <writeExcludedStates>FAULT</writeExcludedStates>
-      <writeExcludedStates>OFF</writeExcludedStates>
-    </attributes>
+      <excludedStates>RUNNING</excludedStates>
+      <excludedStates>FAULT</excludedStates>
+      <excludedStates>OFF</excludedStates>
+    </commands>
+    <commands name="ConfigureShotMode" description="" execMethod="configure_shot_mode" displayLevel="OPERATOR" polledPeriod="0" isDynamic="false">
+      <argin description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+      <excludedStates>RUNNING</excludedStates>
+      <excludedStates>FAULT</excludedStates>
+      <excludedStates>OFF</excludedStates>
+    </commands>
+    <commands name="ConfigureManualTriggerMode" description="" execMethod="configure_manual_trigger_mode" displayLevel="OPERATOR" polledPeriod="0" isDynamic="false">
+      <argin description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+      <excludedStates>RUNNING</excludedStates>
+      <excludedStates>FAULT</excludedStates>
+      <excludedStates>OFF</excludedStates>
+    </commands>
     <dynamicAttributes name="dynImage" attType="Image" rwType="READ" displayLevel="OPERATOR" polledPeriod="0" maxX="3840" maxY="2160" allocReadMember="true" isDynamic="true">
       <dataType xsi:type="pogoDsl:UShortType"/>
       <changeEvent fire="false" libCheckCriteria="false"/>

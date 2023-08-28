@@ -10,25 +10,28 @@ namespace TANGOCamera_ns {
     class TANGOCamera;
 }
 
+enum RunningMode_t {
+    UnsetMode,
+    ShotMode,
+    FreeRunMode,
+    ManualTriggerMode
+};
+
 class CameraDriver {
 public:
     explicit CameraDriver(const TANGOCamera_ns::TANGOCamera* tango_device_ptr);
     virtual void StartAcquisition() = 0;
     virtual void StopAcquisition() = 0;
     virtual void ManualTrigger() = 0;
-    virtual void Configure() = 0;
-
-    [[nodiscard]] int64_t GetIPv4AddressInteger(const std::string& ipaddress) const;
+    virtual void ConfigureShotMode() = 0;
+    virtual void ConfigureFreeRunMode() = 0;
+    virtual void ConfigureManualTriggerMode() = 0;
 
     TANGOCamera_ns::TANGOCamera* TangoCameraPtr;
-    int64_t LinuxTimestampMilliseconds;
-    std::string FullOutputPath;
-    unsigned short ImageWidth;
-    unsigned short ImageHeight;
+    unsigned short ImageWidth{};
+    unsigned short ImageHeight{};
     std::shared_ptr<Tango::DevUShort> ImageDataPtr;
-
-private:
-    void CreateFullOutputPath();
+    RunningMode_t RunningMode;
 };
 
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -51,7 +54,10 @@ public:
     void StartAcquisition() final;
     void StopAcquisition() final;
     void ManualTrigger() final;
-    void Configure() final;
+    void ConfigureShotMode() final;
+    void ConfigureFreeRunMode() final;
+    void ConfigureManualTriggerMode() final;
+
 private:
     std::unique_ptr<Pylon::CInstantCamera> PylonCameraPtr;
 };
@@ -68,7 +74,10 @@ public:
     void StartAcquisition() final;
     void StopAcquisition() final;
     void ManualTrigger() final;
-    void Configure() final;
+    void ConfigureShotMode() final;
+    void ConfigureFreeRunMode() final;
+    void ConfigureManualTriggerMode() final;
+
 private:
     std::shared_ptr<pco::Camera> PCOCameraPtr;
 };
@@ -85,12 +94,16 @@ public:
     void StartAcquisition() final;
     void StopAcquisition() final;
     void ManualTrigger() final;
-    void Configure() final;
+    void ConfigureShotMode() final;
+    void ConfigureFreeRunMode() final;
+    void ConfigureManualTriggerMode() final;
+
 private:
     Spinnaker::CameraPtr SpinnakerCameraPtr;
     Spinnaker::ImagePtr ResultImagePtr;
     std::thread* SpinnakerAcquisitionThread{};
 
     void FLIRCameraInit();
+    void SetGeneralConfiguration();
     void AcquisitionLoop();
 };
