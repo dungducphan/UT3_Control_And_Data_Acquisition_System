@@ -71,6 +71,23 @@ public:
 
 
 //=========================================
+//	Define classes for dynamic attributes
+//=========================================
+//	Attribute dynImage class definition
+class dynImageAttrib: public Tango::ImageAttr
+{
+public:
+	dynImageAttrib(const string &att_name):ImageAttr(att_name.c_str(), 
+			Tango::DEV_USHORT, Tango::READ, 3840, 2160) {};
+	~dynImageAttrib() {};
+	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
+		{(static_cast<TANGOCamera *>(dev))->read_dynImage(att);}
+	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
+		{return (static_cast<TANGOCamera *>(dev))->is_dynImage_allowed(ty);}
+};
+
+
+//=========================================
 //	Define classes for commands
 //=========================================
 //	Command StartAcquisition class definition

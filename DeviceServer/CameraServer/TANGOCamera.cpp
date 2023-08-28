@@ -149,6 +149,7 @@ void TANGOCamera::init_device()
 	/*----- PROTECTED REGION ID(TANGOCamera::init_device) ENABLED START -----*/
 	
 	//	Initialize device
+    // TODO: I don't like this hard-coded path, delete as soon as client can set this property in Tango::Group
     attr_baseOutputPath_read[0] = Tango::DevString("/home/dphan/Workspace/JunkYard/");
 
     // Avoid init when an AcquisitionLoop thread is still running
@@ -158,7 +159,7 @@ void TANGOCamera::init_device()
     // The "tango_device_ptr" is a pointer to the Tango device that is using the camera driver
     // This allows the camera driver to call methods on the Tango device (set_state, get_device_name, etc.)
     cameraDriverPtr = CameraDriverFactory::FactoryMethod(this);
-	
+
 	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::init_device
 }
 
@@ -352,6 +353,25 @@ void TANGOCamera::write_baseOutputPath(Tango::WAttribute &attr)
 
 //--------------------------------------------------------
 /**
+ *	Read attribute dynImage related method
+ *	Description: 
+ *
+ *	Data type:	Tango::DevUShort
+ *	Attr type:	Image max = 3840 x 2160
+ */
+//--------------------------------------------------------
+void TANGOCamera::read_dynImage(Tango::Attribute &attr)
+{
+	DEBUG_STREAM << "TANGOCamera::read_dynImage(Tango::Attribute &attr) entering... " << endl;
+	Tango::DevUShort	*att_value = get_dynImage_data_ptr(attr.get_name());
+	/*----- PROTECTED REGION ID(TANGOCamera::read_dynImage) ENABLED START -----*/
+	//	Set the attribute value
+	attr.set_value(att_value, cameraDriverPtr->ImageWidth, cameraDriverPtr->ImageHeight);
+	
+	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::read_dynImage
+}
+//--------------------------------------------------------
+/**
  *	Method      : TANGOCamera::add_dynamic_attributes()
  *	Description : Create the dynamic attributes if any
  *                for specified device.
@@ -359,9 +379,18 @@ void TANGOCamera::write_baseOutputPath(Tango::WAttribute &attr)
 //--------------------------------------------------------
 void TANGOCamera::add_dynamic_attributes()
 {
+	//	Example to add dynamic attribute:
+	//	Copy inside the following protected area to create instance(s) at startup.
+	//	add_dynImage_dynamic_attribute("MydynImageAttribute");
+	
 	/*----- PROTECTED REGION ID(TANGOCamera::add_dynamic_attributes) ENABLED START -----*/
 	
 	//	Add your own code to create and add dynamic attributes if any
+#ifdef ENABLE_DEBUG_FEATURES
+    std::cout << "Image Width: " << cameraDriverPtr->ImageWidth << std::endl;
+    std::cout << "Image Height: " << cameraDriverPtr->ImageHeight << std::endl;
+#endif
+    add_dynImage_dynamic_attribute("Image", cameraDriverPtr->ImageDataPtr.get());
 	
 	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::add_dynamic_attributes
 }
@@ -435,6 +464,22 @@ void TANGOCamera::add_dynamic_commands()
 
 /*----- PROTECTED REGION ID(TANGOCamera::namespace_ending) ENABLED START -----*/
 
+
+// //--------------------------------------------------------
+// /**
+//  *	Read attribute image related method
+//  *	Description: An image acquired by the camera
+//  *
+//  *	Data type:	Tango::DevDouble
+//  *	Attr type:	Image max = 1440 x 1080
+//  */
+// //--------------------------------------------------------
+// void TANGOCamera::read_image(Tango::Attribute &attr)
+// {
+// 	DEBUG_STREAM << "TANGOCamera::read_image(Tango::Attribute &attr) entering... " << endl;
+// 	//	Set the attribute value
+// 	attr.set_value(attr_image_read, 2048, 1596);
+// }
 
 
 /*----- PROTECTED REGION END -----*/	//	TANGOCamera::namespace_ending

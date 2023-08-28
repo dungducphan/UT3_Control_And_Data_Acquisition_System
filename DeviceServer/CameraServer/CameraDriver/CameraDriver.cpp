@@ -125,7 +125,7 @@ void FLIRCameraDriver::Configure() {
         SpinnakerCameraPtr->Gain.SetValue(0);
         SpinnakerCameraPtr->Width.SetValue(SpinnakerCameraPtr->Width.GetMax());
         SpinnakerCameraPtr->Height.SetValue(SpinnakerCameraPtr->Height.GetMax());
-        SpinnakerCameraPtr->PixelFormat.SetValue(Spinnaker::PixelFormatEnums::PixelFormat_Mono8);
+        SpinnakerCameraPtr->PixelFormat.SetValue(Spinnaker::PixelFormatEnums::PixelFormat_Mono16);
         SpinnakerCameraPtr->BinningSelector.SetValue(Spinnaker::BinningSelectorEnums::BinningSelector_All);
         SpinnakerCameraPtr->BinningHorizontalMode.SetValue(Spinnaker::BinningHorizontalModeEnums::BinningHorizontalMode_Average);
         SpinnakerCameraPtr->BinningVerticalMode.SetValue(Spinnaker::BinningVerticalModeEnums::BinningVerticalMode_Average);
@@ -160,6 +160,11 @@ void FLIRCameraDriver::FLIRCameraInit() {
         SpinnakerCameraPtr->Init();
         TangoCameraPtr->set_state(Tango::ON);
         std::cout << "Found device " << TangoCameraPtr->get_name() << "." << std::endl;
+
+        // @ ver. 0.x, let's not worry about ROI at all, the image size is the maximum size.
+        ImageWidth = SpinnakerCameraPtr->WidthMax.GetValue();
+        ImageHeight = SpinnakerCameraPtr->HeightMax.GetValue();
+        ImageDataPtr = std::shared_ptr<unsigned short>(new unsigned short[ImageWidth * ImageHeight], std::default_delete<unsigned short[]>());
     } else {
         TangoCameraPtr->set_state(Tango::OFF);
         std::cout << "Device " << TangoCameraPtr->get_name() << " not found!" << std::endl;
@@ -169,45 +174,23 @@ void FLIRCameraDriver::FLIRCameraInit() {
 }
 
 void FLIRCameraDriver::AcquisitionLoop() {
-    // FIXME: No software synchronization between cameras.
-
-    std::string filename;
     while (TangoCameraPtr->get_state() == Tango::RUNNING) {
-        try {
-            ResultImagePtr = SpinnakerCameraPtr->GetNextImage();
-            if (ResultImagePtr->IsIncomplete()) {
-                std::cout << Spinnaker::Image::GetImageStatusDescription(ResultImagePtr->GetImageStatus()) << std::endl;
-            } else {
-                auto now = chrono::system_clock::now();
-                LinuxTimestampMilliseconds = duration_cast<chrono::milliseconds>(now.time_since_epoch()).count();
+        ResultImagePtr = SpinnakerCameraPtr->GetNextImage();
+        if (ResultImagePtr->IsIncomplete()) {
+            std::cout << Spinnaker::Image::GetImageStatusDescription(ResultImagePtr->GetImageStatus()) << std::endl;
+        } else {
+            auto now = chrono::system_clock::now();
+            LinuxTimestampMilliseconds = duration_cast<chrono::milliseconds>(now.time_since_epoch()).count();
 
-                // Only saving data if the StopAcquisition has NOT been issue
-                if (TangoCameraPtr->get_state() == Tango::RUNNING) {
-                    if (SpinnakerCameraPtr->TriggerSource.GetValue() == Spinnaker::TriggerSourceEnums::TriggerSource_Line0) {
-                        filename = (boost::format("%s/shot_%05d_%d.tiff") % FullOutputPath % ShotID % LinuxTimestampMilliseconds).str();
-                    } else {
-                        filename = (boost::format("%s/test_%05d_%d.tiff") % FullOutputPath % ShotID % LinuxTimestampMilliseconds).str();
-                        SpinnakerCameraPtr->TriggerSource.SetValue(Spinnaker::TriggerSourceEnums::TriggerSource_Line0);
-                    }
-                    ResultImagePtr->Save(filename.c_str());
-#ifdef ENABLE_DEBUG_FEATURES
-                    std::cout << "Image saved at " << filename << std::endl;
-#endif
-                } else {
-                    ShotID--;
-                }
-            }
-            try {
-                ResultImagePtr->Release();
-            } catch (Spinnaker::Exception& e) {
-                std::cout << "Error: " << e.what() << std::endl;
+            // Only saving data if the StopAcquisition has NOT been issue
+            if (TangoCameraPtr->get_state() == Tango::RUNNING) {
+                ImageDataPtr.reset((unsigned short *) ResultImagePtr->GetData(), std::default_delete<unsigned short[]>());
+                // TODO: make sure the name of the attribute is correct.
+                //  This test can be done from the client code. Asking Reinier to implement.
+                TangoCameraPtr->push_data_ready_event("Image");
             }
         }
-        catch (Spinnaker::Exception& e) {
-            std::cout << "Error: " << e.what() << std::endl;
-        }
-
-        ShotID++;
+        ResultImagePtr->Release();
     }
 }
 

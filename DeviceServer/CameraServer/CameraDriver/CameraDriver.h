@@ -24,6 +24,9 @@ public:
     int64_t LinuxTimestampMilliseconds;
     std::string FullOutputPath;
     uint32_t ShotID;
+    unsigned short ImageWidth;
+    unsigned short ImageHeight;
+    std::shared_ptr<unsigned short> ImageDataPtr;
 
 private:
     void CreateFullOutputPath();

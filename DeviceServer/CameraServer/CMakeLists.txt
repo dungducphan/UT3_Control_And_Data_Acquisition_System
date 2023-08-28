@@ -8,47 +8,19 @@
 #
 #=============================================================================
 
-# MAKE_ENV is the path to find common environment to build project
-#
-set(MAKE_ENV /usr/local/tango/share/pogo/preferences)
-
-#
-# optional compiler flags
-#
-set(CXXFLAGS_USER -g)
-add_definitions(-DPCO_LINUX)
-
-#
-# Get global information
-#
-include(${MAKE_ENV}/cmake_tango.opt)
-
-option(ENABLE_DEBUG_FEATURES "Enable debug-specific features" OFF)
-
-# Dependencies
-find_package(Boost REQUIRED)
-if(Boost_FOUND)
-    find_package(Boost COMPONENTS filesystem system serialization REQUIRED)
-elseif(NOT Boost_FOUND)
-    message("Boost not found!")
-endif()
-find_package(pylon REQUIRED)
-find_package(OpenCV REQUIRED)
-find_package(TIFF REQUIRED)
-find_package(PNG REQUIRED)
-find_package(JPEG REQUIRED)
-
 #
 # Files for TANGOCamera TANGO class
 #
 set(TANGOCAMERA
         TANGOCamera)
 set(TANGOCAMERA_INCLUDE
-        ${CMAKE_SOURCE_DIR}/CameraServer)
+        ${CAMERA_SERVER_DIR})
 set(TANGOCAMERA_SRC
-        ${CMAKE_SOURCE_DIR}/CameraServer/${TANGOCAMERA}.cpp
-        ${CMAKE_SOURCE_DIR}/CameraServer/${TANGOCAMERA}Class.cpp
-        ${CMAKE_SOURCE_DIR}/CameraServer/${TANGOCAMERA}StateMachine.cpp)
+        ${CAMERA_SERVER_DIR}/${TANGOCAMERA}.cpp
+        ${CAMERA_SERVER_DIR}/${TANGOCAMERA}Class.cpp
+        ${CAMERA_SERVER_DIR}/${TANGOCAMERA}StateMachine.cpp
+        ${CAMERA_SERVER_DIR}/${TANGOCAMERA}DynAttrUtils.cpp
+)
 
 #
 # User additional include, link folders/libraries and source files
@@ -58,7 +30,7 @@ set(SPINNAKER_DIR
 )
 
 set(CAMERA_DRIVER_DIR
-        ${CMAKE_SOURCE_DIR}/CameraServer/CameraDriver
+        ${CAMERA_SERVER_DIR}/CameraDriver
 )
 
 set(PCO_CPP_DIR
@@ -106,7 +78,7 @@ set(USER_SRC_FILES
 # Set global info and include directories
 #
 set(ALL_CLASS_INCLUDE  ${TANGOCAMERA_INCLUDE}  ${USER_INCL_DIR})
-set(SERVER_SRC ${TANGOCAMERA_SRC}  ${USER_SRC_FILES} ClassFactory.cpp main.cpp)
+set(SERVER_SRC ${TANGOCAMERA_SRC} ${USER_SRC_FILES} ClassFactory.cpp main.cpp)
 include_directories(${ALL_CLASS_INCLUDE}  ${USER_INCL_DIR} ${TANGO_INCLUDES})
 
 #
