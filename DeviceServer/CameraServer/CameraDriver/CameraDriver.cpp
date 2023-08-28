@@ -125,7 +125,7 @@ void FLIRCameraDriver::Configure() {
         SpinnakerCameraPtr->Gain.SetValue(0);
         SpinnakerCameraPtr->Width.SetValue(SpinnakerCameraPtr->Width.GetMax());
         SpinnakerCameraPtr->Height.SetValue(SpinnakerCameraPtr->Height.GetMax());
-        SpinnakerCameraPtr->PixelFormat.SetValue(Spinnaker::PixelFormatEnums::PixelFormat_Mono8);
+        SpinnakerCameraPtr->PixelFormat.SetValue(Spinnaker::PixelFormatEnums::PixelFormat_Mono16);
         SpinnakerCameraPtr->BinningSelector.SetValue(Spinnaker::BinningSelectorEnums::BinningSelector_All);
         SpinnakerCameraPtr->BinningHorizontalMode.SetValue(Spinnaker::BinningHorizontalModeEnums::BinningHorizontalMode_Average);
         SpinnakerCameraPtr->BinningVerticalMode.SetValue(Spinnaker::BinningVerticalModeEnums::BinningVerticalMode_Average);
@@ -160,6 +160,11 @@ void FLIRCameraDriver::FLIRCameraInit() {
         SpinnakerCameraPtr->Init();
         TangoCameraPtr->set_state(Tango::ON);
         std::cout << "Found device " << TangoCameraPtr->get_name() << "." << std::endl;
+
+        // @ ver. 0.x, let's not worry about ROI at all, the image size is the maximum size.
+        ImageWidth = SpinnakerCameraPtr->WidthMax.GetValue();
+        ImageHeight = SpinnakerCameraPtr->HeightMax.GetValue();
+        ImageDataPtr = std::shared_ptr<unsigned short>(new unsigned short[ImageWidth * ImageHeight], std::default_delete<unsigned short[]>());
     } else {
         TangoCameraPtr->set_state(Tango::OFF);
         std::cout << "Device " << TangoCameraPtr->get_name() << " not found!" << std::endl;
@@ -179,16 +184,9 @@ void FLIRCameraDriver::AcquisitionLoop() {
 
             // Only saving data if the StopAcquisition has NOT been issue
             if (TangoCameraPtr->get_state() == Tango::RUNNING) {
-                // TODO: this needs an adapter between the ImageData* on the right
-                //  and the TANGO::DevDouble[] on the left.
-
-                // TODO: how to generalize the image size?
-
-                auto *imageDataPtr = (Tango::DevUChar *) ResultImagePtr->GetData();
-                std::copy(imageDataPtr, imageDataPtr + 2048 * 1536, TangoCameraPtr->attr_image_read);
-
-                // Notify clients that a new image is available
-                TangoCameraPtr->push_data_ready_event("image");
+                ImageDataPtr.reset((unsigned short *) ResultImagePtr->GetData(), std::default_delete<unsigned short[]>());
+                // TODO: make sure the name of the atrribute is correct
+                TangoCameraPtr->push_data_ready_event("Image");
             }
         }
         ResultImagePtr->Release();

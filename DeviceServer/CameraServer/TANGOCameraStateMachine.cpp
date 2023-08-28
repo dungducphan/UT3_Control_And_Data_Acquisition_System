@@ -92,17 +92,17 @@ bool TANGOCamera::is_baseOutputPath_allowed(TANGO_UNUSED(Tango::AttReqType type)
 
 //--------------------------------------------------------
 /**
- *	Method      : TANGOCamera::is_image_allowed()
- *	Description : Execution allowed for image attribute
+ *	Method      : TANGOCamera::is_dynImage_allowed()
+ *	Description : Execution allowed for dynImage attribute
  */
 //--------------------------------------------------------
-bool TANGOCamera::is_image_allowed(TANGO_UNUSED(Tango::AttReqType type))
+bool TANGOCamera::is_dynImage_allowed(TANGO_UNUSED(Tango::AttReqType type))
 {
 
-	//	Not any excluded states for image attribute in read access.
-	/*----- PROTECTED REGION ID(TANGOCamera::imageStateAllowed_READ) ENABLED START -----*/
+	//	Not any excluded states for dynImage attribute in read access.
+	/*----- PROTECTED REGION ID(TANGOCamera::dynImageStateAllowed_READ) ENABLED START -----*/
 	
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::imageStateAllowed_READ
+	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::dynImageStateAllowed_READ
 	return true;
 }
 

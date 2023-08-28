@@ -75,7 +75,6 @@ public:
 //	Attribute data members
 public:
 	Tango::DevString	*attr_baseOutputPath_read;
-	Tango::DevDouble	*attr_image_read;
 
 //	Constructors and destructors
 public:
@@ -158,16 +157,23 @@ public:
 	virtual void read_baseOutputPath(Tango::Attribute &attr);
 	virtual void write_baseOutputPath(Tango::WAttribute &attr);
 	virtual bool is_baseOutputPath_allowed(Tango::AttReqType type);
-/**
- *	Attribute image related methods
- *	Description: An image acquired by the camera
- *
- *	Data type:	Tango::DevDouble
- *	Attr type:	Image max = 1440 x 1080
- */
-	virtual void read_image(Tango::Attribute &attr);
-	virtual bool is_image_allowed(Tango::AttReqType type);
 
+//	Dynamic attribute methods
+public:
+
+	/**
+	 *	Attribute dynImage related methods
+	 *	Description: 
+	 *
+	 *	Data type:	Tango::DevUShort
+	 *	Attr type:	Image max = 3840 x 2160
+	 */
+	virtual void read_dynImage(Tango::Attribute &attr);
+	virtual bool is_dynImage_allowed(Tango::AttReqType type);
+	void add_dynImage_dynamic_attribute(string attname, Tango::DevUShort *ptr=NULL);
+	void remove_dynImage_dynamic_attribute(string attname, bool free_it=true);
+	Tango::DevUShort *get_dynImage_data_ptr(string &name);
+	map<string,Tango::DevUShort *>	   dynImage_data;
 
 	//--------------------------------------------------------
 	/**

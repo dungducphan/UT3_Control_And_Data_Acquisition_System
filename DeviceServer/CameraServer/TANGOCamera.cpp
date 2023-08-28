@@ -58,10 +58,9 @@
 //================================================================
 
 //================================================================
-//  Attributes managed are:
+//  Attributes managed is:
 //================================================================
 //  baseOutputPath  |  Tango::DevString	Scalar
-//  image           |  Tango::DevDouble	Image  ( max = 1440 x 1080)
 //================================================================
 
 namespace TANGOCamera_ns
@@ -121,7 +120,6 @@ void TANGOCamera::delete_device()
 
 	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::delete_device
 	delete[] attr_baseOutputPath_read;
-	delete[] attr_image_read;
 }
 
 //--------------------------------------------------------
@@ -144,7 +142,6 @@ void TANGOCamera::init_device()
 	get_device_property();
 	
 	attr_baseOutputPath_read = new Tango::DevString[1];
-	attr_image_read = new Tango::DevDouble[1440*1080];
 	//	No longer if mandatory property not set. 
 	if (mandatoryNotDefined)
 		return;
@@ -352,24 +349,26 @@ void TANGOCamera::write_baseOutputPath(Tango::WAttribute &attr)
 	
 	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::write_baseOutputPath
 }
+
 //--------------------------------------------------------
 /**
- *	Read attribute image related method
- *	Description: An image acquired by the camera
+ *	Read attribute dynImage related method
+ *	Description: 
  *
- *	Data type:	Tango::DevDouble
- *	Attr type:	Image max = 1440 x 1080
+ *	Data type:	Tango::DevUShort
+ *	Attr type:	Image max = 3840 x 2160
  */
 //--------------------------------------------------------
-void TANGOCamera::read_image(Tango::Attribute &attr)
+void TANGOCamera::read_dynImage(Tango::Attribute &attr)
 {
-	DEBUG_STREAM << "TANGOCamera::read_image(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TANGOCamera::read_image) ENABLED START -----*/
+	DEBUG_STREAM << "TANGOCamera::read_dynImage(Tango::Attribute &attr) entering... " << endl;
+	Tango::DevUShort	*att_value = get_dynImage_data_ptr(attr.get_name());
+	/*----- PROTECTED REGION ID(TANGOCamera::read_dynImage) ENABLED START -----*/
 	//	Set the attribute value
-	attr.set_value(attr_image_read, 2048, 1596);
-	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::read_image
+	attr.set_value(att_value, cameraDriverPtr->ImageWidth, cameraDriverPtr->ImageHeight);
+	
+	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::read_dynImage
 }
-
 //--------------------------------------------------------
 /**
  *	Method      : TANGOCamera::add_dynamic_attributes()
@@ -379,9 +378,16 @@ void TANGOCamera::read_image(Tango::Attribute &attr)
 //--------------------------------------------------------
 void TANGOCamera::add_dynamic_attributes()
 {
+	//	Example to add dynamic attribute:
+	//	Copy inside the following protected area to create instance(s) at startup.
+	//	add_dynImage_dynamic_attribute("MydynImageAttribute");
+	
 	/*----- PROTECTED REGION ID(TANGOCamera::add_dynamic_attributes) ENABLED START -----*/
 	
 	//	Add your own code to create and add dynamic attributes if any
+    // TODO: is a specific camera driver has been created at this point?
+    // TODO: is the pointer to camera image data available?
+    add_dynImage_dynamic_attribute("Image", cameraDriverPtr->ImageDataPtr.get());
 	
 	/*----- PROTECTED REGION END -----*/	//	TANGOCamera::add_dynamic_attributes
 }
@@ -455,6 +461,22 @@ void TANGOCamera::add_dynamic_commands()
 
 /*----- PROTECTED REGION ID(TANGOCamera::namespace_ending) ENABLED START -----*/
 
+
+// //--------------------------------------------------------
+// /**
+//  *	Read attribute image related method
+//  *	Description: An image acquired by the camera
+//  *
+//  *	Data type:	Tango::DevDouble
+//  *	Attr type:	Image max = 1440 x 1080
+//  */
+// //--------------------------------------------------------
+// void TANGOCamera::read_image(Tango::Attribute &attr)
+// {
+// 	DEBUG_STREAM << "TANGOCamera::read_image(Tango::Attribute &attr) entering... " << endl;
+// 	//	Set the attribute value
+// 	attr.set_value(attr_image_read, 2048, 1596);
+// }
 
 
 /*----- PROTECTED REGION END -----*/	//	TANGOCamera::namespace_ending

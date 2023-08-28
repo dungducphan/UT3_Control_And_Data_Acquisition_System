@@ -428,31 +428,6 @@ void TANGOCameraClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	baseoutputpath->set_memorized_init(true);
 	att_list.push_back(baseoutputpath);
 
-	//	Attribute : image
-	imageAttrib	*image = new imageAttrib();
-	Tango::UserDefaultAttrProp	image_prop;
-	image_prop.set_description("An image acquired by the camera");
-	image_prop.set_label("image");
-	//	unit	not set for image
-	//	standard_unit	not set for image
-	//	display_unit	not set for image
-	//	format	not set for image
-	//	max_value	not set for image
-	//	min_value	not set for image
-	//	max_alarm	not set for image
-	//	min_alarm	not set for image
-	//	max_warning	not set for image
-	//	min_warning	not set for image
-	//	delta_t	not set for image
-	//	delta_val	not set for image
-	
-	image->set_default_properties(image_prop);
-	//	Not Polled
-	image->set_disp_level(Tango::OPERATOR);
-	//	Not Memorized
-	image->set_data_ready_event(true);
-	att_list.push_back(image);
-
 
 	//	Create a list of static attributes
 	create_static_attribute_list(get_class_attr()->get_attr_list());
