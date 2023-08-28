@@ -15,7 +15,9 @@
 ## Deployment instruction:
 - [Deployment instruction](https://publish.obsidian.md/ut3/Project+00+-+UT3+DAQCS/Camera+Server+Development/Deployment+instruction+for+Camera+Server)
 
-## Status as of August 21st, 2023:
+# Change logs
+
+## 2023-08-21
 - Finished basic functionality:
 	- Configure cameras in shot mode (reveicing external trigger from timing unit) and test mode (receiving manual software trigger from clients).
 	- Multithreaded: individual threads to collect acquired images while one thread to handle client requests.
@@ -24,3 +26,11 @@
 		- `<TANGO_device_name>\test_<shotID:%05d>_<millisec_linuxtimestamp>.tiff` for test shots.
 		- Test shots do not increase the `shotID`, so operators/experts can associate the test shots with the correct external-triggered shots.
 	- Froze the development with [v0.1](https://github.com/dungducphan/UT3_Control_And_Data_Acquisition_System/releases/tag/v0.1).
+
+## 2023-08-28
+Resolve some issues with the [PR](https://github.com/dungducphan/UT3_Control_And_Data_Acquisition_System/pull/1) with respect to the CameraServer:
+- Build system refactoring.
+- Adding new Image attribute to TANGOCamera.
+- Make the new Image attribute dynamic.
+- Small fix bugs and quality of life.
+Approved [PR](https://github.com/dungducphan/UT3_Control_And_Data_Acquisition_System/pull/1), merged to main.
