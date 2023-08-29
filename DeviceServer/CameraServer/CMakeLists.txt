@@ -12,15 +12,18 @@
 # Files for TANGOCamera TANGO class
 #
 set(TANGOCAMERA
-        TANGOCamera)
+        TANGOCamera
+)
 set(TANGOCAMERA_INCLUDE
-        ${CAMERA_SERVER_DIR})
+        ${CAMERA_SERVER_DIR}
+)
 set(TANGOCAMERA_SRC
         ${CAMERA_SERVER_DIR}/${TANGOCAMERA}.cpp
         ${CAMERA_SERVER_DIR}/${TANGOCAMERA}Class.cpp
         ${CAMERA_SERVER_DIR}/${TANGOCAMERA}StateMachine.cpp
         ${CAMERA_SERVER_DIR}/${TANGOCAMERA}DynAttrUtils.cpp
 )
+
 
 #
 # User additional include, link folders/libraries and source files

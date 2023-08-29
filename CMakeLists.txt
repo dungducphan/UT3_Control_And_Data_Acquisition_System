@@ -55,4 +55,6 @@ find_package(JPEG REQUIRED)
 
 # Subprojects
 set (CAMERA_SERVER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/DeviceServer/CameraServer)
+set (TIMING_SERVER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/DeviceServer/TimingUnitServer)
 add_subdirectory(${CAMERA_SERVER_DIR})
+add_subdirectory(${TIMING_SERVER_DIR})
