@@ -9,6 +9,9 @@ authors = ["Reinier van Mourik <reinier.vanmourik@tausystems.com>"]
 python = "^3.9"
 pytango = "^9.4.2"
 
+# image libraries
+imageio = "^2.31.2"
+
 [tool.poetry.dev-dependencies]
 
 [build-system]
