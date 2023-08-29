@@ -139,15 +139,102 @@ void TimingUnit::init_device()
 	
 	/*----- PROTECTED REGION END -----*/	//	TimingUnit::init_device_before
 	
-	//	No device property to be read from database
+
+	//	Get the device properties from database
+	get_device_property();
 	
 	attr_DelayPortB_read = new Tango::DevUShort[1];
 	attr_DelayPortD_read = new Tango::DevUShort[1];
+	//	No longer if mandatory property not set. 
+	if (mandatoryNotDefined)
+		return;
+
 	/*----- PROTECTED REGION ID(TimingUnit::init_device) ENABLED START -----*/
 	
 	//	Initialize device
+    TimingDriver = std::make_unique<TimingUnitDriver>(this);
 	
 	/*----- PROTECTED REGION END -----*/	//	TimingUnit::init_device
+}
+
+//--------------------------------------------------------
+/**
+ *	Method      : TimingUnit::get_device_property()
+ *	Description : Read database to initialize property data members.
+ */
+//--------------------------------------------------------
+void TimingUnit::get_device_property()
+{
+	/*----- PROTECTED REGION ID(TimingUnit::get_device_property_before) ENABLED START -----*/
+	
+	//	Initialize property data members
+	
+	/*----- PROTECTED REGION END -----*/	//	TimingUnit::get_device_property_before
+
+	mandatoryNotDefined = false;
+
+	//	Read device properties from database.
+	Tango::DbData	dev_prop;
+	dev_prop.push_back(Tango::DbDatum("serialPort"));
+
+	//	is there at least one property to be read ?
+	if (dev_prop.size()>0)
+	{
+		//	Call database and extract values
+		if (Tango::Util::instance()->_UseDb==true)
+			get_db_device()->get_property(dev_prop);
+	
+		//	get instance on TimingUnitClass to get class property
+		Tango::DbDatum	def_prop, cl_prop;
+		TimingUnitClass	*ds_class =
+			(static_cast<TimingUnitClass *>(get_device_class()));
+		int	i = -1;
+
+		//	Try to initialize serialPort from class property
+		cl_prop = ds_class->get_class_property(dev_prop[++i].name);
+		if (cl_prop.is_empty()==false)	cl_prop  >>  serialPort;
+		else {
+			//	Try to initialize serialPort from default device value
+			def_prop = ds_class->get_default_device_property(dev_prop[i].name);
+			if (def_prop.is_empty()==false)	def_prop  >>  serialPort;
+		}
+		//	And try to extract serialPort value from database
+		if (dev_prop[i].is_empty()==false)	dev_prop[i]  >>  serialPort;
+		//	Property StartDsPath is mandatory, check if has been defined in database.
+		check_mandatory_property(cl_prop, dev_prop[i]);
+
+	}
+
+	/*----- PROTECTED REGION ID(TimingUnit::get_device_property_after) ENABLED START -----*/
+	
+	//	Check device property data members init
+	
+	/*----- PROTECTED REGION END -----*/	//	TimingUnit::get_device_property_after
+}
+//--------------------------------------------------------
+/**
+ *	Method      : TimingUnit::check_mandatory_property()
+ *	Description : For mandatory properties check if defined in database.
+ */
+//--------------------------------------------------------
+void TimingUnit::check_mandatory_property(Tango::DbDatum &class_prop, Tango::DbDatum &dev_prop)
+{
+	//	Check if all properties are empty
+	if (class_prop.is_empty() && dev_prop.is_empty())
+	{
+		TangoSys_OMemStream	tms;
+		tms << endl <<"Property \'" << dev_prop.name;
+		if (Tango::Util::instance()->_UseDb==true)
+			tms << "\' is mandatory but not defined in database";
+		else
+			tms << "\' is mandatory but cannot be defined without database";
+		append_status(tms.str());
+		mandatoryNotDefined = true;
+		/*----- PROTECTED REGION ID(TimingUnit::check_mandatory_property) ENABLED START -----*/
+		cerr << tms.str() << " for " << device_name << endl;
+		
+		/*----- PROTECTED REGION END -----*/	//	TimingUnit::check_mandatory_property
+	}
 }
 
 
@@ -160,6 +247,13 @@ void TimingUnit::init_device()
 void TimingUnit::always_executed_hook()
 {
 	DEBUG_STREAM << "TimingUnit::always_executed_hook()  " << device_name << endl;
+	if (mandatoryNotDefined)
+	{
+		Tango::Except::throw_exception(
+					(const char *)"PROPERTY_NOT_SET",
+					get_status().c_str(),
+					(const char *)"TimingUnit::always_executed_hook()");
+	}
 	/*----- PROTECTED REGION ID(TimingUnit::always_executed_hook) ENABLED START -----*/
 	
 	//	code always executed before all requests

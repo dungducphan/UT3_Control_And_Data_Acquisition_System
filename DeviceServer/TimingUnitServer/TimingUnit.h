@@ -35,6 +35,8 @@
 
 #include <tango.h>
 
+#include <TimingUnitDriver.h>
+
 
 /*----- PROTECTED REGION END -----*/	//	TimingUnit.h
 
@@ -57,9 +59,18 @@ class TimingUnit : public TANGO_BASE_CLASS
 /*----- PROTECTED REGION ID(TimingUnit::Data Members) ENABLED START -----*/
 
 //	Add your own data members
+private:
+    std::unique_ptr<TimingUnitDriver> TimingDriver;
+
 
 /*----- PROTECTED REGION END -----*/	//	TimingUnit::Data Members
 
+//	Device property data members
+public:
+	//	serialPort:	
+	string	serialPort;
+
+	bool	mandatoryNotDefined;
 
 //	Attribute data members
 public:
@@ -107,10 +118,18 @@ public:
 	 */
 	virtual void init_device();
 	/*
+	 *	Read the device properties from database
+	 */
+	void get_device_property();
+	/*
 	 *	Always executed method before execution command method.
 	 */
 	virtual void always_executed_hook();
 
+	/*
+	 *	Check if mandatory property has been set
+	 */
+	 void check_mandatory_property(Tango::DbDatum &class_prop, Tango::DbDatum &dev_prop);
 
 //	Attribute methods
 public:

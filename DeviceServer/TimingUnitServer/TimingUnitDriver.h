@@ -9,7 +9,13 @@
 #include <termios.h> // Contains POSIX terminal control definitions
 #include <unistd.h>  // write(), read(), close()
 
+namespace TimingUnit_ns {
+    class TimingUnit;
+}
+
 class TimingUnitDriver {
+public:
+    explicit TimingUnitDriver(const TimingUnit_ns::TimingUnit* tango_device_ptr);
 
 private:
     void OpenUART();
@@ -17,5 +23,6 @@ private:
     void GetDelay();
     void SetDelay();
 
-    int m_SerialPort{};
+    int SerialPort;
+    TimingUnit_ns::TimingUnit* TimingUnitDevicePtr;
 };

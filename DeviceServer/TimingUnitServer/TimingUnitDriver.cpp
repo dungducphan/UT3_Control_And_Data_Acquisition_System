@@ -1,15 +1,31 @@
+#include <TimingUnit.h>
 #include <TimingUnitDriver.h>
+
+TimingUnitDriver::TimingUnitDriver(const TimingUnit_ns::TimingUnit *tango_device_ptr) :
+        SerialPort(-1),
+        TimingUnitDevicePtr(const_cast<TimingUnit_ns::TimingUnit *>(tango_device_ptr)) {
+    try {
+        OpenUART();
+        if (SerialPort != -1) TimingUnitDevicePtr->set_state(Tango::ON);
+        std::cout << "Found Timing Unit on port: " << TimingUnitDevicePtr->serialPort.c_str() << std::endl;
+    } catch (std::exception& e) {
+        TimingUnitDevicePtr->set_state(Tango::OFF);
+        Tango::Except::throw_exception("TimingUnitDriver::TimingUnitDriver",
+                                       e.what(),
+                                       "TimingUnitDriver::TimingUnitDriver");
+    }
+}
 
 void TimingUnitDriver::OpenUART() {
     // Open the serial port connected to the TM4C12x
     // Change device path as needed (currently set to a standard FTDI USB-UART cable type device)
-    m_SerialPort = open("/dev/ttyACM0", O_RDWR);
+    SerialPort = open(TimingUnitDevicePtr->serialPort.c_str(), O_RDWR);
 
     // Create new termios struct, we call it 'tty' for convention
     struct termios tty{};
 
     // Read in existing settings, and handle any error
-    if (tcgetattr(m_SerialPort, &tty) != 0) {
+    if (tcgetattr(SerialPort, &tty) != 0) {
         printf("Error %i from tcgetattr: %s\n", errno, strerror(errno));
         return;
     }
@@ -41,11 +57,11 @@ void TimingUnitDriver::OpenUART() {
     cfsetospeed(&tty, B115200);
 
     // Save tty settings, also checking for error
-    if (tcsetattr(m_SerialPort, TCSANOW, &tty) != 0) return;
+    if (tcsetattr(SerialPort, TCSANOW, &tty) != 0) return;
 }
 
 void TimingUnitDriver::CloseUART() const {
-    ::close(m_SerialPort);
+    ::close(SerialPort);
 }
 
 void TimingUnitDriver::SetDelay() {
@@ -53,3 +69,5 @@ void TimingUnitDriver::SetDelay() {
 
 void TimingUnitDriver::GetDelay() {
 }
+
+

@@ -56,7 +56,7 @@ include_directories(
 #
 # Device Server generation
 #
-set(SERVER_NAME TimingUnit)
+set(SERVER_NAME TimingUnitServer)
 #
 #	Set library directories
 #
