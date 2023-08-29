@@ -88,29 +88,6 @@ public:
 //=========================================
 //	Define classes for commands
 //=========================================
-//	Command Configure class definition
-class ConfigureClass : public Tango::Command
-{
-public:
-	ConfigureClass(const char   *name,
-	               Tango::CmdArgType in,
-				   Tango::CmdArgType out,
-				   const char        *in_desc,
-				   const char        *out_desc,
-				   Tango::DispLevel  level)
-	:Command(name,in,out,in_desc,out_desc, level)	{};
-
-	ConfigureClass(const char   *name,
-	               Tango::CmdArgType in,
-				   Tango::CmdArgType out)
-	:Command(name,in,out)	{};
-	~ConfigureClass() {};
-	
-	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
-	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
-	{return (static_cast<TimingUnit *>(dev))->is_Configure_allowed(any);}
-};
-
 //	Command Start class definition
 class StartClass : public Tango::Command
 {

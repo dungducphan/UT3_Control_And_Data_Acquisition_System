@@ -150,24 +150,6 @@ TimingUnitClass *TimingUnitClass::instance()
 //===================================================================
 //--------------------------------------------------------
 /**
- * method : 		ConfigureClass::execute()
- * description : 	method to trigger the execution of the command.
- *
- * @param	device	The device on which the command must be executed
- * @param	in_any	The command input data
- *
- *	returns The command output data (packed in the Any object)
- */
-//--------------------------------------------------------
-CORBA::Any *ConfigureClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
-{
-	cout2 << "ConfigureClass::execute(): arrived" << endl;
-	((static_cast<TimingUnit *>(device))->configure());
-	return new CORBA::Any();
-}
-
-//--------------------------------------------------------
-/**
  * method : 		StartClass::execute()
  * description : 	method to trigger the execution of the command.
  *
@@ -398,7 +380,7 @@ void TimingUnitClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	delayportb_prop.set_unit("Milliseconds");
 	delayportb_prop.set_standard_unit("Milliseconds");
 	delayportb_prop.set_display_unit("ms");
-	delayportb_prop.set_format("%3.2f");
+	delayportb_prop.set_format("%04d");
 	//	max_value	not set for DelayPortB
 	//	min_value	not set for DelayPortB
 	//	max_alarm	not set for DelayPortB
@@ -411,7 +393,8 @@ void TimingUnitClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	delayportb->set_default_properties(delayportb_prop);
 	//	Not Polled
 	delayportb->set_disp_level(Tango::OPERATOR);
-	//	Not Memorized
+	delayportb->set_memorized();
+	delayportb->set_memorized_init(true);
 	att_list.push_back(delayportb);
 
 	//	Attribute : DelayPortD
@@ -422,7 +405,7 @@ void TimingUnitClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	delayportd_prop.set_unit("Milliseconds");
 	delayportd_prop.set_standard_unit("Milliseconds");
 	delayportd_prop.set_display_unit("ms");
-	delayportd_prop.set_format("%3.2f");
+	delayportd_prop.set_format("%04d");
 	//	max_value	not set for DelayPortD
 	//	min_value	not set for DelayPortD
 	//	max_alarm	not set for DelayPortD
@@ -435,7 +418,8 @@ void TimingUnitClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	delayportd->set_default_properties(delayportd_prop);
 	//	Not Polled
 	delayportd->set_disp_level(Tango::OPERATOR);
-	//	Not Memorized
+	delayportd->set_memorized();
+	delayportd->set_memorized_init(true);
 	att_list.push_back(delayportd);
 
 
@@ -482,15 +466,6 @@ void TimingUnitClass::command_factory()
 	
 	/*----- PROTECTED REGION END -----*/	//	TimingUnitClass::command_factory_before
 
-
-	//	Command Configure
-	ConfigureClass	*pConfigureCmd =
-		new ConfigureClass("Configure",
-			Tango::DEV_VOID, Tango::DEV_VOID,
-			"",
-			"",
-			Tango::OPERATOR);
-	command_list.push_back(pConfigureCmd);
 
 	//	Command Start
 	StartClass	*pStartCmd =

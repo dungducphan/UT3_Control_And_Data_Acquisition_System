@@ -52,7 +52,6 @@
 //================================================================
 //  State         |  Inherited (no method)
 //  Status        |  Inherited (no method)
-//  Configure     |  configure
 //  Start         |  start
 //  Stop          |  stop
 //================================================================
@@ -118,6 +117,7 @@ void TimingUnit::delete_device()
 	/*----- PROTECTED REGION ID(TimingUnit::delete_device) ENABLED START -----*/
 	
 	//	Delete device allocated objects
+    timingDriverPtr->CloseUART();
 	
 	/*----- PROTECTED REGION END -----*/	//	TimingUnit::delete_device
 	delete[] attr_DelayPortB_read;
@@ -134,9 +134,9 @@ void TimingUnit::init_device()
 {
 	DEBUG_STREAM << "TimingUnit::init_device() create device " << device_name << endl;
 	/*----- PROTECTED REGION ID(TimingUnit::init_device_before) ENABLED START -----*/
-	
+
 	//	Initialization before get_device_property() call
-	
+
 	/*----- PROTECTED REGION END -----*/	//	TimingUnit::init_device_before
 	
 
@@ -152,7 +152,8 @@ void TimingUnit::init_device()
 	/*----- PROTECTED REGION ID(TimingUnit::init_device) ENABLED START -----*/
 	
 	//	Initialize device
-    TimingDriver = std::make_unique<TimingUnitDriver>(this);
+    timingDriverPtr = std::make_unique<TimingUnitDriver>(this);
+    timingDriverPtr->Stop();
 	
 	/*----- PROTECTED REGION END -----*/	//	TimingUnit::init_device
 }
@@ -273,7 +274,13 @@ void TimingUnit::read_attr_hardware(TANGO_UNUSED(vector<long> &attr_list))
 	/*----- PROTECTED REGION ID(TimingUnit::read_attr_hardware) ENABLED START -----*/
 	
 	//	Add your own code
-	
+    timingDriverPtr->GetDelayFromHardware();
+    *attr_DelayPortB_read = timingDriverPtr->DelayValueOnPortB_InMilliseconds;
+    *attr_DelayPortD_read = timingDriverPtr->DelayValueOnPortD_InMilliseconds;
+#ifdef ENABLE_DEBUG_FEATURES
+    std::cout << "Read DelayPortB: " << *attr_DelayPortB_read << std::endl;
+    std::cout << "Read DelayPortD: " << *attr_DelayPortD_read << std::endl;
+#endif
 	/*----- PROTECTED REGION END -----*/	//	TimingUnit::read_attr_hardware
 }
 //--------------------------------------------------------
@@ -288,6 +295,13 @@ void TimingUnit::write_attr_hardware(TANGO_UNUSED(vector<long> &attr_list))
 	/*----- PROTECTED REGION ID(TimingUnit::write_attr_hardware) ENABLED START -----*/
 	
 	//	Add your own code
+    timingDriverPtr->DelayValueOnPortB_InMilliseconds = *attr_DelayPortB_read;
+    timingDriverPtr->DelayValueOnPortD_InMilliseconds = *attr_DelayPortD_read;
+#ifdef ENABLE_DEBUG_FEATURES
+    std::cout << "Write DelayPortB: " << timingDriverPtr->DelayValueOnPortB_InMilliseconds << std::endl;
+    std::cout << "Write DelayPortD: " << timingDriverPtr->DelayValueOnPortD_InMilliseconds << std::endl;
+#endif
+    timingDriverPtr->SetDelayToHardware();
 	
 	/*----- PROTECTED REGION END -----*/	//	TimingUnit::write_attr_hardware
 }
@@ -326,7 +340,7 @@ void TimingUnit::write_DelayPortB(Tango::WAttribute &attr)
 	Tango::DevUShort	w_val;
 	attr.get_write_value(w_val);
 	/*----- PROTECTED REGION ID(TimingUnit::write_DelayPortB) ENABLED START -----*/
-	
+	*attr_DelayPortB_read = w_val;
 	
 	/*----- PROTECTED REGION END -----*/	//	TimingUnit::write_DelayPortB
 }
@@ -364,7 +378,7 @@ void TimingUnit::write_DelayPortD(Tango::WAttribute &attr)
 	Tango::DevUShort	w_val;
 	attr.get_write_value(w_val);
 	/*----- PROTECTED REGION ID(TimingUnit::write_DelayPortD) ENABLED START -----*/
-	
+    *attr_DelayPortD_read = w_val;
 	
 	/*----- PROTECTED REGION END -----*/	//	TimingUnit::write_DelayPortD
 }
@@ -387,22 +401,6 @@ void TimingUnit::add_dynamic_attributes()
 
 //--------------------------------------------------------
 /**
- *	Command Configure related method
- *	Description: 
- *
- */
-//--------------------------------------------------------
-void TimingUnit::configure()
-{
-	DEBUG_STREAM << "TimingUnit::Configure()  - " << device_name << endl;
-	/*----- PROTECTED REGION ID(TimingUnit::configure) ENABLED START -----*/
-	
-	//	Add your own code
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::configure
-}
-//--------------------------------------------------------
-/**
  *	Command Start related method
  *	Description: 
  *
@@ -414,6 +412,7 @@ void TimingUnit::start()
 	/*----- PROTECTED REGION ID(TimingUnit::start) ENABLED START -----*/
 	
 	//	Add your own code
+    timingDriverPtr->Start();
 	
 	/*----- PROTECTED REGION END -----*/	//	TimingUnit::start
 }
@@ -430,6 +429,7 @@ void TimingUnit::stop()
 	/*----- PROTECTED REGION ID(TimingUnit::stop) ENABLED START -----*/
 	
 	//	Add your own code
+    timingDriverPtr->Stop();
 	
 	/*----- PROTECTED REGION END -----*/	//	TimingUnit::stop
 }

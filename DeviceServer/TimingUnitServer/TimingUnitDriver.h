@@ -13,15 +13,28 @@ namespace TimingUnit_ns {
     class TimingUnit;
 }
 
+enum DelayLineID_t {
+    DelayLine0,
+    DelayLine1
+};
+
 class TimingUnitDriver {
 public:
     explicit TimingUnitDriver(const TimingUnit_ns::TimingUnit* tango_device_ptr);
+    void CloseUART() const;
+    void GetDelayFromHardware();
+    void SetDelayToHardware() const;
+    void Start();
+    void Stop();
+    Tango::DevUShort DelayValueOnPortB_InMilliseconds;
+    Tango::DevUShort DelayValueOnPortD_InMilliseconds;
 
 private:
     void OpenUART();
-    void CloseUART() const;
-    void GetDelay();
-    void SetDelay();
+    [[nodiscard]] Tango::DevUShort GetDelayFromHardware(const DelayLineID_t& delayLineID) const;
+    void SetDelayToHardware(const DelayLineID_t& delayLineID) const;
+    static void ConvertIntegerBaseNToString(int value, const int &base, char *result);
+
 
     int SerialPort;
     TimingUnit_ns::TimingUnit* TimingUnitDevicePtr;

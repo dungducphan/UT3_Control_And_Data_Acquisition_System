@@ -75,8 +75,7 @@ bool TimingUnit::is_DelayPortB_allowed(TANGO_UNUSED(Tango::AttReqType type))
 	if ( type==Tango::READ_REQ )
 	{
 		//	Compare device state with not allowed states for READ 
-		if (get_state()==Tango::OFF ||
-			get_state()==Tango::RUNNING)
+		if (get_state()==Tango::OFF)
 		{
 		/*----- PROTECTED REGION ID(TimingUnit::DelayPortBStateAllowed_READ) ENABLED START -----*/
 		
@@ -96,15 +95,35 @@ bool TimingUnit::is_DelayPortB_allowed(TANGO_UNUSED(Tango::AttReqType type))
 //--------------------------------------------------------
 bool TimingUnit::is_DelayPortD_allowed(TANGO_UNUSED(Tango::AttReqType type))
 {
-	//	Not any excluded states for DelayPortD attribute in Write access.
-	/*----- PROTECTED REGION ID(TimingUnit::DelayPortDStateAllowed_WRITE) ENABLED START -----*/
+	//	Check access type.
+	if ( type!=Tango::READ_REQ )
+	{
+		//	Compare device state with not allowed states for WRITE 
+		if (get_state()==Tango::OFF ||
+			get_state()==Tango::RUNNING)
+		{
+		/*----- PROTECTED REGION ID(TimingUnit::DelayPortDStateAllowed_WRITE) ENABLED START -----*/
 	
 	/*----- PROTECTED REGION END -----*/	//	TimingUnit::DelayPortDStateAllowed_WRITE
+			return false;
+		}
+		return true;
+	}
+	else
 
-	//	Not any excluded states for DelayPortD attribute in read access.
-	/*----- PROTECTED REGION ID(TimingUnit::DelayPortDStateAllowed_READ) ENABLED START -----*/
+	//	Check access type.
+	if ( type==Tango::READ_REQ )
+	{
+		//	Compare device state with not allowed states for READ 
+		if (get_state()==Tango::OFF)
+		{
+		/*----- PROTECTED REGION ID(TimingUnit::DelayPortDStateAllowed_READ) ENABLED START -----*/
 	
 	/*----- PROTECTED REGION END -----*/	//	TimingUnit::DelayPortDStateAllowed_READ
+			return false;
+		}
+		return true;
+	}
 	return true;
 }
 
@@ -112,26 +131,6 @@ bool TimingUnit::is_DelayPortD_allowed(TANGO_UNUSED(Tango::AttReqType type))
 //=================================================
 //		Commands Allowed Methods
 //=================================================
-
-//--------------------------------------------------------
-/**
- *	Method      : TimingUnit::is_Configure_allowed()
- *	Description : Execution allowed for Configure attribute
- */
-//--------------------------------------------------------
-bool TimingUnit::is_Configure_allowed(TANGO_UNUSED(const CORBA::Any &any))
-{
-	//	Compare device state with not allowed states.
-	if (get_state()==Tango::OFF ||
-		get_state()==Tango::RUNNING)
-	{
-	/*----- PROTECTED REGION ID(TimingUnit::ConfigureStateAllowed) ENABLED START -----*/
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::ConfigureStateAllowed
-		return false;
-	}
-	return true;
-}
 
 //--------------------------------------------------------
 /**

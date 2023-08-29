@@ -60,7 +60,7 @@ class TimingUnit : public TANGO_BASE_CLASS
 
 //	Add your own data members
 private:
-    std::unique_ptr<TimingUnitDriver> TimingDriver;
+    std::unique_ptr<TimingUnitDriver> timingDriverPtr;
 
 
 /*----- PROTECTED REGION END -----*/	//	TimingUnit::Data Members
@@ -183,13 +183,6 @@ public:
 
 //	Command related methods
 public:
-	/**
-	 *	Command Configure related method
-	 *	Description: 
-	 *
-	 */
-	virtual void configure();
-	virtual bool is_Configure_allowed(const CORBA::Any &any);
 	/**
 	 *	Command Start related method
 	 *	Description: 
