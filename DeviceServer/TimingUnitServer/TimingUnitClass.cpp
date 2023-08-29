@@ -148,6 +148,60 @@ TimingUnitClass *TimingUnitClass::instance()
 //===================================================================
 //	Command execution method calls
 //===================================================================
+//--------------------------------------------------------
+/**
+ * method : 		ConfigureClass::execute()
+ * description : 	method to trigger the execution of the command.
+ *
+ * @param	device	The device on which the command must be executed
+ * @param	in_any	The command input data
+ *
+ *	returns The command output data (packed in the Any object)
+ */
+//--------------------------------------------------------
+CORBA::Any *ConfigureClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+{
+	cout2 << "ConfigureClass::execute(): arrived" << endl;
+	((static_cast<TimingUnit *>(device))->configure());
+	return new CORBA::Any();
+}
+
+//--------------------------------------------------------
+/**
+ * method : 		StartClass::execute()
+ * description : 	method to trigger the execution of the command.
+ *
+ * @param	device	The device on which the command must be executed
+ * @param	in_any	The command input data
+ *
+ *	returns The command output data (packed in the Any object)
+ */
+//--------------------------------------------------------
+CORBA::Any *StartClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+{
+	cout2 << "StartClass::execute(): arrived" << endl;
+	((static_cast<TimingUnit *>(device))->start());
+	return new CORBA::Any();
+}
+
+//--------------------------------------------------------
+/**
+ * method : 		StopClass::execute()
+ * description : 	method to trigger the execution of the command.
+ *
+ * @param	device	The device on which the command must be executed
+ * @param	in_any	The command input data
+ *
+ *	returns The command output data (packed in the Any object)
+ */
+//--------------------------------------------------------
+CORBA::Any *StopClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+{
+	cout2 << "StopClass::execute(): arrived" << endl;
+	((static_cast<TimingUnit *>(device))->stop());
+	return new CORBA::Any();
+}
+
 
 //===================================================================
 //	Properties management
@@ -323,569 +377,53 @@ void TimingUnitClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	Add your own code
 	
 	/*----- PROTECTED REGION END -----*/	//	TimingUnitClass::attribute_factory_before
-	//	Attribute : DelayLine0
-	DelayLine0Attrib	*delayline0 = new DelayLine0Attrib();
-	Tango::UserDefaultAttrProp	delayline0_prop;
-	//	description	not set for DelayLine0
-	delayline0_prop.set_label("Delay Line 0");
-	delayline0_prop.set_unit("Milliseconds");
-	delayline0_prop.set_standard_unit("Milliseconds");
-	delayline0_prop.set_display_unit("ms");
-	delayline0_prop.set_format("%3.2f");
-	//	max_value	not set for DelayLine0
-	//	min_value	not set for DelayLine0
-	//	max_alarm	not set for DelayLine0
-	//	min_alarm	not set for DelayLine0
-	//	max_warning	not set for DelayLine0
-	//	min_warning	not set for DelayLine0
-	//	delta_t	not set for DelayLine0
-	//	delta_val	not set for DelayLine0
+	//	Attribute : DelayPortB
+	DelayPortBAttrib	*delayportb = new DelayPortBAttrib();
+	Tango::UserDefaultAttrProp	delayportb_prop;
+	//	description	not set for DelayPortB
+	delayportb_prop.set_label("Delay Port B");
+	delayportb_prop.set_unit("Milliseconds");
+	delayportb_prop.set_standard_unit("Milliseconds");
+	delayportb_prop.set_display_unit("ms");
+	delayportb_prop.set_format("%3.2f");
+	//	max_value	not set for DelayPortB
+	//	min_value	not set for DelayPortB
+	//	max_alarm	not set for DelayPortB
+	//	min_alarm	not set for DelayPortB
+	//	max_warning	not set for DelayPortB
+	//	min_warning	not set for DelayPortB
+	//	delta_t	not set for DelayPortB
+	//	delta_val	not set for DelayPortB
 	
-	delayline0->set_default_properties(delayline0_prop);
+	delayportb->set_default_properties(delayportb_prop);
 	//	Not Polled
-	delayline0->set_disp_level(Tango::OPERATOR);
+	delayportb->set_disp_level(Tango::OPERATOR);
 	//	Not Memorized
-	att_list.push_back(delayline0);
+	att_list.push_back(delayportb);
 
-	//	Attribute : DelayLine1
-	DelayLine1Attrib	*delayline1 = new DelayLine1Attrib();
-	Tango::UserDefaultAttrProp	delayline1_prop;
-	//	description	not set for DelayLine1
-	delayline1_prop.set_label("Delay Line 1");
-	delayline1_prop.set_unit("Milliseconds");
-	delayline1_prop.set_standard_unit("Milliseconds");
-	delayline1_prop.set_display_unit("ms");
-	delayline1_prop.set_format("%3.2f");
-	//	max_value	not set for DelayLine1
-	//	min_value	not set for DelayLine1
-	//	max_alarm	not set for DelayLine1
-	//	min_alarm	not set for DelayLine1
-	//	max_warning	not set for DelayLine1
-	//	min_warning	not set for DelayLine1
-	//	delta_t	not set for DelayLine1
-	//	delta_val	not set for DelayLine1
+	//	Attribute : DelayPortD
+	DelayPortDAttrib	*delayportd = new DelayPortDAttrib();
+	Tango::UserDefaultAttrProp	delayportd_prop;
+	//	description	not set for DelayPortD
+	delayportd_prop.set_label("Delay Port D");
+	delayportd_prop.set_unit("Milliseconds");
+	delayportd_prop.set_standard_unit("Milliseconds");
+	delayportd_prop.set_display_unit("ms");
+	delayportd_prop.set_format("%3.2f");
+	//	max_value	not set for DelayPortD
+	//	min_value	not set for DelayPortD
+	//	max_alarm	not set for DelayPortD
+	//	min_alarm	not set for DelayPortD
+	//	max_warning	not set for DelayPortD
+	//	min_warning	not set for DelayPortD
+	//	delta_t	not set for DelayPortD
+	//	delta_val	not set for DelayPortD
 	
-	delayline1->set_default_properties(delayline1_prop);
+	delayportd->set_default_properties(delayportd_prop);
 	//	Not Polled
-	delayline1->set_disp_level(Tango::OPERATOR);
+	delayportd->set_disp_level(Tango::OPERATOR);
 	//	Not Memorized
-	att_list.push_back(delayline1);
-
-	//	Attribute : DelayLine2
-	DelayLine2Attrib	*delayline2 = new DelayLine2Attrib();
-	Tango::UserDefaultAttrProp	delayline2_prop;
-	//	description	not set for DelayLine2
-	delayline2_prop.set_label("Delay Line 2");
-	delayline2_prop.set_unit("Milliseconds");
-	delayline2_prop.set_standard_unit("Milliseconds");
-	delayline2_prop.set_display_unit("ms");
-	delayline2_prop.set_format("%3.2f");
-	//	max_value	not set for DelayLine2
-	//	min_value	not set for DelayLine2
-	//	max_alarm	not set for DelayLine2
-	//	min_alarm	not set for DelayLine2
-	//	max_warning	not set for DelayLine2
-	//	min_warning	not set for DelayLine2
-	//	delta_t	not set for DelayLine2
-	//	delta_val	not set for DelayLine2
-	
-	delayline2->set_default_properties(delayline2_prop);
-	//	Not Polled
-	delayline2->set_disp_level(Tango::OPERATOR);
-	//	Not Memorized
-	att_list.push_back(delayline2);
-
-	//	Attribute : DelayLine3
-	DelayLine3Attrib	*delayline3 = new DelayLine3Attrib();
-	Tango::UserDefaultAttrProp	delayline3_prop;
-	//	description	not set for DelayLine3
-	delayline3_prop.set_label("Delay Line 3");
-	delayline3_prop.set_unit("Milliseconds");
-	delayline3_prop.set_standard_unit("Milliseconds");
-	delayline3_prop.set_display_unit("ms");
-	delayline3_prop.set_format("%3.2f");
-	//	max_value	not set for DelayLine3
-	//	min_value	not set for DelayLine3
-	//	max_alarm	not set for DelayLine3
-	//	min_alarm	not set for DelayLine3
-	//	max_warning	not set for DelayLine3
-	//	min_warning	not set for DelayLine3
-	//	delta_t	not set for DelayLine3
-	//	delta_val	not set for DelayLine3
-	
-	delayline3->set_default_properties(delayline3_prop);
-	//	Not Polled
-	delayline3->set_disp_level(Tango::OPERATOR);
-	//	Not Memorized
-	att_list.push_back(delayline3);
-
-	//	Attribute : DelayLine4
-	DelayLine4Attrib	*delayline4 = new DelayLine4Attrib();
-	Tango::UserDefaultAttrProp	delayline4_prop;
-	//	description	not set for DelayLine4
-	delayline4_prop.set_label("Delay Line 4");
-	delayline4_prop.set_unit("Milliseconds");
-	delayline4_prop.set_standard_unit("Milliseconds");
-	delayline4_prop.set_display_unit("ms");
-	delayline4_prop.set_format("%3.2f");
-	//	max_value	not set for DelayLine4
-	//	min_value	not set for DelayLine4
-	//	max_alarm	not set for DelayLine4
-	//	min_alarm	not set for DelayLine4
-	//	max_warning	not set for DelayLine4
-	//	min_warning	not set for DelayLine4
-	//	delta_t	not set for DelayLine4
-	//	delta_val	not set for DelayLine4
-	
-	delayline4->set_default_properties(delayline4_prop);
-	//	Not Polled
-	delayline4->set_disp_level(Tango::OPERATOR);
-	//	Not Memorized
-	att_list.push_back(delayline4);
-
-	//	Attribute : DelayLine5
-	DelayLine5Attrib	*delayline5 = new DelayLine5Attrib();
-	Tango::UserDefaultAttrProp	delayline5_prop;
-	//	description	not set for DelayLine5
-	delayline5_prop.set_label("Delay Line 5");
-	delayline5_prop.set_unit("Milliseconds");
-	delayline5_prop.set_standard_unit("Milliseconds");
-	delayline5_prop.set_display_unit("ms");
-	delayline5_prop.set_format("%3.2f");
-	//	max_value	not set for DelayLine5
-	//	min_value	not set for DelayLine5
-	//	max_alarm	not set for DelayLine5
-	//	min_alarm	not set for DelayLine5
-	//	max_warning	not set for DelayLine5
-	//	min_warning	not set for DelayLine5
-	//	delta_t	not set for DelayLine5
-	//	delta_val	not set for DelayLine5
-	
-	delayline5->set_default_properties(delayline5_prop);
-	//	Not Polled
-	delayline5->set_disp_level(Tango::OPERATOR);
-	//	Not Memorized
-	att_list.push_back(delayline5);
-
-	//	Attribute : Output_B0
-	Output_B0Attrib	*output_b0 = new Output_B0Attrib();
-	Tango::UserDefaultAttrProp	output_b0_prop;
-	//	description	not set for Output_B0
-	output_b0_prop.set_label("Output B0");
-	//	unit	not set for Output_B0
-	//	standard_unit	not set for Output_B0
-	//	display_unit	not set for Output_B0
-	//	format	not set for Output_B0
-	//	max_value	not set for Output_B0
-	//	min_value	not set for Output_B0
-	//	max_alarm	not set for Output_B0
-	//	min_alarm	not set for Output_B0
-	//	max_warning	not set for Output_B0
-	//	min_warning	not set for Output_B0
-	//	delta_t	not set for Output_B0
-	//	delta_val	not set for Output_B0
-	
-	{
-		vector<string> labels;
-		labels.push_back("DelayLine0");
-		labels.push_back("DelayLine1");
-		labels.push_back("DelayLine2");
-		labels.push_back("DelayLine3");
-		labels.push_back("DelayLine4");
-		labels.push_back("DelayLine5");
-		output_b0_prop.set_enum_labels(labels);
-	}
-	output_b0->set_default_properties(output_b0_prop);
-	//	Not Polled
-	output_b0->set_disp_level(Tango::OPERATOR);
-	output_b0->set_memorized();
-	output_b0->set_memorized_init(true);
-	att_list.push_back(output_b0);
-
-	//	Attribute : Output_B1
-	Output_B1Attrib	*output_b1 = new Output_B1Attrib();
-	Tango::UserDefaultAttrProp	output_b1_prop;
-	//	description	not set for Output_B1
-	output_b1_prop.set_label("Output B1");
-	//	unit	not set for Output_B1
-	//	standard_unit	not set for Output_B1
-	//	display_unit	not set for Output_B1
-	//	format	not set for Output_B1
-	//	max_value	not set for Output_B1
-	//	min_value	not set for Output_B1
-	//	max_alarm	not set for Output_B1
-	//	min_alarm	not set for Output_B1
-	//	max_warning	not set for Output_B1
-	//	min_warning	not set for Output_B1
-	//	delta_t	not set for Output_B1
-	//	delta_val	not set for Output_B1
-	
-	{
-		vector<string> labels;
-		labels.push_back("DelayLine0");
-		labels.push_back("DelayLine1");
-		labels.push_back("DelayLine2");
-		labels.push_back("DelayLine3");
-		labels.push_back("DelayLine4");
-		labels.push_back("DelayLine5");
-		output_b1_prop.set_enum_labels(labels);
-	}
-	output_b1->set_default_properties(output_b1_prop);
-	//	Not Polled
-	output_b1->set_disp_level(Tango::OPERATOR);
-	output_b1->set_memorized();
-	output_b1->set_memorized_init(true);
-	att_list.push_back(output_b1);
-
-	//	Attribute : Output_B2
-	Output_B2Attrib	*output_b2 = new Output_B2Attrib();
-	Tango::UserDefaultAttrProp	output_b2_prop;
-	//	description	not set for Output_B2
-	output_b2_prop.set_label("Output B2");
-	//	unit	not set for Output_B2
-	//	standard_unit	not set for Output_B2
-	//	display_unit	not set for Output_B2
-	//	format	not set for Output_B2
-	//	max_value	not set for Output_B2
-	//	min_value	not set for Output_B2
-	//	max_alarm	not set for Output_B2
-	//	min_alarm	not set for Output_B2
-	//	max_warning	not set for Output_B2
-	//	min_warning	not set for Output_B2
-	//	delta_t	not set for Output_B2
-	//	delta_val	not set for Output_B2
-	
-	{
-		vector<string> labels;
-		labels.push_back("DelayLine0");
-		labels.push_back("DelayLine1");
-		labels.push_back("DelayLine2");
-		labels.push_back("DelayLine3");
-		labels.push_back("DelayLine4");
-		labels.push_back("DelayLine5");
-		output_b2_prop.set_enum_labels(labels);
-	}
-	output_b2->set_default_properties(output_b2_prop);
-	//	Not Polled
-	output_b2->set_disp_level(Tango::OPERATOR);
-	output_b2->set_memorized();
-	output_b2->set_memorized_init(true);
-	att_list.push_back(output_b2);
-
-	//	Attribute : Output_B3
-	Output_B3Attrib	*output_b3 = new Output_B3Attrib();
-	Tango::UserDefaultAttrProp	output_b3_prop;
-	//	description	not set for Output_B3
-	output_b3_prop.set_label("Output B3");
-	//	unit	not set for Output_B3
-	//	standard_unit	not set for Output_B3
-	//	display_unit	not set for Output_B3
-	//	format	not set for Output_B3
-	//	max_value	not set for Output_B3
-	//	min_value	not set for Output_B3
-	//	max_alarm	not set for Output_B3
-	//	min_alarm	not set for Output_B3
-	//	max_warning	not set for Output_B3
-	//	min_warning	not set for Output_B3
-	//	delta_t	not set for Output_B3
-	//	delta_val	not set for Output_B3
-	
-	{
-		vector<string> labels;
-		labels.push_back("DelayLine0");
-		labels.push_back("DelayLine1");
-		labels.push_back("DelayLine2");
-		labels.push_back("DelayLine3");
-		labels.push_back("DelayLine4");
-		labels.push_back("DelayLine5");
-		output_b3_prop.set_enum_labels(labels);
-	}
-	output_b3->set_default_properties(output_b3_prop);
-	//	Not Polled
-	output_b3->set_disp_level(Tango::OPERATOR);
-	output_b3->set_memorized();
-	output_b3->set_memorized_init(true);
-	att_list.push_back(output_b3);
-
-	//	Attribute : Output_B4
-	Output_B4Attrib	*output_b4 = new Output_B4Attrib();
-	Tango::UserDefaultAttrProp	output_b4_prop;
-	//	description	not set for Output_B4
-	output_b4_prop.set_label("Output B4");
-	//	unit	not set for Output_B4
-	//	standard_unit	not set for Output_B4
-	//	display_unit	not set for Output_B4
-	//	format	not set for Output_B4
-	//	max_value	not set for Output_B4
-	//	min_value	not set for Output_B4
-	//	max_alarm	not set for Output_B4
-	//	min_alarm	not set for Output_B4
-	//	max_warning	not set for Output_B4
-	//	min_warning	not set for Output_B4
-	//	delta_t	not set for Output_B4
-	//	delta_val	not set for Output_B4
-	
-	{
-		vector<string> labels;
-		labels.push_back("DelayLine0");
-		labels.push_back("DelayLine1");
-		labels.push_back("DelayLine2");
-		labels.push_back("DelayLine3");
-		labels.push_back("DelayLine4");
-		labels.push_back("DelayLine5");
-		output_b4_prop.set_enum_labels(labels);
-	}
-	output_b4->set_default_properties(output_b4_prop);
-	//	Not Polled
-	output_b4->set_disp_level(Tango::OPERATOR);
-	output_b4->set_memorized();
-	output_b4->set_memorized_init(true);
-	att_list.push_back(output_b4);
-
-	//	Attribute : Output_B5
-	Output_B5Attrib	*output_b5 = new Output_B5Attrib();
-	Tango::UserDefaultAttrProp	output_b5_prop;
-	//	description	not set for Output_B5
-	output_b5_prop.set_label("Output B5");
-	//	unit	not set for Output_B5
-	//	standard_unit	not set for Output_B5
-	//	display_unit	not set for Output_B5
-	//	format	not set for Output_B5
-	//	max_value	not set for Output_B5
-	//	min_value	not set for Output_B5
-	//	max_alarm	not set for Output_B5
-	//	min_alarm	not set for Output_B5
-	//	max_warning	not set for Output_B5
-	//	min_warning	not set for Output_B5
-	//	delta_t	not set for Output_B5
-	//	delta_val	not set for Output_B5
-	
-	{
-		vector<string> labels;
-		labels.push_back("DelayLine0");
-		labels.push_back("DelayLine1");
-		labels.push_back("DelayLine2");
-		labels.push_back("DelayLine3");
-		labels.push_back("DelayLine4");
-		labels.push_back("DelayLine5");
-		output_b5_prop.set_enum_labels(labels);
-	}
-	output_b5->set_default_properties(output_b5_prop);
-	//	Not Polled
-	output_b5->set_disp_level(Tango::OPERATOR);
-	output_b5->set_memorized();
-	output_b5->set_memorized_init(true);
-	att_list.push_back(output_b5);
-
-	//	Attribute : Output_B6
-	Output_B6Attrib	*output_b6 = new Output_B6Attrib();
-	Tango::UserDefaultAttrProp	output_b6_prop;
-	//	description	not set for Output_B6
-	output_b6_prop.set_label("Output B6");
-	//	unit	not set for Output_B6
-	//	standard_unit	not set for Output_B6
-	//	display_unit	not set for Output_B6
-	//	format	not set for Output_B6
-	//	max_value	not set for Output_B6
-	//	min_value	not set for Output_B6
-	//	max_alarm	not set for Output_B6
-	//	min_alarm	not set for Output_B6
-	//	max_warning	not set for Output_B6
-	//	min_warning	not set for Output_B6
-	//	delta_t	not set for Output_B6
-	//	delta_val	not set for Output_B6
-	
-	{
-		vector<string> labels;
-		labels.push_back("DelayLine0");
-		labels.push_back("DelayLine1");
-		labels.push_back("DelayLine2");
-		labels.push_back("DelayLine3");
-		labels.push_back("DelayLine4");
-		labels.push_back("DelayLine5");
-		output_b6_prop.set_enum_labels(labels);
-	}
-	output_b6->set_default_properties(output_b6_prop);
-	//	Not Polled
-	output_b6->set_disp_level(Tango::OPERATOR);
-	output_b6->set_memorized();
-	output_b6->set_memorized_init(true);
-	att_list.push_back(output_b6);
-
-	//	Attribute : Output_B7
-	Output_B7Attrib	*output_b7 = new Output_B7Attrib();
-	Tango::UserDefaultAttrProp	output_b7_prop;
-	//	description	not set for Output_B7
-	output_b7_prop.set_label("Output B7");
-	//	unit	not set for Output_B7
-	//	standard_unit	not set for Output_B7
-	//	display_unit	not set for Output_B7
-	//	format	not set for Output_B7
-	//	max_value	not set for Output_B7
-	//	min_value	not set for Output_B7
-	//	max_alarm	not set for Output_B7
-	//	min_alarm	not set for Output_B7
-	//	max_warning	not set for Output_B7
-	//	min_warning	not set for Output_B7
-	//	delta_t	not set for Output_B7
-	//	delta_val	not set for Output_B7
-	
-	{
-		vector<string> labels;
-		labels.push_back("DelayLine0");
-		labels.push_back("DelayLine1");
-		labels.push_back("DelayLine2");
-		labels.push_back("DelayLine3");
-		labels.push_back("DelayLine4");
-		labels.push_back("DelayLine5");
-		output_b7_prop.set_enum_labels(labels);
-	}
-	output_b7->set_default_properties(output_b7_prop);
-	//	Not Polled
-	output_b7->set_disp_level(Tango::OPERATOR);
-	output_b7->set_memorized();
-	output_b7->set_memorized_init(true);
-	att_list.push_back(output_b7);
-
-	//	Attribute : Output_D0
-	Output_D0Attrib	*output_d0 = new Output_D0Attrib();
-	Tango::UserDefaultAttrProp	output_d0_prop;
-	//	description	not set for Output_D0
-	output_d0_prop.set_label("Output D0");
-	//	unit	not set for Output_D0
-	//	standard_unit	not set for Output_D0
-	//	display_unit	not set for Output_D0
-	//	format	not set for Output_D0
-	//	max_value	not set for Output_D0
-	//	min_value	not set for Output_D0
-	//	max_alarm	not set for Output_D0
-	//	min_alarm	not set for Output_D0
-	//	max_warning	not set for Output_D0
-	//	min_warning	not set for Output_D0
-	//	delta_t	not set for Output_D0
-	//	delta_val	not set for Output_D0
-	
-	{
-		vector<string> labels;
-		labels.push_back("DelayLine0");
-		labels.push_back("DelayLine1");
-		labels.push_back("DelayLine2");
-		labels.push_back("DelayLine3");
-		labels.push_back("DelayLine4");
-		labels.push_back("DelayLine5");
-		output_d0_prop.set_enum_labels(labels);
-	}
-	output_d0->set_default_properties(output_d0_prop);
-	//	Not Polled
-	output_d0->set_disp_level(Tango::OPERATOR);
-	output_d0->set_memorized();
-	output_d0->set_memorized_init(true);
-	att_list.push_back(output_d0);
-
-	//	Attribute : Output_D1
-	Output_D1Attrib	*output_d1 = new Output_D1Attrib();
-	Tango::UserDefaultAttrProp	output_d1_prop;
-	//	description	not set for Output_D1
-	output_d1_prop.set_label("Output D1");
-	//	unit	not set for Output_D1
-	//	standard_unit	not set for Output_D1
-	//	display_unit	not set for Output_D1
-	//	format	not set for Output_D1
-	//	max_value	not set for Output_D1
-	//	min_value	not set for Output_D1
-	//	max_alarm	not set for Output_D1
-	//	min_alarm	not set for Output_D1
-	//	max_warning	not set for Output_D1
-	//	min_warning	not set for Output_D1
-	//	delta_t	not set for Output_D1
-	//	delta_val	not set for Output_D1
-	
-	{
-		vector<string> labels;
-		labels.push_back("DelayLine0");
-		labels.push_back("DelayLine1");
-		labels.push_back("DelayLine2");
-		labels.push_back("DelayLine3");
-		labels.push_back("DelayLine4");
-		labels.push_back("DelayLine5");
-		output_d1_prop.set_enum_labels(labels);
-	}
-	output_d1->set_default_properties(output_d1_prop);
-	//	Not Polled
-	output_d1->set_disp_level(Tango::OPERATOR);
-	output_d1->set_memorized();
-	output_d1->set_memorized_init(true);
-	att_list.push_back(output_d1);
-
-	//	Attribute : Output_D2
-	Output_D2Attrib	*output_d2 = new Output_D2Attrib();
-	Tango::UserDefaultAttrProp	output_d2_prop;
-	//	description	not set for Output_D2
-	output_d2_prop.set_label("Output D2");
-	//	unit	not set for Output_D2
-	//	standard_unit	not set for Output_D2
-	//	display_unit	not set for Output_D2
-	//	format	not set for Output_D2
-	//	max_value	not set for Output_D2
-	//	min_value	not set for Output_D2
-	//	max_alarm	not set for Output_D2
-	//	min_alarm	not set for Output_D2
-	//	max_warning	not set for Output_D2
-	//	min_warning	not set for Output_D2
-	//	delta_t	not set for Output_D2
-	//	delta_val	not set for Output_D2
-	
-	{
-		vector<string> labels;
-		labels.push_back("DelayLine0");
-		labels.push_back("DelayLine1");
-		labels.push_back("DelayLine2");
-		labels.push_back("DelayLine3");
-		labels.push_back("DelayLine4");
-		labels.push_back("DelayLine5");
-		output_d2_prop.set_enum_labels(labels);
-	}
-	output_d2->set_default_properties(output_d2_prop);
-	//	Not Polled
-	output_d2->set_disp_level(Tango::OPERATOR);
-	output_d2->set_memorized();
-	output_d2->set_memorized_init(true);
-	att_list.push_back(output_d2);
-
-	//	Attribute : Output_D3
-	Output_D3Attrib	*output_d3 = new Output_D3Attrib();
-	Tango::UserDefaultAttrProp	output_d3_prop;
-	//	description	not set for Output_D3
-	output_d3_prop.set_label("Output D3");
-	//	unit	not set for Output_D3
-	//	standard_unit	not set for Output_D3
-	//	display_unit	not set for Output_D3
-	//	format	not set for Output_D3
-	//	max_value	not set for Output_D3
-	//	min_value	not set for Output_D3
-	//	max_alarm	not set for Output_D3
-	//	min_alarm	not set for Output_D3
-	//	max_warning	not set for Output_D3
-	//	min_warning	not set for Output_D3
-	//	delta_t	not set for Output_D3
-	//	delta_val	not set for Output_D3
-	
-	{
-		vector<string> labels;
-		labels.push_back("DelayLine0");
-		labels.push_back("DelayLine1");
-		labels.push_back("DelayLine2");
-		labels.push_back("DelayLine3");
-		labels.push_back("DelayLine4");
-		labels.push_back("DelayLine5");
-		output_d3_prop.set_enum_labels(labels);
-	}
-	output_d3->set_default_properties(output_d3_prop);
-	//	Not Polled
-	output_d3->set_disp_level(Tango::OPERATOR);
-	output_d3->set_memorized();
-	output_d3->set_memorized_init(true);
-	att_list.push_back(output_d3);
+	att_list.push_back(delayportd);
 
 
 	//	Create a list of static attributes
@@ -931,6 +469,33 @@ void TimingUnitClass::command_factory()
 	
 	/*----- PROTECTED REGION END -----*/	//	TimingUnitClass::command_factory_before
 
+
+	//	Command Configure
+	ConfigureClass	*pConfigureCmd =
+		new ConfigureClass("Configure",
+			Tango::DEV_VOID, Tango::DEV_VOID,
+			"",
+			"",
+			Tango::OPERATOR);
+	command_list.push_back(pConfigureCmd);
+
+	//	Command Start
+	StartClass	*pStartCmd =
+		new StartClass("Start",
+			Tango::DEV_VOID, Tango::DEV_VOID,
+			"",
+			"",
+			Tango::OPERATOR);
+	command_list.push_back(pStartCmd);
+
+	//	Command Stop
+	StopClass	*pStopCmd =
+		new StopClass("Stop",
+			Tango::DEV_VOID, Tango::DEV_VOID,
+			"",
+			"",
+			Tango::OPERATOR);
+	command_list.push_back(pStopCmd);
 
 	/*----- PROTECTED REGION ID(TimingUnitClass::command_factory_after) ENABLED START -----*/
 	

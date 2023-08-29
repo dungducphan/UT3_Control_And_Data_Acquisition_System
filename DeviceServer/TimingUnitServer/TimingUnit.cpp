@@ -52,29 +52,16 @@
 //================================================================
 //  State         |  Inherited (no method)
 //  Status        |  Inherited (no method)
+//  Configure     |  configure
+//  Start         |  start
+//  Stop          |  stop
 //================================================================
 
 //================================================================
 //  Attributes managed are:
 //================================================================
-//  DelayLine0  |  Tango::DevUShort	Scalar
-//  DelayLine1  |  Tango::DevUShort	Scalar
-//  DelayLine2  |  Tango::DevUShort	Scalar
-//  DelayLine3  |  Tango::DevUShort	Scalar
-//  DelayLine4  |  Tango::DevUShort	Scalar
-//  DelayLine5  |  Tango::DevUShort	Scalar
-//  Output_B0   |  Tango::DevEnum	Scalar
-//  Output_B1   |  Tango::DevEnum	Scalar
-//  Output_B2   |  Tango::DevEnum	Scalar
-//  Output_B3   |  Tango::DevEnum	Scalar
-//  Output_B4   |  Tango::DevEnum	Scalar
-//  Output_B5   |  Tango::DevEnum	Scalar
-//  Output_B6   |  Tango::DevEnum	Scalar
-//  Output_B7   |  Tango::DevEnum	Scalar
-//  Output_D0   |  Tango::DevEnum	Scalar
-//  Output_D1   |  Tango::DevEnum	Scalar
-//  Output_D2   |  Tango::DevEnum	Scalar
-//  Output_D3   |  Tango::DevEnum	Scalar
+//  DelayPortB  |  Tango::DevUShort	Scalar
+//  DelayPortD  |  Tango::DevUShort	Scalar
 //================================================================
 
 namespace TimingUnit_ns
@@ -133,24 +120,8 @@ void TimingUnit::delete_device()
 	//	Delete device allocated objects
 	
 	/*----- PROTECTED REGION END -----*/	//	TimingUnit::delete_device
-	delete[] attr_DelayLine0_read;
-	delete[] attr_DelayLine1_read;
-	delete[] attr_DelayLine2_read;
-	delete[] attr_DelayLine3_read;
-	delete[] attr_DelayLine4_read;
-	delete[] attr_DelayLine5_read;
-	delete[] attr_Output_B0_read;
-	delete[] attr_Output_B1_read;
-	delete[] attr_Output_B2_read;
-	delete[] attr_Output_B3_read;
-	delete[] attr_Output_B4_read;
-	delete[] attr_Output_B5_read;
-	delete[] attr_Output_B6_read;
-	delete[] attr_Output_B7_read;
-	delete[] attr_Output_D0_read;
-	delete[] attr_Output_D1_read;
-	delete[] attr_Output_D2_read;
-	delete[] attr_Output_D3_read;
+	delete[] attr_DelayPortB_read;
+	delete[] attr_DelayPortD_read;
 }
 
 //--------------------------------------------------------
@@ -170,24 +141,8 @@ void TimingUnit::init_device()
 	
 	//	No device property to be read from database
 	
-	attr_DelayLine0_read = new Tango::DevUShort[1];
-	attr_DelayLine1_read = new Tango::DevUShort[1];
-	attr_DelayLine2_read = new Tango::DevUShort[1];
-	attr_DelayLine3_read = new Tango::DevUShort[1];
-	attr_DelayLine4_read = new Tango::DevUShort[1];
-	attr_DelayLine5_read = new Tango::DevUShort[1];
-	attr_Output_B0_read = new Output_B0Enum[1];
-	attr_Output_B1_read = new Output_B1Enum[1];
-	attr_Output_B2_read = new Output_B2Enum[1];
-	attr_Output_B3_read = new Output_B3Enum[1];
-	attr_Output_B4_read = new Output_B4Enum[1];
-	attr_Output_B5_read = new Output_B5Enum[1];
-	attr_Output_B6_read = new Output_B6Enum[1];
-	attr_Output_B7_read = new Output_B7Enum[1];
-	attr_Output_D0_read = new Output_D0Enum[1];
-	attr_Output_D1_read = new Output_D1Enum[1];
-	attr_Output_D2_read = new Output_D2Enum[1];
-	attr_Output_D3_read = new Output_D3Enum[1];
+	attr_DelayPortB_read = new Tango::DevUShort[1];
+	attr_DelayPortD_read = new Tango::DevUShort[1];
 	/*----- PROTECTED REGION ID(TimingUnit::init_device) ENABLED START -----*/
 	
 	//	Initialize device
@@ -245,687 +200,79 @@ void TimingUnit::write_attr_hardware(TANGO_UNUSED(vector<long> &attr_list))
 
 //--------------------------------------------------------
 /**
- *	Read attribute DelayLine0 related method
+ *	Read attribute DelayPortB related method
  *	Description: 
  *
  *	Data type:	Tango::DevUShort
  *	Attr type:	Scalar
  */
 //--------------------------------------------------------
-void TimingUnit::read_DelayLine0(Tango::Attribute &attr)
+void TimingUnit::read_DelayPortB(Tango::Attribute &attr)
 {
-	DEBUG_STREAM << "TimingUnit::read_DelayLine0(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TimingUnit::read_DelayLine0) ENABLED START -----*/
+	DEBUG_STREAM << "TimingUnit::read_DelayPortB(Tango::Attribute &attr) entering... " << endl;
+	/*----- PROTECTED REGION ID(TimingUnit::read_DelayPortB) ENABLED START -----*/
 	//	Set the attribute value
-	attr.set_value(attr_DelayLine0_read);
+	attr.set_value(attr_DelayPortB_read);
 	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::read_DelayLine0
+	/*----- PROTECTED REGION END -----*/	//	TimingUnit::read_DelayPortB
 }
 //--------------------------------------------------------
 /**
- *	Write attribute DelayLine0 related method
+ *	Write attribute DelayPortB related method
  *	Description: 
  *
  *	Data type:	Tango::DevUShort
  *	Attr type:	Scalar
  */
 //--------------------------------------------------------
-void TimingUnit::write_DelayLine0(Tango::WAttribute &attr)
+void TimingUnit::write_DelayPortB(Tango::WAttribute &attr)
 {
-	DEBUG_STREAM << "TimingUnit::write_DelayLine0(Tango::WAttribute &attr) entering... " << endl;
+	DEBUG_STREAM << "TimingUnit::write_DelayPortB(Tango::WAttribute &attr) entering... " << endl;
 	//	Retrieve write value
 	Tango::DevUShort	w_val;
 	attr.get_write_value(w_val);
-	/*----- PROTECTED REGION ID(TimingUnit::write_DelayLine0) ENABLED START -----*/
+	/*----- PROTECTED REGION ID(TimingUnit::write_DelayPortB) ENABLED START -----*/
 	
 	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::write_DelayLine0
+	/*----- PROTECTED REGION END -----*/	//	TimingUnit::write_DelayPortB
 }
 //--------------------------------------------------------
 /**
- *	Read attribute DelayLine1 related method
+ *	Read attribute DelayPortD related method
  *	Description: 
  *
  *	Data type:	Tango::DevUShort
  *	Attr type:	Scalar
  */
 //--------------------------------------------------------
-void TimingUnit::read_DelayLine1(Tango::Attribute &attr)
+void TimingUnit::read_DelayPortD(Tango::Attribute &attr)
 {
-	DEBUG_STREAM << "TimingUnit::read_DelayLine1(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TimingUnit::read_DelayLine1) ENABLED START -----*/
+	DEBUG_STREAM << "TimingUnit::read_DelayPortD(Tango::Attribute &attr) entering... " << endl;
+	/*----- PROTECTED REGION ID(TimingUnit::read_DelayPortD) ENABLED START -----*/
 	//	Set the attribute value
-	attr.set_value(attr_DelayLine1_read);
+	attr.set_value(attr_DelayPortD_read);
 	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::read_DelayLine1
+	/*----- PROTECTED REGION END -----*/	//	TimingUnit::read_DelayPortD
 }
 //--------------------------------------------------------
 /**
- *	Write attribute DelayLine1 related method
+ *	Write attribute DelayPortD related method
  *	Description: 
  *
  *	Data type:	Tango::DevUShort
  *	Attr type:	Scalar
  */
 //--------------------------------------------------------
-void TimingUnit::write_DelayLine1(Tango::WAttribute &attr)
+void TimingUnit::write_DelayPortD(Tango::WAttribute &attr)
 {
-	DEBUG_STREAM << "TimingUnit::write_DelayLine1(Tango::WAttribute &attr) entering... " << endl;
+	DEBUG_STREAM << "TimingUnit::write_DelayPortD(Tango::WAttribute &attr) entering... " << endl;
 	//	Retrieve write value
 	Tango::DevUShort	w_val;
 	attr.get_write_value(w_val);
-	/*----- PROTECTED REGION ID(TimingUnit::write_DelayLine1) ENABLED START -----*/
+	/*----- PROTECTED REGION ID(TimingUnit::write_DelayPortD) ENABLED START -----*/
 	
 	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::write_DelayLine1
-}
-//--------------------------------------------------------
-/**
- *	Read attribute DelayLine2 related method
- *	Description: 
- *
- *	Data type:	Tango::DevUShort
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TimingUnit::read_DelayLine2(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "TimingUnit::read_DelayLine2(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TimingUnit::read_DelayLine2) ENABLED START -----*/
-	//	Set the attribute value
-	attr.set_value(attr_DelayLine2_read);
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::read_DelayLine2
-}
-//--------------------------------------------------------
-/**
- *	Write attribute DelayLine2 related method
- *	Description: 
- *
- *	Data type:	Tango::DevUShort
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TimingUnit::write_DelayLine2(Tango::WAttribute &attr)
-{
-	DEBUG_STREAM << "TimingUnit::write_DelayLine2(Tango::WAttribute &attr) entering... " << endl;
-	//	Retrieve write value
-	Tango::DevUShort	w_val;
-	attr.get_write_value(w_val);
-	/*----- PROTECTED REGION ID(TimingUnit::write_DelayLine2) ENABLED START -----*/
-	
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::write_DelayLine2
-}
-//--------------------------------------------------------
-/**
- *	Read attribute DelayLine3 related method
- *	Description: 
- *
- *	Data type:	Tango::DevUShort
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TimingUnit::read_DelayLine3(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "TimingUnit::read_DelayLine3(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TimingUnit::read_DelayLine3) ENABLED START -----*/
-	//	Set the attribute value
-	attr.set_value(attr_DelayLine3_read);
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::read_DelayLine3
-}
-//--------------------------------------------------------
-/**
- *	Write attribute DelayLine3 related method
- *	Description: 
- *
- *	Data type:	Tango::DevUShort
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TimingUnit::write_DelayLine3(Tango::WAttribute &attr)
-{
-	DEBUG_STREAM << "TimingUnit::write_DelayLine3(Tango::WAttribute &attr) entering... " << endl;
-	//	Retrieve write value
-	Tango::DevUShort	w_val;
-	attr.get_write_value(w_val);
-	/*----- PROTECTED REGION ID(TimingUnit::write_DelayLine3) ENABLED START -----*/
-	
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::write_DelayLine3
-}
-//--------------------------------------------------------
-/**
- *	Read attribute DelayLine4 related method
- *	Description: 
- *
- *	Data type:	Tango::DevUShort
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TimingUnit::read_DelayLine4(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "TimingUnit::read_DelayLine4(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TimingUnit::read_DelayLine4) ENABLED START -----*/
-	//	Set the attribute value
-	attr.set_value(attr_DelayLine4_read);
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::read_DelayLine4
-}
-//--------------------------------------------------------
-/**
- *	Write attribute DelayLine4 related method
- *	Description: 
- *
- *	Data type:	Tango::DevUShort
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TimingUnit::write_DelayLine4(Tango::WAttribute &attr)
-{
-	DEBUG_STREAM << "TimingUnit::write_DelayLine4(Tango::WAttribute &attr) entering... " << endl;
-	//	Retrieve write value
-	Tango::DevUShort	w_val;
-	attr.get_write_value(w_val);
-	/*----- PROTECTED REGION ID(TimingUnit::write_DelayLine4) ENABLED START -----*/
-	
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::write_DelayLine4
-}
-//--------------------------------------------------------
-/**
- *	Read attribute DelayLine5 related method
- *	Description: 
- *
- *	Data type:	Tango::DevUShort
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TimingUnit::read_DelayLine5(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "TimingUnit::read_DelayLine5(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TimingUnit::read_DelayLine5) ENABLED START -----*/
-	//	Set the attribute value
-	attr.set_value(attr_DelayLine5_read);
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::read_DelayLine5
-}
-//--------------------------------------------------------
-/**
- *	Write attribute DelayLine5 related method
- *	Description: 
- *
- *	Data type:	Tango::DevUShort
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TimingUnit::write_DelayLine5(Tango::WAttribute &attr)
-{
-	DEBUG_STREAM << "TimingUnit::write_DelayLine5(Tango::WAttribute &attr) entering... " << endl;
-	//	Retrieve write value
-	Tango::DevUShort	w_val;
-	attr.get_write_value(w_val);
-	/*----- PROTECTED REGION ID(TimingUnit::write_DelayLine5) ENABLED START -----*/
-	
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::write_DelayLine5
-}
-//--------------------------------------------------------
-/**
- *	Read attribute Output_B0 related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (Output_B0Enum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TimingUnit::read_Output_B0(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "TimingUnit::read_Output_B0(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TimingUnit::read_Output_B0) ENABLED START -----*/
-	//	Set the attribute value
-	attr.set_value(attr_Output_B0_read);
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::read_Output_B0
-}
-//--------------------------------------------------------
-/**
- *	Write attribute Output_B0 related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (Output_B0Enum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TimingUnit::write_Output_B0(Tango::WAttribute &attr)
-{
-	DEBUG_STREAM << "TimingUnit::write_Output_B0(Tango::WAttribute &attr) entering... " << endl;
-	//	Retrieve write value
-	Output_B0Enum	w_val;
-	attr.get_write_value(w_val);
-	/*----- PROTECTED REGION ID(TimingUnit::write_Output_B0) ENABLED START -----*/
-	
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::write_Output_B0
-}
-//--------------------------------------------------------
-/**
- *	Read attribute Output_B1 related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (Output_B1Enum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TimingUnit::read_Output_B1(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "TimingUnit::read_Output_B1(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TimingUnit::read_Output_B1) ENABLED START -----*/
-	//	Set the attribute value
-	attr.set_value(attr_Output_B1_read);
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::read_Output_B1
-}
-//--------------------------------------------------------
-/**
- *	Write attribute Output_B1 related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (Output_B1Enum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TimingUnit::write_Output_B1(Tango::WAttribute &attr)
-{
-	DEBUG_STREAM << "TimingUnit::write_Output_B1(Tango::WAttribute &attr) entering... " << endl;
-	//	Retrieve write value
-	Output_B1Enum	w_val;
-	attr.get_write_value(w_val);
-	/*----- PROTECTED REGION ID(TimingUnit::write_Output_B1) ENABLED START -----*/
-	
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::write_Output_B1
-}
-//--------------------------------------------------------
-/**
- *	Read attribute Output_B2 related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (Output_B2Enum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TimingUnit::read_Output_B2(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "TimingUnit::read_Output_B2(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TimingUnit::read_Output_B2) ENABLED START -----*/
-	//	Set the attribute value
-	attr.set_value(attr_Output_B2_read);
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::read_Output_B2
-}
-//--------------------------------------------------------
-/**
- *	Write attribute Output_B2 related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (Output_B2Enum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TimingUnit::write_Output_B2(Tango::WAttribute &attr)
-{
-	DEBUG_STREAM << "TimingUnit::write_Output_B2(Tango::WAttribute &attr) entering... " << endl;
-	//	Retrieve write value
-	Output_B2Enum	w_val;
-	attr.get_write_value(w_val);
-	/*----- PROTECTED REGION ID(TimingUnit::write_Output_B2) ENABLED START -----*/
-	
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::write_Output_B2
-}
-//--------------------------------------------------------
-/**
- *	Read attribute Output_B3 related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (Output_B3Enum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TimingUnit::read_Output_B3(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "TimingUnit::read_Output_B3(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TimingUnit::read_Output_B3) ENABLED START -----*/
-	//	Set the attribute value
-	attr.set_value(attr_Output_B3_read);
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::read_Output_B3
-}
-//--------------------------------------------------------
-/**
- *	Write attribute Output_B3 related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (Output_B3Enum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TimingUnit::write_Output_B3(Tango::WAttribute &attr)
-{
-	DEBUG_STREAM << "TimingUnit::write_Output_B3(Tango::WAttribute &attr) entering... " << endl;
-	//	Retrieve write value
-	Output_B3Enum	w_val;
-	attr.get_write_value(w_val);
-	/*----- PROTECTED REGION ID(TimingUnit::write_Output_B3) ENABLED START -----*/
-	
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::write_Output_B3
-}
-//--------------------------------------------------------
-/**
- *	Read attribute Output_B4 related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (Output_B4Enum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TimingUnit::read_Output_B4(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "TimingUnit::read_Output_B4(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TimingUnit::read_Output_B4) ENABLED START -----*/
-	//	Set the attribute value
-	attr.set_value(attr_Output_B4_read);
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::read_Output_B4
-}
-//--------------------------------------------------------
-/**
- *	Write attribute Output_B4 related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (Output_B4Enum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TimingUnit::write_Output_B4(Tango::WAttribute &attr)
-{
-	DEBUG_STREAM << "TimingUnit::write_Output_B4(Tango::WAttribute &attr) entering... " << endl;
-	//	Retrieve write value
-	Output_B4Enum	w_val;
-	attr.get_write_value(w_val);
-	/*----- PROTECTED REGION ID(TimingUnit::write_Output_B4) ENABLED START -----*/
-	
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::write_Output_B4
-}
-//--------------------------------------------------------
-/**
- *	Read attribute Output_B5 related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (Output_B5Enum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TimingUnit::read_Output_B5(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "TimingUnit::read_Output_B5(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TimingUnit::read_Output_B5) ENABLED START -----*/
-	//	Set the attribute value
-	attr.set_value(attr_Output_B5_read);
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::read_Output_B5
-}
-//--------------------------------------------------------
-/**
- *	Write attribute Output_B5 related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (Output_B5Enum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TimingUnit::write_Output_B5(Tango::WAttribute &attr)
-{
-	DEBUG_STREAM << "TimingUnit::write_Output_B5(Tango::WAttribute &attr) entering... " << endl;
-	//	Retrieve write value
-	Output_B5Enum	w_val;
-	attr.get_write_value(w_val);
-	/*----- PROTECTED REGION ID(TimingUnit::write_Output_B5) ENABLED START -----*/
-	
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::write_Output_B5
-}
-//--------------------------------------------------------
-/**
- *	Read attribute Output_B6 related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (Output_B6Enum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TimingUnit::read_Output_B6(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "TimingUnit::read_Output_B6(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TimingUnit::read_Output_B6) ENABLED START -----*/
-	//	Set the attribute value
-	attr.set_value(attr_Output_B6_read);
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::read_Output_B6
-}
-//--------------------------------------------------------
-/**
- *	Write attribute Output_B6 related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (Output_B6Enum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TimingUnit::write_Output_B6(Tango::WAttribute &attr)
-{
-	DEBUG_STREAM << "TimingUnit::write_Output_B6(Tango::WAttribute &attr) entering... " << endl;
-	//	Retrieve write value
-	Output_B6Enum	w_val;
-	attr.get_write_value(w_val);
-	/*----- PROTECTED REGION ID(TimingUnit::write_Output_B6) ENABLED START -----*/
-	
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::write_Output_B6
-}
-//--------------------------------------------------------
-/**
- *	Read attribute Output_B7 related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (Output_B7Enum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TimingUnit::read_Output_B7(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "TimingUnit::read_Output_B7(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TimingUnit::read_Output_B7) ENABLED START -----*/
-	//	Set the attribute value
-	attr.set_value(attr_Output_B7_read);
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::read_Output_B7
-}
-//--------------------------------------------------------
-/**
- *	Write attribute Output_B7 related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (Output_B7Enum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TimingUnit::write_Output_B7(Tango::WAttribute &attr)
-{
-	DEBUG_STREAM << "TimingUnit::write_Output_B7(Tango::WAttribute &attr) entering... " << endl;
-	//	Retrieve write value
-	Output_B7Enum	w_val;
-	attr.get_write_value(w_val);
-	/*----- PROTECTED REGION ID(TimingUnit::write_Output_B7) ENABLED START -----*/
-	
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::write_Output_B7
-}
-//--------------------------------------------------------
-/**
- *	Read attribute Output_D0 related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (Output_D0Enum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TimingUnit::read_Output_D0(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "TimingUnit::read_Output_D0(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TimingUnit::read_Output_D0) ENABLED START -----*/
-	//	Set the attribute value
-	attr.set_value(attr_Output_D0_read);
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::read_Output_D0
-}
-//--------------------------------------------------------
-/**
- *	Write attribute Output_D0 related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (Output_D0Enum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TimingUnit::write_Output_D0(Tango::WAttribute &attr)
-{
-	DEBUG_STREAM << "TimingUnit::write_Output_D0(Tango::WAttribute &attr) entering... " << endl;
-	//	Retrieve write value
-	Output_D0Enum	w_val;
-	attr.get_write_value(w_val);
-	/*----- PROTECTED REGION ID(TimingUnit::write_Output_D0) ENABLED START -----*/
-	
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::write_Output_D0
-}
-//--------------------------------------------------------
-/**
- *	Read attribute Output_D1 related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (Output_D1Enum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TimingUnit::read_Output_D1(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "TimingUnit::read_Output_D1(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TimingUnit::read_Output_D1) ENABLED START -----*/
-	//	Set the attribute value
-	attr.set_value(attr_Output_D1_read);
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::read_Output_D1
-}
-//--------------------------------------------------------
-/**
- *	Write attribute Output_D1 related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (Output_D1Enum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TimingUnit::write_Output_D1(Tango::WAttribute &attr)
-{
-	DEBUG_STREAM << "TimingUnit::write_Output_D1(Tango::WAttribute &attr) entering... " << endl;
-	//	Retrieve write value
-	Output_D1Enum	w_val;
-	attr.get_write_value(w_val);
-	/*----- PROTECTED REGION ID(TimingUnit::write_Output_D1) ENABLED START -----*/
-	
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::write_Output_D1
-}
-//--------------------------------------------------------
-/**
- *	Read attribute Output_D2 related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (Output_D2Enum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TimingUnit::read_Output_D2(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "TimingUnit::read_Output_D2(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TimingUnit::read_Output_D2) ENABLED START -----*/
-	//	Set the attribute value
-	attr.set_value(attr_Output_D2_read);
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::read_Output_D2
-}
-//--------------------------------------------------------
-/**
- *	Write attribute Output_D2 related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (Output_D2Enum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TimingUnit::write_Output_D2(Tango::WAttribute &attr)
-{
-	DEBUG_STREAM << "TimingUnit::write_Output_D2(Tango::WAttribute &attr) entering... " << endl;
-	//	Retrieve write value
-	Output_D2Enum	w_val;
-	attr.get_write_value(w_val);
-	/*----- PROTECTED REGION ID(TimingUnit::write_Output_D2) ENABLED START -----*/
-	
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::write_Output_D2
-}
-//--------------------------------------------------------
-/**
- *	Read attribute Output_D3 related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (Output_D3Enum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TimingUnit::read_Output_D3(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "TimingUnit::read_Output_D3(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TimingUnit::read_Output_D3) ENABLED START -----*/
-	//	Set the attribute value
-	attr.set_value(attr_Output_D3_read);
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::read_Output_D3
-}
-//--------------------------------------------------------
-/**
- *	Write attribute Output_D3 related method
- *	Description: 
- *
- *	Data type:	Tango::DevEnum (Output_D3Enum)
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void TimingUnit::write_Output_D3(Tango::WAttribute &attr)
-{
-	DEBUG_STREAM << "TimingUnit::write_Output_D3(Tango::WAttribute &attr) entering... " << endl;
-	//	Retrieve write value
-	Output_D3Enum	w_val;
-	attr.get_write_value(w_val);
-	/*----- PROTECTED REGION ID(TimingUnit::write_Output_D3) ENABLED START -----*/
-	
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::write_Output_D3
+	/*----- PROTECTED REGION END -----*/	//	TimingUnit::write_DelayPortD
 }
 
 //--------------------------------------------------------
@@ -946,6 +293,54 @@ void TimingUnit::add_dynamic_attributes()
 
 //--------------------------------------------------------
 /**
+ *	Command Configure related method
+ *	Description: 
+ *
+ */
+//--------------------------------------------------------
+void TimingUnit::configure()
+{
+	DEBUG_STREAM << "TimingUnit::Configure()  - " << device_name << endl;
+	/*----- PROTECTED REGION ID(TimingUnit::configure) ENABLED START -----*/
+	
+	//	Add your own code
+	
+	/*----- PROTECTED REGION END -----*/	//	TimingUnit::configure
+}
+//--------------------------------------------------------
+/**
+ *	Command Start related method
+ *	Description: 
+ *
+ */
+//--------------------------------------------------------
+void TimingUnit::start()
+{
+	DEBUG_STREAM << "TimingUnit::Start()  - " << device_name << endl;
+	/*----- PROTECTED REGION ID(TimingUnit::start) ENABLED START -----*/
+	
+	//	Add your own code
+	
+	/*----- PROTECTED REGION END -----*/	//	TimingUnit::start
+}
+//--------------------------------------------------------
+/**
+ *	Command Stop related method
+ *	Description: 
+ *
+ */
+//--------------------------------------------------------
+void TimingUnit::stop()
+{
+	DEBUG_STREAM << "TimingUnit::Stop()  - " << device_name << endl;
+	/*----- PROTECTED REGION ID(TimingUnit::stop) ENABLED START -----*/
+	
+	//	Add your own code
+	
+	/*----- PROTECTED REGION END -----*/	//	TimingUnit::stop
+}
+//--------------------------------------------------------
+/**
  *	Method      : TimingUnit::add_dynamic_commands()
  *	Description : Create the dynamic commands if any
  *                for specified device.
@@ -962,7 +357,6 @@ void TimingUnit::add_dynamic_commands()
 
 /*----- PROTECTED REGION ID(TimingUnit::namespace_ending) ENABLED START -----*/
 
-//	Additional Methods
 
 /*----- PROTECTED REGION END -----*/	//	TimingUnit::namespace_ending
 } //	namespace

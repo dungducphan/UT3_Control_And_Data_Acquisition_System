@@ -45,32 +45,9 @@
 
 namespace TimingUnit_ns
 {
-
-
 /*----- PROTECTED REGION ID(TimingUnit::Additional Class Declarations) ENABLED START -----*/
 
 //	Additional Class Declarations
-
-    enum _Output_Port_Enum {
-        _DELAYLINE0,
-        _DELAYLINE1,
-        _DELAYLINE2,
-        _DELAYLINE3,
-        _DELAYLINE4,
-        _DELAYLINE5,
-    } ;
-    typedef _Output_Port_Enum Output_B0Enum;
-    typedef _Output_Port_Enum Output_B1Enum;
-    typedef _Output_Port_Enum Output_B2Enum;
-    typedef _Output_Port_Enum Output_B3Enum;
-    typedef _Output_Port_Enum Output_B4Enum;
-    typedef _Output_Port_Enum Output_B5Enum;
-    typedef _Output_Port_Enum Output_B6Enum;
-    typedef _Output_Port_Enum Output_B7Enum;
-    typedef _Output_Port_Enum Output_D0Enum;
-    typedef _Output_Port_Enum Output_D1Enum;
-    typedef _Output_Port_Enum Output_D2Enum;
-    typedef _Output_Port_Enum Output_D3Enum;
 
 /*----- PROTECTED REGION END -----*/	//	TimingUnit::Additional Class Declarations
 
@@ -86,24 +63,8 @@ class TimingUnit : public TANGO_BASE_CLASS
 
 //	Attribute data members
 public:
-	Tango::DevUShort	*attr_DelayLine0_read;
-	Tango::DevUShort	*attr_DelayLine1_read;
-	Tango::DevUShort	*attr_DelayLine2_read;
-	Tango::DevUShort	*attr_DelayLine3_read;
-	Tango::DevUShort	*attr_DelayLine4_read;
-	Tango::DevUShort	*attr_DelayLine5_read;
-	Output_B0Enum	*attr_Output_B0_read;
-	Output_B1Enum	*attr_Output_B1_read;
-	Output_B2Enum	*attr_Output_B2_read;
-	Output_B3Enum	*attr_Output_B3_read;
-	Output_B4Enum	*attr_Output_B4_read;
-	Output_B5Enum	*attr_Output_B5_read;
-	Output_B6Enum	*attr_Output_B6_read;
-	Output_B7Enum	*attr_Output_B7_read;
-	Output_D0Enum	*attr_Output_D0_read;
-	Output_D1Enum	*attr_Output_D1_read;
-	Output_D2Enum	*attr_Output_D2_read;
-	Output_D3Enum	*attr_Output_D3_read;
+	Tango::DevUShort	*attr_DelayPortB_read;
+	Tango::DevUShort	*attr_DelayPortD_read;
 
 //	Constructors and destructors
 public:
@@ -169,185 +130,25 @@ public:
 	virtual void write_attr_hardware(vector<long> &attr_list);
 
 /**
- *	Attribute DelayLine0 related methods
+ *	Attribute DelayPortB related methods
  *	Description: 
  *
  *	Data type:	Tango::DevUShort
  *	Attr type:	Scalar
  */
-	virtual void read_DelayLine0(Tango::Attribute &attr);
-	virtual void write_DelayLine0(Tango::WAttribute &attr);
-	virtual bool is_DelayLine0_allowed(Tango::AttReqType type);
+	virtual void read_DelayPortB(Tango::Attribute &attr);
+	virtual void write_DelayPortB(Tango::WAttribute &attr);
+	virtual bool is_DelayPortB_allowed(Tango::AttReqType type);
 /**
- *	Attribute DelayLine1 related methods
+ *	Attribute DelayPortD related methods
  *	Description: 
  *
  *	Data type:	Tango::DevUShort
  *	Attr type:	Scalar
  */
-	virtual void read_DelayLine1(Tango::Attribute &attr);
-	virtual void write_DelayLine1(Tango::WAttribute &attr);
-	virtual bool is_DelayLine1_allowed(Tango::AttReqType type);
-/**
- *	Attribute DelayLine2 related methods
- *	Description: 
- *
- *	Data type:	Tango::DevUShort
- *	Attr type:	Scalar
- */
-	virtual void read_DelayLine2(Tango::Attribute &attr);
-	virtual void write_DelayLine2(Tango::WAttribute &attr);
-	virtual bool is_DelayLine2_allowed(Tango::AttReqType type);
-/**
- *	Attribute DelayLine3 related methods
- *	Description: 
- *
- *	Data type:	Tango::DevUShort
- *	Attr type:	Scalar
- */
-	virtual void read_DelayLine3(Tango::Attribute &attr);
-	virtual void write_DelayLine3(Tango::WAttribute &attr);
-	virtual bool is_DelayLine3_allowed(Tango::AttReqType type);
-/**
- *	Attribute DelayLine4 related methods
- *	Description: 
- *
- *	Data type:	Tango::DevUShort
- *	Attr type:	Scalar
- */
-	virtual void read_DelayLine4(Tango::Attribute &attr);
-	virtual void write_DelayLine4(Tango::WAttribute &attr);
-	virtual bool is_DelayLine4_allowed(Tango::AttReqType type);
-/**
- *	Attribute DelayLine5 related methods
- *	Description: 
- *
- *	Data type:	Tango::DevUShort
- *	Attr type:	Scalar
- */
-	virtual void read_DelayLine5(Tango::Attribute &attr);
-	virtual void write_DelayLine5(Tango::WAttribute &attr);
-	virtual bool is_DelayLine5_allowed(Tango::AttReqType type);
-/**
- *	Attribute Output_B0 related methods
- *	Description: 
- *
- *	Data type:	Tango::DevEnum
- *	Attr type:	Scalar
- */
-	virtual void read_Output_B0(Tango::Attribute &attr);
-	virtual void write_Output_B0(Tango::WAttribute &attr);
-	virtual bool is_Output_B0_allowed(Tango::AttReqType type);
-/**
- *	Attribute Output_B1 related methods
- *	Description: 
- *
- *	Data type:	Tango::DevEnum
- *	Attr type:	Scalar
- */
-	virtual void read_Output_B1(Tango::Attribute &attr);
-	virtual void write_Output_B1(Tango::WAttribute &attr);
-	virtual bool is_Output_B1_allowed(Tango::AttReqType type);
-/**
- *	Attribute Output_B2 related methods
- *	Description: 
- *
- *	Data type:	Tango::DevEnum
- *	Attr type:	Scalar
- */
-	virtual void read_Output_B2(Tango::Attribute &attr);
-	virtual void write_Output_B2(Tango::WAttribute &attr);
-	virtual bool is_Output_B2_allowed(Tango::AttReqType type);
-/**
- *	Attribute Output_B3 related methods
- *	Description: 
- *
- *	Data type:	Tango::DevEnum
- *	Attr type:	Scalar
- */
-	virtual void read_Output_B3(Tango::Attribute &attr);
-	virtual void write_Output_B3(Tango::WAttribute &attr);
-	virtual bool is_Output_B3_allowed(Tango::AttReqType type);
-/**
- *	Attribute Output_B4 related methods
- *	Description: 
- *
- *	Data type:	Tango::DevEnum
- *	Attr type:	Scalar
- */
-	virtual void read_Output_B4(Tango::Attribute &attr);
-	virtual void write_Output_B4(Tango::WAttribute &attr);
-	virtual bool is_Output_B4_allowed(Tango::AttReqType type);
-/**
- *	Attribute Output_B5 related methods
- *	Description: 
- *
- *	Data type:	Tango::DevEnum
- *	Attr type:	Scalar
- */
-	virtual void read_Output_B5(Tango::Attribute &attr);
-	virtual void write_Output_B5(Tango::WAttribute &attr);
-	virtual bool is_Output_B5_allowed(Tango::AttReqType type);
-/**
- *	Attribute Output_B6 related methods
- *	Description: 
- *
- *	Data type:	Tango::DevEnum
- *	Attr type:	Scalar
- */
-	virtual void read_Output_B6(Tango::Attribute &attr);
-	virtual void write_Output_B6(Tango::WAttribute &attr);
-	virtual bool is_Output_B6_allowed(Tango::AttReqType type);
-/**
- *	Attribute Output_B7 related methods
- *	Description: 
- *
- *	Data type:	Tango::DevEnum
- *	Attr type:	Scalar
- */
-	virtual void read_Output_B7(Tango::Attribute &attr);
-	virtual void write_Output_B7(Tango::WAttribute &attr);
-	virtual bool is_Output_B7_allowed(Tango::AttReqType type);
-/**
- *	Attribute Output_D0 related methods
- *	Description: 
- *
- *	Data type:	Tango::DevEnum
- *	Attr type:	Scalar
- */
-	virtual void read_Output_D0(Tango::Attribute &attr);
-	virtual void write_Output_D0(Tango::WAttribute &attr);
-	virtual bool is_Output_D0_allowed(Tango::AttReqType type);
-/**
- *	Attribute Output_D1 related methods
- *	Description: 
- *
- *	Data type:	Tango::DevEnum
- *	Attr type:	Scalar
- */
-	virtual void read_Output_D1(Tango::Attribute &attr);
-	virtual void write_Output_D1(Tango::WAttribute &attr);
-	virtual bool is_Output_D1_allowed(Tango::AttReqType type);
-/**
- *	Attribute Output_D2 related methods
- *	Description: 
- *
- *	Data type:	Tango::DevEnum
- *	Attr type:	Scalar
- */
-	virtual void read_Output_D2(Tango::Attribute &attr);
-	virtual void write_Output_D2(Tango::WAttribute &attr);
-	virtual bool is_Output_D2_allowed(Tango::AttReqType type);
-/**
- *	Attribute Output_D3 related methods
- *	Description: 
- *
- *	Data type:	Tango::DevEnum
- *	Attr type:	Scalar
- */
-	virtual void read_Output_D3(Tango::Attribute &attr);
-	virtual void write_Output_D3(Tango::WAttribute &attr);
-	virtual bool is_Output_D3_allowed(Tango::AttReqType type);
+	virtual void read_DelayPortD(Tango::Attribute &attr);
+	virtual void write_DelayPortD(Tango::WAttribute &attr);
+	virtual bool is_DelayPortD_allowed(Tango::AttReqType type);
 
 
 	//--------------------------------------------------------
@@ -363,6 +164,27 @@ public:
 
 //	Command related methods
 public:
+	/**
+	 *	Command Configure related method
+	 *	Description: 
+	 *
+	 */
+	virtual void configure();
+	virtual bool is_Configure_allowed(const CORBA::Any &any);
+	/**
+	 *	Command Start related method
+	 *	Description: 
+	 *
+	 */
+	virtual void start();
+	virtual bool is_Start_allowed(const CORBA::Any &any);
+	/**
+	 *	Command Stop related method
+	 *	Description: 
+	 *
+	 */
+	virtual void stop();
+	virtual bool is_Stop_allowed(const CORBA::Any &any);
 
 
 	//--------------------------------------------------------

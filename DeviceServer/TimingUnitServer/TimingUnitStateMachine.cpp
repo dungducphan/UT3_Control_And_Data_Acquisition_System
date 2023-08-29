@@ -49,11 +49,11 @@ namespace TimingUnit_ns
 
 //--------------------------------------------------------
 /**
- *	Method      : TimingUnit::is_DelayLine0_allowed()
- *	Description : Execution allowed for DelayLine0 attribute
+ *	Method      : TimingUnit::is_DelayPortB_allowed()
+ *	Description : Execution allowed for DelayPortB attribute
  */
 //--------------------------------------------------------
-bool TimingUnit::is_DelayLine0_allowed(TANGO_UNUSED(Tango::AttReqType type))
+bool TimingUnit::is_DelayPortB_allowed(TANGO_UNUSED(Tango::AttReqType type))
 {
 	//	Check access type.
 	if ( type!=Tango::READ_REQ )
@@ -62,9 +62,9 @@ bool TimingUnit::is_DelayLine0_allowed(TANGO_UNUSED(Tango::AttReqType type))
 		if (get_state()==Tango::OFF ||
 			get_state()==Tango::RUNNING)
 		{
-		/*----- PROTECTED REGION ID(TimingUnit::DelayLine0StateAllowed_WRITE) ENABLED START -----*/
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::DelayLine0StateAllowed_WRITE
+		/*----- PROTECTED REGION ID(TimingUnit::DelayPortBStateAllowed_WRITE) ENABLED START -----*/
+		
+		/*----- PROTECTED REGION END -----*/	//	TimingUnit::DelayPortBStateAllowed_WRITE
 			return false;
 		}
 		return true;
@@ -78,9 +78,9 @@ bool TimingUnit::is_DelayLine0_allowed(TANGO_UNUSED(Tango::AttReqType type))
 		if (get_state()==Tango::OFF ||
 			get_state()==Tango::RUNNING)
 		{
-		/*----- PROTECTED REGION ID(TimingUnit::DelayLine0StateAllowed_READ) ENABLED START -----*/
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::DelayLine0StateAllowed_READ
+		/*----- PROTECTED REGION ID(TimingUnit::DelayPortBStateAllowed_READ) ENABLED START -----*/
+		
+		/*----- PROTECTED REGION END -----*/	//	TimingUnit::DelayPortBStateAllowed_READ
 			return false;
 		}
 		return true;
@@ -90,341 +90,21 @@ bool TimingUnit::is_DelayLine0_allowed(TANGO_UNUSED(Tango::AttReqType type))
 
 //--------------------------------------------------------
 /**
- *	Method      : TimingUnit::is_DelayLine1_allowed()
- *	Description : Execution allowed for DelayLine1 attribute
+ *	Method      : TimingUnit::is_DelayPortD_allowed()
+ *	Description : Execution allowed for DelayPortD attribute
  */
 //--------------------------------------------------------
-bool TimingUnit::is_DelayLine1_allowed(TANGO_UNUSED(Tango::AttReqType type))
+bool TimingUnit::is_DelayPortD_allowed(TANGO_UNUSED(Tango::AttReqType type))
 {
-	//	Not any excluded states for DelayLine1 attribute in Write access.
-	/*----- PROTECTED REGION ID(TimingUnit::DelayLine1StateAllowed_WRITE) ENABLED START -----*/
+	//	Not any excluded states for DelayPortD attribute in Write access.
+	/*----- PROTECTED REGION ID(TimingUnit::DelayPortDStateAllowed_WRITE) ENABLED START -----*/
 	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::DelayLine1StateAllowed_WRITE
+	/*----- PROTECTED REGION END -----*/	//	TimingUnit::DelayPortDStateAllowed_WRITE
 
-	//	Not any excluded states for DelayLine1 attribute in read access.
-	/*----- PROTECTED REGION ID(TimingUnit::DelayLine1StateAllowed_READ) ENABLED START -----*/
+	//	Not any excluded states for DelayPortD attribute in read access.
+	/*----- PROTECTED REGION ID(TimingUnit::DelayPortDStateAllowed_READ) ENABLED START -----*/
 	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::DelayLine1StateAllowed_READ
-	return true;
-}
-
-//--------------------------------------------------------
-/**
- *	Method      : TimingUnit::is_DelayLine2_allowed()
- *	Description : Execution allowed for DelayLine2 attribute
- */
-//--------------------------------------------------------
-bool TimingUnit::is_DelayLine2_allowed(TANGO_UNUSED(Tango::AttReqType type))
-{
-	//	Not any excluded states for DelayLine2 attribute in Write access.
-	/*----- PROTECTED REGION ID(TimingUnit::DelayLine2StateAllowed_WRITE) ENABLED START -----*/
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::DelayLine2StateAllowed_WRITE
-
-	//	Not any excluded states for DelayLine2 attribute in read access.
-	/*----- PROTECTED REGION ID(TimingUnit::DelayLine2StateAllowed_READ) ENABLED START -----*/
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::DelayLine2StateAllowed_READ
-	return true;
-}
-
-//--------------------------------------------------------
-/**
- *	Method      : TimingUnit::is_DelayLine3_allowed()
- *	Description : Execution allowed for DelayLine3 attribute
- */
-//--------------------------------------------------------
-bool TimingUnit::is_DelayLine3_allowed(TANGO_UNUSED(Tango::AttReqType type))
-{
-	//	Not any excluded states for DelayLine3 attribute in Write access.
-	/*----- PROTECTED REGION ID(TimingUnit::DelayLine3StateAllowed_WRITE) ENABLED START -----*/
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::DelayLine3StateAllowed_WRITE
-
-	//	Not any excluded states for DelayLine3 attribute in read access.
-	/*----- PROTECTED REGION ID(TimingUnit::DelayLine3StateAllowed_READ) ENABLED START -----*/
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::DelayLine3StateAllowed_READ
-	return true;
-}
-
-//--------------------------------------------------------
-/**
- *	Method      : TimingUnit::is_DelayLine4_allowed()
- *	Description : Execution allowed for DelayLine4 attribute
- */
-//--------------------------------------------------------
-bool TimingUnit::is_DelayLine4_allowed(TANGO_UNUSED(Tango::AttReqType type))
-{
-	//	Not any excluded states for DelayLine4 attribute in Write access.
-	/*----- PROTECTED REGION ID(TimingUnit::DelayLine4StateAllowed_WRITE) ENABLED START -----*/
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::DelayLine4StateAllowed_WRITE
-
-	//	Not any excluded states for DelayLine4 attribute in read access.
-	/*----- PROTECTED REGION ID(TimingUnit::DelayLine4StateAllowed_READ) ENABLED START -----*/
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::DelayLine4StateAllowed_READ
-	return true;
-}
-
-//--------------------------------------------------------
-/**
- *	Method      : TimingUnit::is_DelayLine5_allowed()
- *	Description : Execution allowed for DelayLine5 attribute
- */
-//--------------------------------------------------------
-bool TimingUnit::is_DelayLine5_allowed(TANGO_UNUSED(Tango::AttReqType type))
-{
-	//	Not any excluded states for DelayLine5 attribute in Write access.
-	/*----- PROTECTED REGION ID(TimingUnit::DelayLine5StateAllowed_WRITE) ENABLED START -----*/
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::DelayLine5StateAllowed_WRITE
-
-	//	Not any excluded states for DelayLine5 attribute in read access.
-	/*----- PROTECTED REGION ID(TimingUnit::DelayLine5StateAllowed_READ) ENABLED START -----*/
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::DelayLine5StateAllowed_READ
-	return true;
-}
-
-//--------------------------------------------------------
-/**
- *	Method      : TimingUnit::is_Output_B0_allowed()
- *	Description : Execution allowed for Output_B0 attribute
- */
-//--------------------------------------------------------
-bool TimingUnit::is_Output_B0_allowed(TANGO_UNUSED(Tango::AttReqType type))
-{
-	//	Not any excluded states for Output_B0 attribute in Write access.
-	/*----- PROTECTED REGION ID(TimingUnit::Output_B0StateAllowed_WRITE) ENABLED START -----*/
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::Output_B0StateAllowed_WRITE
-
-	//	Not any excluded states for Output_B0 attribute in read access.
-	/*----- PROTECTED REGION ID(TimingUnit::Output_B0StateAllowed_READ) ENABLED START -----*/
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::Output_B0StateAllowed_READ
-	return true;
-}
-
-//--------------------------------------------------------
-/**
- *	Method      : TimingUnit::is_Output_B1_allowed()
- *	Description : Execution allowed for Output_B1 attribute
- */
-//--------------------------------------------------------
-bool TimingUnit::is_Output_B1_allowed(TANGO_UNUSED(Tango::AttReqType type))
-{
-	//	Not any excluded states for Output_B1 attribute in Write access.
-	/*----- PROTECTED REGION ID(TimingUnit::Output_B1StateAllowed_WRITE) ENABLED START -----*/
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::Output_B1StateAllowed_WRITE
-
-	//	Not any excluded states for Output_B1 attribute in read access.
-	/*----- PROTECTED REGION ID(TimingUnit::Output_B1StateAllowed_READ) ENABLED START -----*/
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::Output_B1StateAllowed_READ
-	return true;
-}
-
-//--------------------------------------------------------
-/**
- *	Method      : TimingUnit::is_Output_B2_allowed()
- *	Description : Execution allowed for Output_B2 attribute
- */
-//--------------------------------------------------------
-bool TimingUnit::is_Output_B2_allowed(TANGO_UNUSED(Tango::AttReqType type))
-{
-	//	Not any excluded states for Output_B2 attribute in Write access.
-	/*----- PROTECTED REGION ID(TimingUnit::Output_B2StateAllowed_WRITE) ENABLED START -----*/
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::Output_B2StateAllowed_WRITE
-
-	//	Not any excluded states for Output_B2 attribute in read access.
-	/*----- PROTECTED REGION ID(TimingUnit::Output_B2StateAllowed_READ) ENABLED START -----*/
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::Output_B2StateAllowed_READ
-	return true;
-}
-
-//--------------------------------------------------------
-/**
- *	Method      : TimingUnit::is_Output_B3_allowed()
- *	Description : Execution allowed for Output_B3 attribute
- */
-//--------------------------------------------------------
-bool TimingUnit::is_Output_B3_allowed(TANGO_UNUSED(Tango::AttReqType type))
-{
-	//	Not any excluded states for Output_B3 attribute in Write access.
-	/*----- PROTECTED REGION ID(TimingUnit::Output_B3StateAllowed_WRITE) ENABLED START -----*/
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::Output_B3StateAllowed_WRITE
-
-	//	Not any excluded states for Output_B3 attribute in read access.
-	/*----- PROTECTED REGION ID(TimingUnit::Output_B3StateAllowed_READ) ENABLED START -----*/
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::Output_B3StateAllowed_READ
-	return true;
-}
-
-//--------------------------------------------------------
-/**
- *	Method      : TimingUnit::is_Output_B4_allowed()
- *	Description : Execution allowed for Output_B4 attribute
- */
-//--------------------------------------------------------
-bool TimingUnit::is_Output_B4_allowed(TANGO_UNUSED(Tango::AttReqType type))
-{
-	//	Not any excluded states for Output_B4 attribute in Write access.
-	/*----- PROTECTED REGION ID(TimingUnit::Output_B4StateAllowed_WRITE) ENABLED START -----*/
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::Output_B4StateAllowed_WRITE
-
-	//	Not any excluded states for Output_B4 attribute in read access.
-	/*----- PROTECTED REGION ID(TimingUnit::Output_B4StateAllowed_READ) ENABLED START -----*/
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::Output_B4StateAllowed_READ
-	return true;
-}
-
-//--------------------------------------------------------
-/**
- *	Method      : TimingUnit::is_Output_B5_allowed()
- *	Description : Execution allowed for Output_B5 attribute
- */
-//--------------------------------------------------------
-bool TimingUnit::is_Output_B5_allowed(TANGO_UNUSED(Tango::AttReqType type))
-{
-	//	Not any excluded states for Output_B5 attribute in Write access.
-	/*----- PROTECTED REGION ID(TimingUnit::Output_B5StateAllowed_WRITE) ENABLED START -----*/
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::Output_B5StateAllowed_WRITE
-
-	//	Not any excluded states for Output_B5 attribute in read access.
-	/*----- PROTECTED REGION ID(TimingUnit::Output_B5StateAllowed_READ) ENABLED START -----*/
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::Output_B5StateAllowed_READ
-	return true;
-}
-
-//--------------------------------------------------------
-/**
- *	Method      : TimingUnit::is_Output_B6_allowed()
- *	Description : Execution allowed for Output_B6 attribute
- */
-//--------------------------------------------------------
-bool TimingUnit::is_Output_B6_allowed(TANGO_UNUSED(Tango::AttReqType type))
-{
-	//	Not any excluded states for Output_B6 attribute in Write access.
-	/*----- PROTECTED REGION ID(TimingUnit::Output_B6StateAllowed_WRITE) ENABLED START -----*/
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::Output_B6StateAllowed_WRITE
-
-	//	Not any excluded states for Output_B6 attribute in read access.
-	/*----- PROTECTED REGION ID(TimingUnit::Output_B6StateAllowed_READ) ENABLED START -----*/
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::Output_B6StateAllowed_READ
-	return true;
-}
-
-//--------------------------------------------------------
-/**
- *	Method      : TimingUnit::is_Output_B7_allowed()
- *	Description : Execution allowed for Output_B7 attribute
- */
-//--------------------------------------------------------
-bool TimingUnit::is_Output_B7_allowed(TANGO_UNUSED(Tango::AttReqType type))
-{
-	//	Not any excluded states for Output_B7 attribute in Write access.
-	/*----- PROTECTED REGION ID(TimingUnit::Output_B7StateAllowed_WRITE) ENABLED START -----*/
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::Output_B7StateAllowed_WRITE
-
-	//	Not any excluded states for Output_B7 attribute in read access.
-	/*----- PROTECTED REGION ID(TimingUnit::Output_B7StateAllowed_READ) ENABLED START -----*/
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::Output_B7StateAllowed_READ
-	return true;
-}
-
-//--------------------------------------------------------
-/**
- *	Method      : TimingUnit::is_Output_D0_allowed()
- *	Description : Execution allowed for Output_D0 attribute
- */
-//--------------------------------------------------------
-bool TimingUnit::is_Output_D0_allowed(TANGO_UNUSED(Tango::AttReqType type))
-{
-	//	Not any excluded states for Output_D0 attribute in Write access.
-	/*----- PROTECTED REGION ID(TimingUnit::Output_D0StateAllowed_WRITE) ENABLED START -----*/
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::Output_D0StateAllowed_WRITE
-
-	//	Not any excluded states for Output_D0 attribute in read access.
-	/*----- PROTECTED REGION ID(TimingUnit::Output_D0StateAllowed_READ) ENABLED START -----*/
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::Output_D0StateAllowed_READ
-	return true;
-}
-
-//--------------------------------------------------------
-/**
- *	Method      : TimingUnit::is_Output_D1_allowed()
- *	Description : Execution allowed for Output_D1 attribute
- */
-//--------------------------------------------------------
-bool TimingUnit::is_Output_D1_allowed(TANGO_UNUSED(Tango::AttReqType type))
-{
-	//	Not any excluded states for Output_D1 attribute in Write access.
-	/*----- PROTECTED REGION ID(TimingUnit::Output_D1StateAllowed_WRITE) ENABLED START -----*/
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::Output_D1StateAllowed_WRITE
-
-	//	Not any excluded states for Output_D1 attribute in read access.
-	/*----- PROTECTED REGION ID(TimingUnit::Output_D1StateAllowed_READ) ENABLED START -----*/
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::Output_D1StateAllowed_READ
-	return true;
-}
-
-//--------------------------------------------------------
-/**
- *	Method      : TimingUnit::is_Output_D2_allowed()
- *	Description : Execution allowed for Output_D2 attribute
- */
-//--------------------------------------------------------
-bool TimingUnit::is_Output_D2_allowed(TANGO_UNUSED(Tango::AttReqType type))
-{
-	//	Not any excluded states for Output_D2 attribute in Write access.
-	/*----- PROTECTED REGION ID(TimingUnit::Output_D2StateAllowed_WRITE) ENABLED START -----*/
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::Output_D2StateAllowed_WRITE
-
-	//	Not any excluded states for Output_D2 attribute in read access.
-	/*----- PROTECTED REGION ID(TimingUnit::Output_D2StateAllowed_READ) ENABLED START -----*/
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::Output_D2StateAllowed_READ
-	return true;
-}
-
-//--------------------------------------------------------
-/**
- *	Method      : TimingUnit::is_Output_D3_allowed()
- *	Description : Execution allowed for Output_D3 attribute
- */
-//--------------------------------------------------------
-bool TimingUnit::is_Output_D3_allowed(TANGO_UNUSED(Tango::AttReqType type))
-{
-	//	Not any excluded states for Output_D3 attribute in Write access.
-	/*----- PROTECTED REGION ID(TimingUnit::Output_D3StateAllowed_WRITE) ENABLED START -----*/
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::Output_D3StateAllowed_WRITE
-
-	//	Not any excluded states for Output_D3 attribute in read access.
-	/*----- PROTECTED REGION ID(TimingUnit::Output_D3StateAllowed_READ) ENABLED START -----*/
-	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::Output_D3StateAllowed_READ
+	/*----- PROTECTED REGION END -----*/	//	TimingUnit::DelayPortDStateAllowed_READ
 	return true;
 }
 
@@ -432,6 +112,66 @@ bool TimingUnit::is_Output_D3_allowed(TANGO_UNUSED(Tango::AttReqType type))
 //=================================================
 //		Commands Allowed Methods
 //=================================================
+
+//--------------------------------------------------------
+/**
+ *	Method      : TimingUnit::is_Configure_allowed()
+ *	Description : Execution allowed for Configure attribute
+ */
+//--------------------------------------------------------
+bool TimingUnit::is_Configure_allowed(TANGO_UNUSED(const CORBA::Any &any))
+{
+	//	Compare device state with not allowed states.
+	if (get_state()==Tango::OFF ||
+		get_state()==Tango::RUNNING)
+	{
+	/*----- PROTECTED REGION ID(TimingUnit::ConfigureStateAllowed) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	TimingUnit::ConfigureStateAllowed
+		return false;
+	}
+	return true;
+}
+
+//--------------------------------------------------------
+/**
+ *	Method      : TimingUnit::is_Start_allowed()
+ *	Description : Execution allowed for Start attribute
+ */
+//--------------------------------------------------------
+bool TimingUnit::is_Start_allowed(TANGO_UNUSED(const CORBA::Any &any))
+{
+	//	Compare device state with not allowed states.
+	if (get_state()==Tango::OFF ||
+		get_state()==Tango::RUNNING)
+	{
+	/*----- PROTECTED REGION ID(TimingUnit::StartStateAllowed) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	TimingUnit::StartStateAllowed
+		return false;
+	}
+	return true;
+}
+
+//--------------------------------------------------------
+/**
+ *	Method      : TimingUnit::is_Stop_allowed()
+ *	Description : Execution allowed for Stop attribute
+ */
+//--------------------------------------------------------
+bool TimingUnit::is_Stop_allowed(TANGO_UNUSED(const CORBA::Any &any))
+{
+	//	Compare device state with not allowed states.
+	if (get_state()==Tango::ON ||
+		get_state()==Tango::OFF)
+	{
+	/*----- PROTECTED REGION ID(TimingUnit::StopStateAllowed) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	TimingUnit::StopStateAllowed
+		return false;
+	}
+	return true;
+}
 
 
 /*----- PROTECTED REGION ID(TimingUnit::TimingUnitStateAllowed.AdditionalMethods) ENABLED START -----*/

@@ -54,298 +54,107 @@ namespace TimingUnit_ns
 //=========================================
 //	Define classes for attributes
 //=========================================
-//	Attribute DelayLine0 class definition
-class DelayLine0Attrib: public Tango::Attr
+//	Attribute DelayPortB class definition
+class DelayPortBAttrib: public Tango::Attr
 {
 public:
-	DelayLine0Attrib():Attr("DelayLine0",
+	DelayPortBAttrib():Attr("DelayPortB",
 			Tango::DEV_USHORT, Tango::READ_WRITE) {};
-	~DelayLine0Attrib() {};
+	~DelayPortBAttrib() {};
 	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TimingUnit *>(dev))->read_DelayLine0(att);}
+		{(static_cast<TimingUnit *>(dev))->read_DelayPortB(att);}
 	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<TimingUnit *>(dev))->write_DelayLine0(att);}
+		{(static_cast<TimingUnit *>(dev))->write_DelayPortB(att);}
 	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TimingUnit *>(dev))->is_DelayLine0_allowed(ty);}
+		{return (static_cast<TimingUnit *>(dev))->is_DelayPortB_allowed(ty);}
 };
 
-//	Attribute DelayLine1 class definition
-class DelayLine1Attrib: public Tango::Attr
+//	Attribute DelayPortD class definition
+class DelayPortDAttrib: public Tango::Attr
 {
 public:
-	DelayLine1Attrib():Attr("DelayLine1",
+	DelayPortDAttrib():Attr("DelayPortD",
 			Tango::DEV_USHORT, Tango::READ_WRITE) {};
-	~DelayLine1Attrib() {};
+	~DelayPortDAttrib() {};
 	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TimingUnit *>(dev))->read_DelayLine1(att);}
+		{(static_cast<TimingUnit *>(dev))->read_DelayPortD(att);}
 	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<TimingUnit *>(dev))->write_DelayLine1(att);}
+		{(static_cast<TimingUnit *>(dev))->write_DelayPortD(att);}
 	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TimingUnit *>(dev))->is_DelayLine1_allowed(ty);}
+		{return (static_cast<TimingUnit *>(dev))->is_DelayPortD_allowed(ty);}
 };
 
-//	Attribute DelayLine2 class definition
-class DelayLine2Attrib: public Tango::Attr
+
+//=========================================
+//	Define classes for commands
+//=========================================
+//	Command Configure class definition
+class ConfigureClass : public Tango::Command
 {
 public:
-	DelayLine2Attrib():Attr("DelayLine2",
-			Tango::DEV_USHORT, Tango::READ_WRITE) {};
-	~DelayLine2Attrib() {};
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TimingUnit *>(dev))->read_DelayLine2(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<TimingUnit *>(dev))->write_DelayLine2(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TimingUnit *>(dev))->is_DelayLine2_allowed(ty);}
+	ConfigureClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out,
+				   const char        *in_desc,
+				   const char        *out_desc,
+				   Tango::DispLevel  level)
+	:Command(name,in,out,in_desc,out_desc, level)	{};
+
+	ConfigureClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out)
+	:Command(name,in,out)	{};
+	~ConfigureClass() {};
+	
+	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
+	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
+	{return (static_cast<TimingUnit *>(dev))->is_Configure_allowed(any);}
 };
 
-//	Attribute DelayLine3 class definition
-class DelayLine3Attrib: public Tango::Attr
+//	Command Start class definition
+class StartClass : public Tango::Command
 {
 public:
-	DelayLine3Attrib():Attr("DelayLine3",
-			Tango::DEV_USHORT, Tango::READ_WRITE) {};
-	~DelayLine3Attrib() {};
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TimingUnit *>(dev))->read_DelayLine3(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<TimingUnit *>(dev))->write_DelayLine3(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TimingUnit *>(dev))->is_DelayLine3_allowed(ty);}
+	StartClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out,
+				   const char        *in_desc,
+				   const char        *out_desc,
+				   Tango::DispLevel  level)
+	:Command(name,in,out,in_desc,out_desc, level)	{};
+
+	StartClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out)
+	:Command(name,in,out)	{};
+	~StartClass() {};
+	
+	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
+	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
+	{return (static_cast<TimingUnit *>(dev))->is_Start_allowed(any);}
 };
 
-//	Attribute DelayLine4 class definition
-class DelayLine4Attrib: public Tango::Attr
+//	Command Stop class definition
+class StopClass : public Tango::Command
 {
 public:
-	DelayLine4Attrib():Attr("DelayLine4",
-			Tango::DEV_USHORT, Tango::READ_WRITE) {};
-	~DelayLine4Attrib() {};
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TimingUnit *>(dev))->read_DelayLine4(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<TimingUnit *>(dev))->write_DelayLine4(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TimingUnit *>(dev))->is_DelayLine4_allowed(ty);}
-};
+	StopClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out,
+				   const char        *in_desc,
+				   const char        *out_desc,
+				   Tango::DispLevel  level)
+	:Command(name,in,out,in_desc,out_desc, level)	{};
 
-//	Attribute DelayLine5 class definition
-class DelayLine5Attrib: public Tango::Attr
-{
-public:
-	DelayLine5Attrib():Attr("DelayLine5",
-			Tango::DEV_USHORT, Tango::READ_WRITE) {};
-	~DelayLine5Attrib() {};
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TimingUnit *>(dev))->read_DelayLine5(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<TimingUnit *>(dev))->write_DelayLine5(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TimingUnit *>(dev))->is_DelayLine5_allowed(ty);}
-};
-
-//	Attribute Output_B0 class definition
-class Output_B0Attrib: public Tango::Attr
-{
-public:
-	Output_B0Attrib():Attr("Output_B0",
-			Tango::DEV_ENUM, Tango::READ_WRITE) {};
-	~Output_B0Attrib() {};
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TimingUnit *>(dev))->read_Output_B0(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<TimingUnit *>(dev))->write_Output_B0(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TimingUnit *>(dev))->is_Output_B0_allowed(ty);}
-	virtual bool same_type(const type_info &in_type) {return typeid(Output_B0Enum) == in_type;}
-	virtual string get_enum_type() {return string("Output_B0Enum");}
-};
-
-//	Attribute Output_B1 class definition
-class Output_B1Attrib: public Tango::Attr
-{
-public:
-	Output_B1Attrib():Attr("Output_B1",
-			Tango::DEV_ENUM, Tango::READ_WRITE) {};
-	~Output_B1Attrib() {};
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TimingUnit *>(dev))->read_Output_B1(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<TimingUnit *>(dev))->write_Output_B1(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TimingUnit *>(dev))->is_Output_B1_allowed(ty);}
-	virtual bool same_type(const type_info &in_type) {return typeid(Output_B1Enum) == in_type;}
-	virtual string get_enum_type() {return string("Output_B1Enum");}
-};
-
-//	Attribute Output_B2 class definition
-class Output_B2Attrib: public Tango::Attr
-{
-public:
-	Output_B2Attrib():Attr("Output_B2",
-			Tango::DEV_ENUM, Tango::READ_WRITE) {};
-	~Output_B2Attrib() {};
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TimingUnit *>(dev))->read_Output_B2(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<TimingUnit *>(dev))->write_Output_B2(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TimingUnit *>(dev))->is_Output_B2_allowed(ty);}
-	virtual bool same_type(const type_info &in_type) {return typeid(Output_B2Enum) == in_type;}
-	virtual string get_enum_type() {return string("Output_B2Enum");}
-};
-
-//	Attribute Output_B3 class definition
-class Output_B3Attrib: public Tango::Attr
-{
-public:
-	Output_B3Attrib():Attr("Output_B3",
-			Tango::DEV_ENUM, Tango::READ_WRITE) {};
-	~Output_B3Attrib() {};
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TimingUnit *>(dev))->read_Output_B3(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<TimingUnit *>(dev))->write_Output_B3(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TimingUnit *>(dev))->is_Output_B3_allowed(ty);}
-	virtual bool same_type(const type_info &in_type) {return typeid(Output_B3Enum) == in_type;}
-	virtual string get_enum_type() {return string("Output_B3Enum");}
-};
-
-//	Attribute Output_B4 class definition
-class Output_B4Attrib: public Tango::Attr
-{
-public:
-	Output_B4Attrib():Attr("Output_B4",
-			Tango::DEV_ENUM, Tango::READ_WRITE) {};
-	~Output_B4Attrib() {};
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TimingUnit *>(dev))->read_Output_B4(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<TimingUnit *>(dev))->write_Output_B4(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TimingUnit *>(dev))->is_Output_B4_allowed(ty);}
-	virtual bool same_type(const type_info &in_type) {return typeid(Output_B4Enum) == in_type;}
-	virtual string get_enum_type() {return string("Output_B4Enum");}
-};
-
-//	Attribute Output_B5 class definition
-class Output_B5Attrib: public Tango::Attr
-{
-public:
-	Output_B5Attrib():Attr("Output_B5",
-			Tango::DEV_ENUM, Tango::READ_WRITE) {};
-	~Output_B5Attrib() {};
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TimingUnit *>(dev))->read_Output_B5(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<TimingUnit *>(dev))->write_Output_B5(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TimingUnit *>(dev))->is_Output_B5_allowed(ty);}
-	virtual bool same_type(const type_info &in_type) {return typeid(Output_B5Enum) == in_type;}
-	virtual string get_enum_type() {return string("Output_B5Enum");}
-};
-
-//	Attribute Output_B6 class definition
-class Output_B6Attrib: public Tango::Attr
-{
-public:
-	Output_B6Attrib():Attr("Output_B6",
-			Tango::DEV_ENUM, Tango::READ_WRITE) {};
-	~Output_B6Attrib() {};
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TimingUnit *>(dev))->read_Output_B6(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<TimingUnit *>(dev))->write_Output_B6(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TimingUnit *>(dev))->is_Output_B6_allowed(ty);}
-	virtual bool same_type(const type_info &in_type) {return typeid(Output_B6Enum) == in_type;}
-	virtual string get_enum_type() {return string("Output_B6Enum");}
-};
-
-//	Attribute Output_B7 class definition
-class Output_B7Attrib: public Tango::Attr
-{
-public:
-	Output_B7Attrib():Attr("Output_B7",
-			Tango::DEV_ENUM, Tango::READ_WRITE) {};
-	~Output_B7Attrib() {};
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TimingUnit *>(dev))->read_Output_B7(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<TimingUnit *>(dev))->write_Output_B7(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TimingUnit *>(dev))->is_Output_B7_allowed(ty);}
-	virtual bool same_type(const type_info &in_type) {return typeid(Output_B7Enum) == in_type;}
-	virtual string get_enum_type() {return string("Output_B7Enum");}
-};
-
-//	Attribute Output_D0 class definition
-class Output_D0Attrib: public Tango::Attr
-{
-public:
-	Output_D0Attrib():Attr("Output_D0",
-			Tango::DEV_ENUM, Tango::READ_WRITE) {};
-	~Output_D0Attrib() {};
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TimingUnit *>(dev))->read_Output_D0(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<TimingUnit *>(dev))->write_Output_D0(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TimingUnit *>(dev))->is_Output_D0_allowed(ty);}
-	virtual bool same_type(const type_info &in_type) {return typeid(Output_D0Enum) == in_type;}
-	virtual string get_enum_type() {return string("Output_D0Enum");}
-};
-
-//	Attribute Output_D1 class definition
-class Output_D1Attrib: public Tango::Attr
-{
-public:
-	Output_D1Attrib():Attr("Output_D1",
-			Tango::DEV_ENUM, Tango::READ_WRITE) {};
-	~Output_D1Attrib() {};
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TimingUnit *>(dev))->read_Output_D1(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<TimingUnit *>(dev))->write_Output_D1(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TimingUnit *>(dev))->is_Output_D1_allowed(ty);}
-	virtual bool same_type(const type_info &in_type) {return typeid(Output_D1Enum) == in_type;}
-	virtual string get_enum_type() {return string("Output_D1Enum");}
-};
-
-//	Attribute Output_D2 class definition
-class Output_D2Attrib: public Tango::Attr
-{
-public:
-	Output_D2Attrib():Attr("Output_D2",
-			Tango::DEV_ENUM, Tango::READ_WRITE) {};
-	~Output_D2Attrib() {};
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TimingUnit *>(dev))->read_Output_D2(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<TimingUnit *>(dev))->write_Output_D2(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TimingUnit *>(dev))->is_Output_D2_allowed(ty);}
-	virtual bool same_type(const type_info &in_type) {return typeid(Output_D2Enum) == in_type;}
-	virtual string get_enum_type() {return string("Output_D2Enum");}
-};
-
-//	Attribute Output_D3 class definition
-class Output_D3Attrib: public Tango::Attr
-{
-public:
-	Output_D3Attrib():Attr("Output_D3",
-			Tango::DEV_ENUM, Tango::READ_WRITE) {};
-	~Output_D3Attrib() {};
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TimingUnit *>(dev))->read_Output_D3(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<TimingUnit *>(dev))->write_Output_D3(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TimingUnit *>(dev))->is_Output_D3_allowed(ty);}
-	virtual bool same_type(const type_info &in_type) {return typeid(Output_D3Enum) == in_type;}
-	virtual string get_enum_type() {return string("Output_D3Enum");}
+	StopClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out)
+	:Command(name,in,out)	{};
+	~StopClass() {};
+	
+	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
+	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
+	{return (static_cast<TimingUnit *>(dev))->is_Stop_allowed(any);}
 };
 
 
