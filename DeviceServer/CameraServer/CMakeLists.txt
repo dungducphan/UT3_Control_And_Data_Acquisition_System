@@ -80,9 +80,21 @@ set(USER_SRC_FILES
 #
 # Set global info and include directories
 #
-set(ALL_CLASS_INCLUDE  ${TANGOCAMERA_INCLUDE}  ${USER_INCL_DIR})
-set(SERVER_SRC ${TANGOCAMERA_SRC} ${USER_SRC_FILES} ClassFactory.cpp main.cpp)
-include_directories(${ALL_CLASS_INCLUDE}  ${USER_INCL_DIR} ${TANGO_INCLUDES})
+set(ALL_CLASS_INCLUDE
+        ${TANGOCAMERA_INCLUDE}
+        ${USER_INCL_DIR}
+)
+set(SERVER_SRC
+        ${TANGOCAMERA_SRC}
+        ${USER_SRC_FILES}
+        ClassFactory.cpp
+        main.cpp)
+
+include_directories(
+        ${ALL_CLASS_INCLUDE}
+        ${USER_INCL_DIR}
+        ${TANGO_INCLUDES}
+)
 
 #
 # Device Server generation

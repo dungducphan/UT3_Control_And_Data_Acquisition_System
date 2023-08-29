@@ -29,14 +29,29 @@ set(TIMINGUNIT_SRC
 set(USER_INCL_DIR )
 set(USER_LIB_DIR )
 set(USER_LIBS )
-set(USER_SRC_FILES )
+set(USER_SRC_FILES
+        ${TIMING_SERVER_DIR}/TimingUnitDriver.cpp
+        ${TIMING_SERVER_DIR}/TimingUnitDriver.h
+)
 
 #
 # Set global info and include directories
 #
-set(ALL_CLASS_INCLUDE  ${TIMINGUNIT_INCLUDE}  ${USER_INCL_DIR})
-set(SERVER_SRC ${TIMINGUNIT_SRC}  ${USER_SRC_FILES} ClassFactory.cpp main.cpp)
-include_directories(${ALL_CLASS_INCLUDE}  ${USER_INCL_DIR} ${TANGO_INCLUDES})
+set(ALL_CLASS_INCLUDE
+        ${TIMINGUNIT_INCLUDE}
+        ${USER_INCL_DIR}
+)
+set(SERVER_SRC
+        ${TIMINGUNIT_SRC}
+        ${USER_SRC_FILES}
+        ClassFactory.cpp
+        main.cpp
+)
+include_directories(
+        ${ALL_CLASS_INCLUDE}
+        ${USER_INCL_DIR}
+        ${TANGO_INCLUDES}
+)
 
 #
 # Device Server generation
