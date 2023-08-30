@@ -89,7 +89,7 @@ class ShotIDAttrib: public Tango::Attr
 {
 public:
 	ShotIDAttrib():Attr("ShotID",
-			Tango::DEV_ULONG64, Tango::READ) {};
+			Tango::DEV_LONG, Tango::READ) {};
 	~ShotIDAttrib() {};
 	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
 		{(static_cast<TimingUnit *>(dev))->read_ShotID(att);}
@@ -97,17 +97,17 @@ public:
 		{return (static_cast<TimingUnit *>(dev))->is_ShotID_allowed(ty);}
 };
 
-//	Attribute LastLaserShotTimestamp class definition
-class LastLaserShotTimestampAttrib: public Tango::Attr
+//	Attribute LaserShotTimestamp class definition
+class LaserShotTimestampAttrib: public Tango::Attr
 {
 public:
-	LastLaserShotTimestampAttrib():Attr("LastLaserShotTimestamp",
+	LaserShotTimestampAttrib():Attr("LaserShotTimestamp",
 			Tango::DEV_LONG64, Tango::READ) {};
-	~LastLaserShotTimestampAttrib() {};
+	~LaserShotTimestampAttrib() {};
 	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TimingUnit *>(dev))->read_LastLaserShotTimestamp(att);}
+		{(static_cast<TimingUnit *>(dev))->read_LaserShotTimestamp(att);}
 	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TimingUnit *>(dev))->is_LastLaserShotTimestamp_allowed(ty);}
+		{return (static_cast<TimingUnit *>(dev))->is_LaserShotTimestamp_allowed(ty);}
 };
 
 

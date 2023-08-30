@@ -40,4 +40,7 @@ private:
     Tango::DevLong DelayFromTriggerToLaserEventInMilliseconds;
     int SerialPort;
     TimingUnit_ns::TimingUnit* TimingUnitDevicePtr;
+
+    unsigned char ResumeTriggerMessage[2];
+    unsigned char PauseTriggerMessage[2];
 };

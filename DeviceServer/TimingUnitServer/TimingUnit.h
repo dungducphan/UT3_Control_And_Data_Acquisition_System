@@ -76,8 +76,8 @@ public:
 public:
 	Tango::DevLong	*attr_DelayPortB_read;
 	Tango::DevLong	*attr_DelayPortD_read;
-	Tango::DevULong64	*attr_ShotID_read;
-	Tango::DevLong64	*attr_LastLaserShotTimestamp_read;
+	Tango::DevLong	*attr_ShotID_read;
+	Tango::DevLong64	*attr_LaserShotTimestamp_read;
 
 //	Constructors and destructors
 public:
@@ -174,20 +174,20 @@ public:
  *	Attribute ShotID related methods
  *	Description: 
  *
- *	Data type:	Tango::DevULong64
+ *	Data type:	Tango::DevLong
  *	Attr type:	Scalar
  */
 	virtual void read_ShotID(Tango::Attribute &attr);
 	virtual bool is_ShotID_allowed(Tango::AttReqType type);
 /**
- *	Attribute LastLaserShotTimestamp related methods
+ *	Attribute LaserShotTimestamp related methods
  *	Description: 
  *
  *	Data type:	Tango::DevLong64
  *	Attr type:	Scalar
  */
-	virtual void read_LastLaserShotTimestamp(Tango::Attribute &attr);
-	virtual bool is_LastLaserShotTimestamp_allowed(Tango::AttReqType type);
+	virtual void read_LaserShotTimestamp(Tango::Attribute &attr);
+	virtual bool is_LaserShotTimestamp_allowed(Tango::AttReqType type);
 
 
 	//--------------------------------------------------------

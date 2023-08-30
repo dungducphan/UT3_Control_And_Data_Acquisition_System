@@ -154,11 +154,11 @@ bool TimingUnit::is_ShotID_allowed(TANGO_UNUSED(Tango::AttReqType type))
 
 //--------------------------------------------------------
 /**
- *	Method      : TimingUnit::is_LastLaserShotTimestamp_allowed()
- *	Description : Execution allowed for LastLaserShotTimestamp attribute
+ *	Method      : TimingUnit::is_LaserShotTimestamp_allowed()
+ *	Description : Execution allowed for LaserShotTimestamp attribute
  */
 //--------------------------------------------------------
-bool TimingUnit::is_LastLaserShotTimestamp_allowed(TANGO_UNUSED(Tango::AttReqType type))
+bool TimingUnit::is_LaserShotTimestamp_allowed(TANGO_UNUSED(Tango::AttReqType type))
 {
 
 	//	Check access type.
@@ -167,9 +167,9 @@ bool TimingUnit::is_LastLaserShotTimestamp_allowed(TANGO_UNUSED(Tango::AttReqTyp
 		//	Compare device state with not allowed states for READ 
 		if (get_state()==Tango::OFF)
 		{
-		/*----- PROTECTED REGION ID(TimingUnit::LastLaserShotTimestampStateAllowed_READ) ENABLED START -----*/
+		/*----- PROTECTED REGION ID(TimingUnit::LaserShotTimestampStateAllowed_READ) ENABLED START -----*/
 		
-		/*----- PROTECTED REGION END -----*/	//	TimingUnit::LastLaserShotTimestampStateAllowed_READ
+		/*----- PROTECTED REGION END -----*/	//	TimingUnit::LaserShotTimestampStateAllowed_READ
 			return false;
 		}
 		return true;

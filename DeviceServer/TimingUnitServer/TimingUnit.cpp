@@ -59,10 +59,10 @@
 //================================================================
 //  Attributes managed are:
 //================================================================
-//  DelayPortB              |  Tango::DevLong	Scalar
-//  DelayPortD              |  Tango::DevLong	Scalar
-//  ShotID                  |  Tango::DevULong64	Scalar
-//  LastLaserShotTimestamp  |  Tango::DevLong64	Scalar
+//  DelayPortB          |  Tango::DevLong	Scalar
+//  DelayPortD          |  Tango::DevLong	Scalar
+//  ShotID              |  Tango::DevLong	Scalar
+//  LaserShotTimestamp  |  Tango::DevLong64	Scalar
 //================================================================
 
 namespace TimingUnit_ns
@@ -125,7 +125,7 @@ void TimingUnit::delete_device()
 	delete[] attr_DelayPortB_read;
 	delete[] attr_DelayPortD_read;
 	delete[] attr_ShotID_read;
-	delete[] attr_LastLaserShotTimestamp_read;
+	delete[] attr_LaserShotTimestamp_read;
 }
 
 //--------------------------------------------------------
@@ -149,8 +149,8 @@ void TimingUnit::init_device()
 	
 	attr_DelayPortB_read = new Tango::DevLong[1];
 	attr_DelayPortD_read = new Tango::DevLong[1];
-	attr_ShotID_read = new Tango::DevULong64[1];
-	attr_LastLaserShotTimestamp_read = new Tango::DevLong64[1];
+	attr_ShotID_read = new Tango::DevLong[1];
+	attr_LaserShotTimestamp_read = new Tango::DevLong64[1];
 	//	No longer if mandatory property not set. 
 	if (mandatoryNotDefined)
 		return;
@@ -159,7 +159,7 @@ void TimingUnit::init_device()
 	
 	//	Initialize device
     *attr_ShotID_read = 0;
-    *attr_LastLaserShotTimestamp_read = 0;
+    *attr_LaserShotTimestamp_read = 0;
     timingDriverPtr = std::make_unique<TimingUnitDriver>(this);
     usleep(500);
     timingDriverPtr->Stop();
@@ -394,7 +394,7 @@ void TimingUnit::write_DelayPortD(Tango::WAttribute &attr)
  *	Read attribute ShotID related method
  *	Description: 
  *
- *	Data type:	Tango::DevULong64
+ *	Data type:	Tango::DevLong
  *	Attr type:	Scalar
  */
 //--------------------------------------------------------
@@ -409,21 +409,21 @@ void TimingUnit::read_ShotID(Tango::Attribute &attr)
 }
 //--------------------------------------------------------
 /**
- *	Read attribute LastLaserShotTimestamp related method
+ *	Read attribute LaserShotTimestamp related method
  *	Description: 
  *
  *	Data type:	Tango::DevLong64
  *	Attr type:	Scalar
  */
 //--------------------------------------------------------
-void TimingUnit::read_LastLaserShotTimestamp(Tango::Attribute &attr)
+void TimingUnit::read_LaserShotTimestamp(Tango::Attribute &attr)
 {
-	DEBUG_STREAM << "TimingUnit::read_LastLaserShotTimestamp(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(TimingUnit::read_LastLaserShotTimestamp) ENABLED START -----*/
+	DEBUG_STREAM << "TimingUnit::read_LaserShotTimestamp(Tango::Attribute &attr) entering... " << endl;
+	/*----- PROTECTED REGION ID(TimingUnit::read_LaserShotTimestamp) ENABLED START -----*/
 	//	Set the attribute value
-	attr.set_value(attr_LastLaserShotTimestamp_read);
+	attr.set_value(attr_LaserShotTimestamp_read);
 	
-	/*----- PROTECTED REGION END -----*/	//	TimingUnit::read_LastLaserShotTimestamp
+	/*----- PROTECTED REGION END -----*/	//	TimingUnit::read_LaserShotTimestamp
 }
 
 //--------------------------------------------------------
