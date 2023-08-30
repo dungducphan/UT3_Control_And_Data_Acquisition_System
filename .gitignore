@@ -37,4 +37,10 @@ cmake-build-*
 
 # VSCode
 .vscode
-build
+build/
+
+# logging
+log/
+
+# Python
+*.pyc

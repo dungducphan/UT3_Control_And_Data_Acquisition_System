@@ -5,11 +5,15 @@ from pathlib import Path
 from typing import Optional, TYPE_CHECKING
 if TYPE_CHECKING:
     import numpy as np
+    from tango import DataReadyEventData
 from typing import NamedTuple
 
-from tango import AttributeProxy, EventType, DataReadyEventData
+from tango import AttributeProxy, EventType
 
 import imageio
+
+from .logging import get_logger
+logger = get_logger('acquire')
 
 TANGO_HOST = "tango://localhost:10000"
 
@@ -44,7 +48,11 @@ class Acquirer:
 
             # subscribe to the image attributes' data ready events
             self.device_image_acquire_properties[device_handle].attribute_proxy.subscribe_event(EventType.DATA_READY_EVENT, self.handle_data_ready_event)
-            print(self.device_image_acquire_properties[device_handle].attribute_proxy.name())
+            logger.info("Subscribed to events from %(device)/%(attr)", 
+                        {'device': device_handle, 
+                         'attr': self.device_image_acquire_properties[device_handle].attribute_proxy.name()
+                        }
+                       )
 
     def handle_data_ready_event(self, event: DataReadyEventData):
         """
@@ -54,11 +62,11 @@ class Acquirer:
             DataReady event data
         """
         device_handle = event.device.dev_name()
-        print(f"Received data ready event from {device_handle}")
+        logger.info(f"Received data ready event from {device_handle}")
         
         # get image from device
         image: np.ndarray = event.device.read_attribute(event.attr_name)
-        print(f"Received image with shape {image.shape}")
+        logger.info(f"Received image with shape {image.shape}")
 
         if self.device_image_acquire_properties[device_handle].save_folder:
             imageio.imwrite(self.device_image_acquire_properties[device_handle].save_folder / f"{event.ctr:04d}.tiff", image)
