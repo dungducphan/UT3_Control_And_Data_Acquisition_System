@@ -6,8 +6,10 @@ unsigned char RETURN_SYMBOL = 13;
 TimingUnitDriver::TimingUnitDriver(const TimingUnit_ns::TimingUnit *tango_device_ptr) :
         SerialPort(-1),
         TimingUnitDevicePtr(const_cast<TimingUnit_ns::TimingUnit *>(tango_device_ptr)),
-        DelayValueOnPortB_InMilliseconds(70),
-        DelayValueOnPortD_InMilliseconds(70) {
+        TimingEventListenerThreadPtr(nullptr) {
+    // Hardcoded value for UT3
+    DelayFromTriggerToLaserEventInMilliseconds = 100;
+
     try {
         OpenUART();
         if (SerialPort != -1) TimingUnitDevicePtr->set_state(Tango::ON);
@@ -70,8 +72,33 @@ void TimingUnitDriver::CloseUART() const {
 }
 
 void TimingUnitDriver::GetDelayFromHardware() {
-    DelayValueOnPortB_InMilliseconds = GetDelayFromHardware(DelayLineID_t::DelayLine0);
-    DelayValueOnPortD_InMilliseconds = GetDelayFromHardware(DelayLineID_t::DelayLine1);
+    if (TimingUnitDevicePtr->get_state() == Tango::RUNNING) return;
+    *(TimingUnitDevicePtr->attr_DelayPortB_read) = GetDelayFromHardware(DelayLineID_t::DelayLine0);
+    *(TimingUnitDevicePtr->attr_DelayPortD_read) = GetDelayFromHardware(DelayLineID_t::DelayLine1);
+}
+
+Tango::DevLong TimingUnitDriver::GetDelayFromHardware(const DelayLineID_t &delayLineID) const {
+    char read_buf[5];
+    do {
+        memset(read_buf, '\0', sizeof(read_buf));
+        unsigned char msg[] = {'R', static_cast<unsigned char>('0' + delayLineID), RETURN_SYMBOL};
+        write(SerialPort, msg, sizeof(msg));
+        read(SerialPort, &read_buf, sizeof(read_buf));
+    } while (read_buf[0] == 'E');
+
+    if (0 < atoi(read_buf) && atoi(read_buf) < 100) return (Tango::DevLong) atoi(read_buf);
+    else {
+#ifdef ENABLE_DEBUG_FEATURES
+        std::cout << "Invalid delay value received from hardware: "
+                << "'" << read_buf[0] << "'"
+                << "'" << read_buf[1] << "'"
+                << "'" << read_buf[2] << "'"
+                << "'" << read_buf[3] << "'"
+                << "'" << read_buf[4] << "'"
+                << std::endl;
+#endif
+        return -1;
+    }
 }
 
 void TimingUnitDriver::SetDelayToHardware() const {
@@ -80,15 +107,18 @@ void TimingUnitDriver::SetDelayToHardware() const {
 }
 
 void TimingUnitDriver::Start() {
+    TimingUnitDevicePtr->set_state(Tango::RUNNING);
     unsigned char msg[] = {'S', '\r'};
     write(SerialPort, msg, sizeof(msg));
-    TimingUnitDevicePtr->set_state(Tango::RUNNING);
+
+    TimingEventListenerThreadPtr = new std::thread(&TimingUnitDriver::ListenToTriggerEvent, this);
 }
 
 void TimingUnitDriver::Stop() {
+    TimingUnitDevicePtr->set_state(Tango::ON);
+    usleep(200);
     unsigned char msg[] = {'P', '\r'};
     write(SerialPort, msg, sizeof(msg));
-    TimingUnitDevicePtr->set_state(Tango::ON);
 }
 
 void TimingUnitDriver::ConvertIntegerBaseNToString(int value, const int &base, char *result) {
@@ -111,17 +141,12 @@ void TimingUnitDriver::ConvertIntegerBaseNToString(int value, const int &base, c
     }
 }
 
-Tango::DevUShort TimingUnitDriver::GetDelayFromHardware(const DelayLineID_t &delayLineID) const {
-    char read_buf[5];
-    memset(read_buf, '\0', sizeof(read_buf));
-    unsigned char msg[] = {'R', static_cast<unsigned char>('0' + delayLineID), RETURN_SYMBOL};
-    write(SerialPort, msg, sizeof(msg));
-    read(SerialPort, &read_buf, sizeof(read_buf));
-    return (Tango::DevUShort) atoi(read_buf);
-}
-
 void TimingUnitDriver::SetDelayToHardware(const DelayLineID_t &delayLineID) const {
-    int inputDelay = (int) (delayLineID == DelayLineID_t::DelayLine0) ? DelayValueOnPortB_InMilliseconds : DelayValueOnPortD_InMilliseconds;
+    int inputDelay = (int) (delayLineID == DelayLineID_t::DelayLine0)
+            ? *(TimingUnitDevicePtr->attr_DelayPortB_read)
+            : *(TimingUnitDevicePtr->attr_DelayPortD_read);
+    if (inputDelay <= 0 || inputDelay >= 100) return;
+
     char inputDelayStr[6] = {' ', ' ', ' ', ' ', ' ', ' '};
     ConvertIntegerBaseNToString(inputDelay, 10, inputDelayStr);
     unsigned char msg[10] = {'W', static_cast<unsigned char>('0' + delayLineID), ' ', ' ', ' ', ' ', ' ', ' ', ' ', RETURN_SYMBOL};
@@ -129,4 +154,23 @@ void TimingUnitDriver::SetDelayToHardware(const DelayLineID_t &delayLineID) cons
         msg[3 + i] = inputDelayStr[i];
     }
     write(SerialPort, msg, 10);
+}
+
+void TimingUnitDriver::ListenToTriggerEvent() {
+    char read_buf[1];
+    while (TimingUnitDevicePtr->get_state() == Tango::RUNNING) {
+        read(SerialPort, &read_buf, sizeof(read_buf));
+        if (read_buf[0] == 'E') {
+            auto now = std::chrono::system_clock::now();
+            *(TimingUnitDevicePtr->attr_ShotID_read) = *(TimingUnitDevicePtr->attr_ShotID_read) + 1;
+            *(TimingUnitDevicePtr->attr_LastLaserShotTimestamp_read)
+                       = (Tango::DevLong64) std::chrono::duration_cast<std::chrono::milliseconds>(
+                    now.time_since_epoch()).count() + DelayFromTriggerToLaserEventInMilliseconds;
+            TimingUnitDevicePtr->push_change_event("ShotID", TimingUnitDevicePtr->attr_ShotID_read, 0);
+        }
+    }
+}
+
+TimingUnitDriver::~TimingUnitDriver() {
+    CloseUART();
 }

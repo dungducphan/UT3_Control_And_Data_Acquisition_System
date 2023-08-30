@@ -59,8 +59,10 @@
 //================================================================
 //  Attributes managed are:
 //================================================================
-//  DelayPortB  |  Tango::DevUShort	Scalar
-//  DelayPortD  |  Tango::DevUShort	Scalar
+//  DelayPortB              |  Tango::DevLong	Scalar
+//  DelayPortD              |  Tango::DevLong	Scalar
+//  ShotID                  |  Tango::DevULong64	Scalar
+//  LastLaserShotTimestamp  |  Tango::DevLong64	Scalar
 //================================================================
 
 namespace TimingUnit_ns
@@ -117,11 +119,13 @@ void TimingUnit::delete_device()
 	/*----- PROTECTED REGION ID(TimingUnit::delete_device) ENABLED START -----*/
 	
 	//	Delete device allocated objects
-    timingDriverPtr->CloseUART();
+    timingDriverPtr->~TimingUnitDriver();
 	
 	/*----- PROTECTED REGION END -----*/	//	TimingUnit::delete_device
 	delete[] attr_DelayPortB_read;
 	delete[] attr_DelayPortD_read;
+	delete[] attr_ShotID_read;
+	delete[] attr_LastLaserShotTimestamp_read;
 }
 
 //--------------------------------------------------------
@@ -143,8 +147,10 @@ void TimingUnit::init_device()
 	//	Get the device properties from database
 	get_device_property();
 	
-	attr_DelayPortB_read = new Tango::DevUShort[1];
-	attr_DelayPortD_read = new Tango::DevUShort[1];
+	attr_DelayPortB_read = new Tango::DevLong[1];
+	attr_DelayPortD_read = new Tango::DevLong[1];
+	attr_ShotID_read = new Tango::DevULong64[1];
+	attr_LastLaserShotTimestamp_read = new Tango::DevLong64[1];
 	//	No longer if mandatory property not set. 
 	if (mandatoryNotDefined)
 		return;
@@ -152,8 +158,13 @@ void TimingUnit::init_device()
 	/*----- PROTECTED REGION ID(TimingUnit::init_device) ENABLED START -----*/
 	
 	//	Initialize device
+    *attr_ShotID_read = 0;
+    *attr_LastLaserShotTimestamp_read = 0;
     timingDriverPtr = std::make_unique<TimingUnitDriver>(this);
+    usleep(500);
     timingDriverPtr->Stop();
+    sleep(2);
+    std::cout << "Timing/Trigger Unit ready!" << std::endl;
 	
 	/*----- PROTECTED REGION END -----*/	//	TimingUnit::init_device
 }
@@ -275,8 +286,6 @@ void TimingUnit::read_attr_hardware(TANGO_UNUSED(vector<long> &attr_list))
 	
 	//	Add your own code
     timingDriverPtr->GetDelayFromHardware();
-    *attr_DelayPortB_read = timingDriverPtr->DelayValueOnPortB_InMilliseconds;
-    *attr_DelayPortD_read = timingDriverPtr->DelayValueOnPortD_InMilliseconds;
 #ifdef ENABLE_DEBUG_FEATURES
     std::cout << "Read DelayPortB: " << *attr_DelayPortB_read << std::endl;
     std::cout << "Read DelayPortD: " << *attr_DelayPortD_read << std::endl;
@@ -295,11 +304,9 @@ void TimingUnit::write_attr_hardware(TANGO_UNUSED(vector<long> &attr_list))
 	/*----- PROTECTED REGION ID(TimingUnit::write_attr_hardware) ENABLED START -----*/
 	
 	//	Add your own code
-    timingDriverPtr->DelayValueOnPortB_InMilliseconds = *attr_DelayPortB_read;
-    timingDriverPtr->DelayValueOnPortD_InMilliseconds = *attr_DelayPortD_read;
 #ifdef ENABLE_DEBUG_FEATURES
-    std::cout << "Write DelayPortB: " << timingDriverPtr->DelayValueOnPortB_InMilliseconds << std::endl;
-    std::cout << "Write DelayPortD: " << timingDriverPtr->DelayValueOnPortD_InMilliseconds << std::endl;
+    std::cout << "Write DelayPortB: " << *attr_DelayPortB_read << std::endl;
+    std::cout << "Write DelayPortD: " << *attr_DelayPortB_read << std::endl;
 #endif
     timingDriverPtr->SetDelayToHardware();
 	
@@ -311,7 +318,7 @@ void TimingUnit::write_attr_hardware(TANGO_UNUSED(vector<long> &attr_list))
  *	Read attribute DelayPortB related method
  *	Description: 
  *
- *	Data type:	Tango::DevUShort
+ *	Data type:	Tango::DevLong
  *	Attr type:	Scalar
  */
 //--------------------------------------------------------
@@ -329,7 +336,7 @@ void TimingUnit::read_DelayPortB(Tango::Attribute &attr)
  *	Write attribute DelayPortB related method
  *	Description: 
  *
- *	Data type:	Tango::DevUShort
+ *	Data type:	Tango::DevLong
  *	Attr type:	Scalar
  */
 //--------------------------------------------------------
@@ -337,7 +344,7 @@ void TimingUnit::write_DelayPortB(Tango::WAttribute &attr)
 {
 	DEBUG_STREAM << "TimingUnit::write_DelayPortB(Tango::WAttribute &attr) entering... " << endl;
 	//	Retrieve write value
-	Tango::DevUShort	w_val;
+	Tango::DevLong	w_val;
 	attr.get_write_value(w_val);
 	/*----- PROTECTED REGION ID(TimingUnit::write_DelayPortB) ENABLED START -----*/
 	*attr_DelayPortB_read = w_val;
@@ -349,7 +356,7 @@ void TimingUnit::write_DelayPortB(Tango::WAttribute &attr)
  *	Read attribute DelayPortD related method
  *	Description: 
  *
- *	Data type:	Tango::DevUShort
+ *	Data type:	Tango::DevLong
  *	Attr type:	Scalar
  */
 //--------------------------------------------------------
@@ -367,7 +374,7 @@ void TimingUnit::read_DelayPortD(Tango::Attribute &attr)
  *	Write attribute DelayPortD related method
  *	Description: 
  *
- *	Data type:	Tango::DevUShort
+ *	Data type:	Tango::DevLong
  *	Attr type:	Scalar
  */
 //--------------------------------------------------------
@@ -375,12 +382,48 @@ void TimingUnit::write_DelayPortD(Tango::WAttribute &attr)
 {
 	DEBUG_STREAM << "TimingUnit::write_DelayPortD(Tango::WAttribute &attr) entering... " << endl;
 	//	Retrieve write value
-	Tango::DevUShort	w_val;
+	Tango::DevLong	w_val;
 	attr.get_write_value(w_val);
 	/*----- PROTECTED REGION ID(TimingUnit::write_DelayPortD) ENABLED START -----*/
     *attr_DelayPortD_read = w_val;
 	
 	/*----- PROTECTED REGION END -----*/	//	TimingUnit::write_DelayPortD
+}
+//--------------------------------------------------------
+/**
+ *	Read attribute ShotID related method
+ *	Description: 
+ *
+ *	Data type:	Tango::DevULong64
+ *	Attr type:	Scalar
+ */
+//--------------------------------------------------------
+void TimingUnit::read_ShotID(Tango::Attribute &attr)
+{
+	DEBUG_STREAM << "TimingUnit::read_ShotID(Tango::Attribute &attr) entering... " << endl;
+	/*----- PROTECTED REGION ID(TimingUnit::read_ShotID) ENABLED START -----*/
+	//	Set the attribute value
+	attr.set_value(attr_ShotID_read);
+	
+	/*----- PROTECTED REGION END -----*/	//	TimingUnit::read_ShotID
+}
+//--------------------------------------------------------
+/**
+ *	Read attribute LastLaserShotTimestamp related method
+ *	Description: 
+ *
+ *	Data type:	Tango::DevLong64
+ *	Attr type:	Scalar
+ */
+//--------------------------------------------------------
+void TimingUnit::read_LastLaserShotTimestamp(Tango::Attribute &attr)
+{
+	DEBUG_STREAM << "TimingUnit::read_LastLaserShotTimestamp(Tango::Attribute &attr) entering... " << endl;
+	/*----- PROTECTED REGION ID(TimingUnit::read_LastLaserShotTimestamp) ENABLED START -----*/
+	//	Set the attribute value
+	attr.set_value(attr_LastLaserShotTimestamp_read);
+	
+	/*----- PROTECTED REGION END -----*/	//	TimingUnit::read_LastLaserShotTimestamp
 }
 
 //--------------------------------------------------------

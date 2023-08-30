@@ -393,8 +393,7 @@ void TimingUnitClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	delayportb->set_default_properties(delayportb_prop);
 	//	Not Polled
 	delayportb->set_disp_level(Tango::OPERATOR);
-	delayportb->set_memorized();
-	delayportb->set_memorized_init(true);
+	//	Not Memorized
 	att_list.push_back(delayportb);
 
 	//	Attribute : DelayPortD
@@ -418,9 +417,57 @@ void TimingUnitClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	delayportd->set_default_properties(delayportd_prop);
 	//	Not Polled
 	delayportd->set_disp_level(Tango::OPERATOR);
-	delayportd->set_memorized();
-	delayportd->set_memorized_init(true);
+	//	Not Memorized
 	att_list.push_back(delayportd);
+
+	//	Attribute : ShotID
+	ShotIDAttrib	*shotid = new ShotIDAttrib();
+	Tango::UserDefaultAttrProp	shotid_prop;
+	//	description	not set for ShotID
+	shotid_prop.set_label("Shot ID");
+	//	unit	not set for ShotID
+	//	standard_unit	not set for ShotID
+	//	display_unit	not set for ShotID
+	//	format	not set for ShotID
+	//	max_value	not set for ShotID
+	//	min_value	not set for ShotID
+	//	max_alarm	not set for ShotID
+	//	min_alarm	not set for ShotID
+	//	max_warning	not set for ShotID
+	//	min_warning	not set for ShotID
+	//	delta_t	not set for ShotID
+	//	delta_val	not set for ShotID
+	
+	shotid->set_default_properties(shotid_prop);
+	//	Not Polled
+	shotid->set_disp_level(Tango::OPERATOR);
+	//	Not Memorized
+	shotid->set_change_event(true, false);
+	att_list.push_back(shotid);
+
+	//	Attribute : LastLaserShotTimestamp
+	LastLaserShotTimestampAttrib	*lastlasershottimestamp = new LastLaserShotTimestampAttrib();
+	Tango::UserDefaultAttrProp	lastlasershottimestamp_prop;
+	//	description	not set for LastLaserShotTimestamp
+	lastlasershottimestamp_prop.set_label("Last Laser Shot Timestamp");
+	//	unit	not set for LastLaserShotTimestamp
+	//	standard_unit	not set for LastLaserShotTimestamp
+	//	display_unit	not set for LastLaserShotTimestamp
+	//	format	not set for LastLaserShotTimestamp
+	//	max_value	not set for LastLaserShotTimestamp
+	//	min_value	not set for LastLaserShotTimestamp
+	//	max_alarm	not set for LastLaserShotTimestamp
+	//	min_alarm	not set for LastLaserShotTimestamp
+	//	max_warning	not set for LastLaserShotTimestamp
+	//	min_warning	not set for LastLaserShotTimestamp
+	//	delta_t	not set for LastLaserShotTimestamp
+	//	delta_val	not set for LastLaserShotTimestamp
+	
+	lastlasershottimestamp->set_default_properties(lastlasershottimestamp_prop);
+	//	Not Polled
+	lastlasershottimestamp->set_disp_level(Tango::OPERATOR);
+	//	Not Memorized
+	att_list.push_back(lastlasershottimestamp);
 
 
 	//	Create a list of static attributes

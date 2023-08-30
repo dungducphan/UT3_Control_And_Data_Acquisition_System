@@ -59,7 +59,7 @@ class DelayPortBAttrib: public Tango::Attr
 {
 public:
 	DelayPortBAttrib():Attr("DelayPortB",
-			Tango::DEV_USHORT, Tango::READ_WRITE) {};
+			Tango::DEV_LONG, Tango::READ_WRITE) {};
 	~DelayPortBAttrib() {};
 	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
 		{(static_cast<TimingUnit *>(dev))->read_DelayPortB(att);}
@@ -74,7 +74,7 @@ class DelayPortDAttrib: public Tango::Attr
 {
 public:
 	DelayPortDAttrib():Attr("DelayPortD",
-			Tango::DEV_USHORT, Tango::READ_WRITE) {};
+			Tango::DEV_LONG, Tango::READ_WRITE) {};
 	~DelayPortDAttrib() {};
 	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
 		{(static_cast<TimingUnit *>(dev))->read_DelayPortD(att);}
@@ -82,6 +82,32 @@ public:
 		{(static_cast<TimingUnit *>(dev))->write_DelayPortD(att);}
 	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
 		{return (static_cast<TimingUnit *>(dev))->is_DelayPortD_allowed(ty);}
+};
+
+//	Attribute ShotID class definition
+class ShotIDAttrib: public Tango::Attr
+{
+public:
+	ShotIDAttrib():Attr("ShotID",
+			Tango::DEV_ULONG64, Tango::READ) {};
+	~ShotIDAttrib() {};
+	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
+		{(static_cast<TimingUnit *>(dev))->read_ShotID(att);}
+	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
+		{return (static_cast<TimingUnit *>(dev))->is_ShotID_allowed(ty);}
+};
+
+//	Attribute LastLaserShotTimestamp class definition
+class LastLaserShotTimestampAttrib: public Tango::Attr
+{
+public:
+	LastLaserShotTimestampAttrib():Attr("LastLaserShotTimestamp",
+			Tango::DEV_LONG64, Tango::READ) {};
+	~LastLaserShotTimestampAttrib() {};
+	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
+		{(static_cast<TimingUnit *>(dev))->read_LastLaserShotTimestamp(att);}
+	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
+		{return (static_cast<TimingUnit *>(dev))->is_LastLaserShotTimestamp_allowed(ty);}
 };
 
 

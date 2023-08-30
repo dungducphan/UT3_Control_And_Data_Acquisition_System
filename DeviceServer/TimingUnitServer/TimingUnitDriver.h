@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <thread>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -21,21 +22,22 @@ enum DelayLineID_t {
 class TimingUnitDriver {
 public:
     explicit TimingUnitDriver(const TimingUnit_ns::TimingUnit* tango_device_ptr);
+    ~TimingUnitDriver();
     void CloseUART() const;
     void GetDelayFromHardware();
     void SetDelayToHardware() const;
     void Start();
     void Stop();
-    Tango::DevUShort DelayValueOnPortB_InMilliseconds;
-    Tango::DevUShort DelayValueOnPortD_InMilliseconds;
 
 private:
     void OpenUART();
-    [[nodiscard]] Tango::DevUShort GetDelayFromHardware(const DelayLineID_t& delayLineID) const;
+    [[nodiscard]] Tango::DevLong GetDelayFromHardware(const DelayLineID_t& delayLineID) const;
     void SetDelayToHardware(const DelayLineID_t& delayLineID) const;
     static void ConvertIntegerBaseNToString(int value, const int &base, char *result);
+    void ListenToTriggerEvent();
 
-
+    std::thread* TimingEventListenerThreadPtr;
+    Tango::DevLong DelayFromTriggerToLaserEventInMilliseconds;
     int SerialPort;
     TimingUnit_ns::TimingUnit* TimingUnitDevicePtr;
 };

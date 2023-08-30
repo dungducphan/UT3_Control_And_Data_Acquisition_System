@@ -74,8 +74,10 @@ public:
 
 //	Attribute data members
 public:
-	Tango::DevUShort	*attr_DelayPortB_read;
-	Tango::DevUShort	*attr_DelayPortD_read;
+	Tango::DevLong	*attr_DelayPortB_read;
+	Tango::DevLong	*attr_DelayPortD_read;
+	Tango::DevULong64	*attr_ShotID_read;
+	Tango::DevLong64	*attr_LastLaserShotTimestamp_read;
 
 //	Constructors and destructors
 public:
@@ -152,7 +154,7 @@ public:
  *	Attribute DelayPortB related methods
  *	Description: 
  *
- *	Data type:	Tango::DevUShort
+ *	Data type:	Tango::DevLong
  *	Attr type:	Scalar
  */
 	virtual void read_DelayPortB(Tango::Attribute &attr);
@@ -162,12 +164,30 @@ public:
  *	Attribute DelayPortD related methods
  *	Description: 
  *
- *	Data type:	Tango::DevUShort
+ *	Data type:	Tango::DevLong
  *	Attr type:	Scalar
  */
 	virtual void read_DelayPortD(Tango::Attribute &attr);
 	virtual void write_DelayPortD(Tango::WAttribute &attr);
 	virtual bool is_DelayPortD_allowed(Tango::AttReqType type);
+/**
+ *	Attribute ShotID related methods
+ *	Description: 
+ *
+ *	Data type:	Tango::DevULong64
+ *	Attr type:	Scalar
+ */
+	virtual void read_ShotID(Tango::Attribute &attr);
+	virtual bool is_ShotID_allowed(Tango::AttReqType type);
+/**
+ *	Attribute LastLaserShotTimestamp related methods
+ *	Description: 
+ *
+ *	Data type:	Tango::DevLong64
+ *	Attr type:	Scalar
+ */
+	virtual void read_LastLaserShotTimestamp(Tango::Attribute &attr);
+	virtual bool is_LastLaserShotTimestamp_allowed(Tango::AttReqType type);
 
 
 	//--------------------------------------------------------
