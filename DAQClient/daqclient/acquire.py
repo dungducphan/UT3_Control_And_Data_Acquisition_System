@@ -121,5 +121,5 @@ if __name__ == '__main__':
                           )
     args = argparser.parse_args()
 
-    acquirer = Acquirer(args.device_list, args.save_folder)
+    acquirer = Acquirer(args.device_list, args.timing_device, args.save_folder)
     acquirer.run()
