@@ -97,7 +97,9 @@ Tango::DevLong TimingUnitDriver::GetDelayFromHardware(const DelayLineID_t &delay
                 << "'" << read_buf[4] << "'"
                 << std::endl;
 #endif
-        return -1;
+        return ((int) (delayLineID == DelayLineID_t::DelayLine0))
+                                ? *(TimingUnitDevicePtr->attr_DelayPortB_read)
+                                : *(TimingUnitDevicePtr->attr_DelayPortD_read);
     }
 }
 
@@ -116,7 +118,6 @@ void TimingUnitDriver::Start() {
 
 void TimingUnitDriver::Stop() {
     TimingUnitDevicePtr->set_state(Tango::ON);
-    usleep(200);
     unsigned char msg[] = {'P', '\r'};
     write(SerialPort, msg, sizeof(msg));
 }
@@ -142,7 +143,7 @@ void TimingUnitDriver::ConvertIntegerBaseNToString(int value, const int &base, c
 }
 
 void TimingUnitDriver::SetDelayToHardware(const DelayLineID_t &delayLineID) const {
-    int inputDelay = (int) (delayLineID == DelayLineID_t::DelayLine0)
+    int inputDelay = ((int) (delayLineID == DelayLineID_t::DelayLine0))
             ? *(TimingUnitDevicePtr->attr_DelayPortB_read)
             : *(TimingUnitDevicePtr->attr_DelayPortD_read);
     if (inputDelay <= 0 || inputDelay >= 100) return;
@@ -167,6 +168,7 @@ void TimingUnitDriver::ListenToTriggerEvent() {
                        = (Tango::DevLong64) std::chrono::duration_cast<std::chrono::milliseconds>(
                     now.time_since_epoch()).count() + DelayFromTriggerToLaserEventInMilliseconds;
             TimingUnitDevicePtr->push_change_event("ShotID", TimingUnitDevicePtr->attr_ShotID_read, 0);
+            std::cout << "ShotID: " << *(TimingUnitDevicePtr->attr_ShotID_read) << std::endl;
         }
     }
 }

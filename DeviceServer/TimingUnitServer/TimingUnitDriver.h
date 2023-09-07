@@ -10,6 +10,8 @@
 #include <termios.h> // Contains POSIX terminal control definitions
 #include <unistd.h>  // write(), read(), close()
 
+// TODO: make DelayPortB and DelayPortD functions
+
 namespace TimingUnit_ns {
     class TimingUnit;
 }
@@ -31,7 +33,7 @@ public:
 
 private:
     void OpenUART();
-    [[nodiscard]] Tango::DevLong GetDelayFromHardware(const DelayLineID_t& delayLineID) const;
+    Tango::DevLong GetDelayFromHardware(const DelayLineID_t& delayLineID) const;
     void SetDelayToHardware(const DelayLineID_t& delayLineID) const;
     static void ConvertIntegerBaseNToString(int value, const int &base, char *result);
     void ListenToTriggerEvent();
