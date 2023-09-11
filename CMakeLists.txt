@@ -61,3 +61,4 @@ set (NEWPORT8742_SERVER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/DeviceServer/Newport8742
 add_subdirectory(${CAMERA_SERVER_DIR})
 add_subdirectory(${TIMING_SERVER_DIR})
 add_subdirectory(${DG656_SERVER_DIR})
+add_subdirectory(DAQClient.C++)
