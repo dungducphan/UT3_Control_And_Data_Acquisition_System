@@ -60,13 +60,13 @@ set(USER_LIB_DIR
 
 set(USER_LIBS
         Spinnaker
-        pcocam_usb
-        pco_sc2cam
-        pcocom
-        pcocom_usb
-        pco_recorder
-        pco_convert
-        pylon::pylon
+#        pcocam_usb
+#        pco_sc2cam
+#        pcocom
+#        pcocom_usb
+#        pco_recorder
+#        pco_convert
+#        pylon::pylon
         ${Boost_LIBRARIES}
 )
 
