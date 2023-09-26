@@ -421,12 +421,25 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionExit"/>
+    <addaction name="separator"/>
+    <addaction name="actionBeamline_Image_Diagnostic"/>
+    <addaction name="separator"/>
+    <addaction name="actionExit_2"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionBeamline_Image_Diagnostic">
+   <property name="text">
+    <string>Beamline Image Diagnostic</string>
+   </property>
+  </action>
+  <action name="actionExit_2">
    <property name="text">
     <string>Exit</string>
    </property>
