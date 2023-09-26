@@ -65,7 +65,7 @@ private:
 */
 
 /*--------------------------------------------------------------------------------------------------------------------*/
-
+/*
 #include <pco.camera/stdafx.h>
 #include <pco.camera/camera.h>
 #include <pco.camera/cameraexception.h>
@@ -83,7 +83,7 @@ public:
 private:
     std::shared_ptr<pco::Camera> PCOCameraPtr;
 };
-
+*/
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 #include <Spinnaker.h>
