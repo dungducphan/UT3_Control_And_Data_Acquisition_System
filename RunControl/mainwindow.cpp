@@ -3,7 +3,8 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow) {
+    , ui(new Ui::MainWindow),
+    beamlineImgViewer{nullptr} {
     ui->setupUi(this);
 }
 
@@ -13,6 +14,7 @@ MainWindow::~MainWindow() {
 
 
 void MainWindow::on_actionBeamline_Image_Diagnostic_triggered() {
-
+    if (beamlineImgViewer == nullptr) beamlineImgViewer = std::make_shared<BeamlineDiagnosticsImageViewer>(this);
+    beamlineImgViewer->show();
 }
 
