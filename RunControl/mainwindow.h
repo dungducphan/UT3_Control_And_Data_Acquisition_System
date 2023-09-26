@@ -18,6 +18,8 @@ public:
 
 private slots:
     void on_actionBeamline_Image_Diagnostic_triggered();
+    void on_actionExit_triggered();
+    void on_Button_ImageBasePathFileDialog_clicked();
 
 private:
     Ui::MainWindow *ui;

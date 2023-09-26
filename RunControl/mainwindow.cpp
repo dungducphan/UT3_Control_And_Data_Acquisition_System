@@ -18,3 +18,12 @@ void MainWindow::on_actionBeamline_Image_Diagnostic_triggered() {
     beamlineImgViewer->show();
 }
 
+
+void MainWindow::on_actionExit_triggered() {
+    QApplication::exit();
+}
+
+void MainWindow::on_Button_ImageBasePathFileDialog_clicked() {
+    // FIXME: open a file dialog here to set the base path for image saving. View this video: https://www.youtube.com/watch?v=NANhXeoOwNY
+}
+

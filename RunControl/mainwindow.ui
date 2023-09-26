@@ -22,7 +22,7 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
-     <widget class="QFrame" name="frame">
+     <widget class="QFrame" name="Frame_DatabaseControl">
       <property name="maximumSize">
        <size>
         <width>16777215</width>
@@ -37,38 +37,8 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
-        <widget class="QWidget" name="widget" native="true">
+        <widget class="QWidget" name="DatabaseControlWidget" native="true">
          <layout class="QGridLayout" name="gridLayout">
-          <item row="4" column="0">
-           <widget class="QLabel" name="DatabaseSchemaLabel">
-            <property name="text">
-             <string>Schema</string>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="1">
-           <spacer name="verticalSpacer">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="2" column="1">
-           <widget class="QLineEdit" name="LE_DatabaseHost">
-            <property name="text">
-             <string/>
-            </property>
-            <property name="placeholderText">
-             <string>localhost</string>
-            </property>
-           </widget>
-          </item>
           <item row="3" column="1">
            <widget class="QLineEdit" name="LE_DatabasePort">
             <property name="text">
@@ -79,14 +49,7 @@
             </property>
            </widget>
           </item>
-          <item row="4" column="1">
-           <widget class="QLineEdit" name="LE_DatabaseSchema">
-            <property name="placeholderText">
-             <string>LaserParameter</string>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="1">
+          <item row="5" column="1">
            <widget class="QLabel" name="URLLabel">
             <property name="font">
              <font>
@@ -95,26 +58,6 @@
             </property>
             <property name="text">
              <string>jdbc:mariadb://</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="3">
-           <widget class="QPushButton" name="ConnectButton">
-            <property name="text">
-             <string>Connect</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0" colspan="2">
-           <widget class="QLabel" name="DatabaseConnectionLabel">
-            <property name="font">
-             <font>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="text">
-             <string>Database Connection</string>
             </property>
            </widget>
           </item>
@@ -139,6 +82,50 @@
             </property>
            </widget>
           </item>
+          <item row="4" column="0">
+           <widget class="QLabel" name="DatabaseSchemaLabel">
+            <property name="text">
+             <string>Schema</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="LE_DatabaseHost">
+            <property name="text">
+             <string/>
+            </property>
+            <property name="placeholderText">
+             <string>localhost</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" colspan="2">
+           <widget class="QLabel" name="DatabaseConnectionLabel">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>Database Connection</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QLineEdit" name="LE_DatabaseSchema">
+            <property name="placeholderText">
+             <string>LaserParameter</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="3">
+           <widget class="QPushButton" name="ConnectButton">
+            <property name="text">
+             <string>Connect</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>
@@ -146,7 +133,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QFrame" name="frame_2">
+     <widget class="QFrame" name="Frame_RunControl">
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
       </property>
@@ -155,93 +142,8 @@
       </property>
       <layout class="QGridLayout" name="gridLayout_3">
        <item row="1" column="0">
-        <widget class="QWidget" name="widget_2" native="true">
+        <widget class="QWidget" name="RunControlWidget" native="true">
          <layout class="QGridLayout" name="gridLayout_2">
-          <item row="3" column="1">
-           <widget class="QLineEdit" name="LE_PulseDuration"/>
-          </item>
-          <item row="8" column="0">
-           <widget class="QLabel" name="GasjetTimingLabel">
-            <property name="text">
-             <string>Ges Jet Timing Relative to Main Pulse</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="PulseDurationLabel">
-            <property name="text">
-             <string>Pulse Duration</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QLineEdit" name="LE_EnergyOnTarget"/>
-          </item>
-          <item row="3" column="2">
-           <widget class="QLabel" name="PulseDurationUnitLabel">
-            <property name="text">
-             <string>femtoseconds</string>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="2">
-           <widget class="QLabel" name="GasjetPosYUnitLabel">
-            <property name="text">
-             <string>microns</string>
-            </property>
-           </widget>
-          </item>
-          <item row="8" column="2">
-           <widget class="QLabel" name="GasjetTimingUnitLabel">
-            <property name="text">
-             <string>milliseconds</string>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="2">
-           <widget class="QLabel" name="GasjetPosXUnitLabel">
-            <property name="text">
-             <string>microns</string>
-            </property>
-           </widget>
-          </item>
-          <item row="9" column="0">
-           <widget class="QLabel" name="GasjetDurationLabel">
-            <property name="text">
-             <string>Gas Jet Opening Duration</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="EnergyOnTargetLabel">
-            <property name="text">
-             <string>Energy on Target</string>
-            </property>
-           </widget>
-          </item>
-          <item row="7" column="1">
-           <widget class="QLineEdit" name="LE_GasjetZ"/>
-          </item>
-          <item row="2" column="1">
-           <widget class="QLineEdit" name="LE_FarfieldEnergy"/>
-          </item>
-          <item row="7" column="0">
-           <widget class="QLabel" name="GasjetPosXLabel">
-            <property name="text">
-             <string>Gas Jet Position Z</string>
-            </property>
-           </widget>
-          </item>
-          <item row="13" column="0">
-           <widget class="QLabel" name="TopviewNDLabel">
-            <property name="text">
-             <string>Plasma Channel Topview ND</string>
-            </property>
-           </widget>
-          </item>
-          <item row="9" column="1">
-           <widget class="QLineEdit" name="LE_GasjetDuration"/>
-          </item>
           <item row="0" column="0">
            <widget class="QLabel" name="RunControlConfigurationLabel">
             <property name="maximumSize">
@@ -261,130 +163,232 @@
             </property>
            </widget>
           </item>
-          <item row="8" column="1">
-           <widget class="QLineEdit" name="LE_GasjetY"/>
-          </item>
-          <item row="2" column="2">
-           <widget class="QLabel" name="FarfieldEnergyUnitLabel">
-            <property name="text">
-             <string>mJ</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="2">
-           <widget class="QLabel" name="EnergyOnTargetUnitLabel">
-            <property name="text">
-             <string>mJ</string>
-            </property>
-           </widget>
-          </item>
           <item row="2" column="0">
-           <widget class="QLabel" name="FarfieldEnergyLabel">
+           <widget class="QLabel" name="EnergyOnTargetLabel">
             <property name="text">
-             <string>Farfield Energy Diagnostics</string>
+             <string>Energy on Target</string>
             </property>
            </widget>
           </item>
-          <item row="11" column="1">
+          <item row="12" column="1">
            <widget class="QLineEdit" name="LE_ProbeND"/>
           </item>
-          <item row="12" column="0">
-           <widget class="QLabel" name="WFSNDLabel">
-            <property name="text">
-             <string>WFS ND</string>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="1">
-           <widget class="QLineEdit" name="LE_GasjetX"/>
-          </item>
-          <item row="5" column="0">
-           <widget class="QLabel" name="GaejetPosXLabel">
-            <property name="text">
-             <string>Gas Jet Position X</string>
-            </property>
-           </widget>
-          </item>
-          <item row="10" column="0">
-           <widget class="QLabel" name="ProbeTimingLabel">
-            <property name="text">
-             <string>Probe Timing Relative to Main Pulse</string>
-            </property>
-           </widget>
-          </item>
-          <item row="10" column="1">
-           <widget class="QLineEdit" name="LE_ProbeTiming"/>
-          </item>
-          <item row="6" column="0">
-           <widget class="QLabel" name="GasjetPosYLabel">
-            <property name="text">
-             <string>Gas Jet Position Y</string>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="1">
-           <widget class="QLineEdit" name="LE_GasjetY_2"/>
-          </item>
-          <item row="4" column="0">
-           <widget class="QLabel" name="GasjetBackpressureLabel">
-            <property name="text">
-             <string>Gas Jet Backing Pressure</string>
-            </property>
-           </widget>
-          </item>
           <item row="10" column="2">
-           <widget class="QLabel" name="ProbeTimingUnitLabel">
-            <property name="text">
-             <string>femtoseconds</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="2">
-           <widget class="QLabel" name="GasjetBackpressureUnitLabel">
-            <property name="text">
-             <string>bars</string>
-            </property>
-           </widget>
-          </item>
-          <item row="11" column="0">
-           <widget class="QLabel" name="ProbeNDLabel">
-            <property name="text">
-             <string>Probe ND</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="1">
-           <widget class="QLineEdit" name="LE_GasjetBackpressure"/>
-          </item>
-          <item row="13" column="1">
-           <widget class="QLineEdit" name="LE_TopviewND"/>
-          </item>
-          <item row="7" column="2">
-           <widget class="QLabel" name="GasjetPosZUnitLabel">
-            <property name="text">
-             <string>microns</string>
-            </property>
-           </widget>
-          </item>
-          <item row="9" column="2">
            <widget class="QLabel" name="GasjetDurationUnitLabel">
             <property name="text">
              <string>picoseconds</string>
             </property>
            </widget>
           </item>
-          <item row="12" column="1">
-           <widget class="QLineEdit" name="LE_WFSND"/>
+          <item row="9" column="0">
+           <widget class="QLabel" name="GasjetTimingLabel">
+            <property name="text">
+             <string>Ges Jet Timing Relative to Main Pulse</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="LE_EnergyOnTarget"/>
+          </item>
+          <item row="6" column="0">
+           <widget class="QLabel" name="GaejetPosXLabel">
+            <property name="text">
+             <string>Gas Jet Position X</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="1">
+           <widget class="QLineEdit" name="LE_GasjetY_2"/>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="LE_ImageBasePath"/>
+          </item>
+          <item row="14" column="1">
+           <widget class="QLineEdit" name="LE_TopviewND"/>
           </item>
           <item row="14" column="0">
+           <widget class="QLabel" name="TopviewNDLabel">
+            <property name="text">
+             <string>Plasma Channel Topview ND</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="2">
+           <widget class="QLabel" name="EnergyOnTargetUnitLabel">
+            <property name="text">
+             <string>mJ</string>
+            </property>
+           </widget>
+          </item>
+          <item row="9" column="1">
+           <widget class="QLineEdit" name="LE_GasjetY"/>
+          </item>
+          <item row="6" column="2">
+           <widget class="QLabel" name="GasjetPosXUnitLabel">
+            <property name="text">
+             <string>microns</string>
+            </property>
+           </widget>
+          </item>
+          <item row="13" column="1">
+           <widget class="QLineEdit" name="LE_WFSND"/>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="FarfieldEnergyLabel">
+            <property name="text">
+             <string>Farfield Energy Diagnostics</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QLineEdit" name="LE_PulseDuration"/>
+          </item>
+          <item row="8" column="1">
+           <widget class="QLineEdit" name="LE_GasjetZ"/>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="ImageBasePathLabel">
+            <property name="text">
+             <string>Image Base Path</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0">
+           <widget class="QLabel" name="GasjetBackpressureLabel">
+            <property name="text">
+             <string>Gas Jet Backing Pressure</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="2">
+           <widget class="QLabel" name="GasjetPosYUnitLabel">
+            <property name="text">
+             <string>microns</string>
+            </property>
+           </widget>
+          </item>
+          <item row="10" column="1">
+           <widget class="QLineEdit" name="LE_GasjetDuration"/>
+          </item>
+          <item row="5" column="1">
+           <widget class="QLineEdit" name="LE_GasjetBackpressure"/>
+          </item>
+          <item row="3" column="2">
+           <widget class="QLabel" name="FarfieldEnergyUnitLabel">
+            <property name="text">
+             <string>mJ</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="1">
+           <widget class="QLineEdit" name="LE_GasjetX"/>
+          </item>
+          <item row="11" column="0">
+           <widget class="QLabel" name="ProbeTimingLabel">
+            <property name="text">
+             <string>Probe Timing Relative to Main Pulse</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QLineEdit" name="LE_FarfieldEnergy"/>
+          </item>
+          <item row="7" column="0">
+           <widget class="QLabel" name="GasjetPosYLabel">
+            <property name="text">
+             <string>Gas Jet Position Y</string>
+            </property>
+           </widget>
+          </item>
+          <item row="12" column="0">
+           <widget class="QLabel" name="ProbeNDLabel">
+            <property name="text">
+             <string>Probe ND</string>
+            </property>
+           </widget>
+          </item>
+          <item row="11" column="2">
+           <widget class="QLabel" name="ProbeTimingUnitLabel">
+            <property name="text">
+             <string>femtoseconds</string>
+            </property>
+           </widget>
+          </item>
+          <item row="15" column="0">
            <widget class="QLabel" name="NotesLabel">
             <property name="text">
              <string>Notes</string>
             </property>
            </widget>
           </item>
-          <item row="14" column="1">
+          <item row="8" column="0">
+           <widget class="QLabel" name="GasjetPosXLabel">
+            <property name="text">
+             <string>Gas Jet Position Z</string>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="2">
+           <widget class="QLabel" name="GasjetPosZUnitLabel">
+            <property name="text">
+             <string>microns</string>
+            </property>
+           </widget>
+          </item>
+          <item row="11" column="1">
+           <widget class="QLineEdit" name="LE_ProbeTiming"/>
+          </item>
+          <item row="13" column="0">
+           <widget class="QLabel" name="WFSNDLabel">
+            <property name="text">
+             <string>WFS ND</string>
+            </property>
+           </widget>
+          </item>
+          <item row="15" column="1">
            <widget class="QTextEdit" name="LE_Notes"/>
+          </item>
+          <item row="4" column="0">
+           <widget class="QLabel" name="PulseDurationLabel">
+            <property name="text">
+             <string>Pulse Duration</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="2">
+           <widget class="QLabel" name="GasjetBackpressureUnitLabel">
+            <property name="text">
+             <string>bars</string>
+            </property>
+           </widget>
+          </item>
+          <item row="9" column="2">
+           <widget class="QLabel" name="GasjetTimingUnitLabel">
+            <property name="text">
+             <string>milliseconds</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="2">
+           <widget class="QLabel" name="PulseDurationUnitLabel">
+            <property name="text">
+             <string>femtoseconds</string>
+            </property>
+           </widget>
+          </item>
+          <item row="10" column="0">
+           <widget class="QLabel" name="GasjetDurationLabel">
+            <property name="text">
+             <string>Gas Jet Opening Duration</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QPushButton" name="Button_ImageBasePathFileDialog">
+            <property name="text">
+             <string>...</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -424,22 +428,17 @@
     <addaction name="separator"/>
     <addaction name="actionBeamline_Image_Diagnostic"/>
     <addaction name="separator"/>
-    <addaction name="actionExit_2"/>
+    <addaction name="actionExit"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionExit">
-   <property name="text">
-    <string>Exit</string>
-   </property>
-  </action>
   <action name="actionBeamline_Image_Diagnostic">
    <property name="text">
     <string>Beamline Image Diagnostic</string>
    </property>
   </action>
-  <action name="actionExit_2">
+  <action name="actionExit">
    <property name="text">
     <string>Exit</string>
    </property>
