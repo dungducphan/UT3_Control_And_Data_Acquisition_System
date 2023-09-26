@@ -44,3 +44,7 @@ log/
 
 # Python
 *.pyc
+
+
+# QtCreator
+build-*/
