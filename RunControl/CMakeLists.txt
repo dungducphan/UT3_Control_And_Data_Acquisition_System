@@ -22,6 +22,8 @@ set(PROJECT_SOURCES
         beamlinediagnosticsimageviewer.cpp
         beamlinediagnosticsimageviewer.h
         beamlinediagnosticsimageviewer.ui
+        MariaDBController.cpp
+        MariaDBController.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
