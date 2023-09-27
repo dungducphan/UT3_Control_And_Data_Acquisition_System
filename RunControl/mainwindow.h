@@ -17,6 +17,12 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
 
+    void setDeviceProxy_TimingUnit(std::shared_ptr<Tango::DeviceProxy>& deviceProxy);
+    void setDeviceProxy_TopViewCamera(std::shared_ptr<Tango::DeviceProxy>& deviceProxy);
+    void setDeviceProxy_PointingCamera(std::shared_ptr<Tango::DeviceProxy>& deviceProxy);
+    void setDeviceProxy_ElectronSpectrometerA(std::shared_ptr<Tango::DeviceProxy>& deviceProxy);
+    void setDeviceProxy_ElectronSpectrometerB(std::shared_ptr<Tango::DeviceProxy>& deviceProxy);
+
 private slots:
     void on_actionExit_triggered();
     void on_actionBeamline_Image_Diagnostic_triggered();
@@ -44,6 +50,17 @@ private slots:
     void on_LE_WFSND_textChanged(const QString& newText);
     void on_LE_TopviewND_textChanged(const QString& newText);
 
+private:
+    Ui::MainWindow *ui;
+    std::unique_ptr<BeamlineDiagnosticsImageViewer> beamlineImgViewer;
+    std::unique_ptr<MariaDBController> DB_Controller;
+
+    std::shared_ptr<Tango::DeviceProxy> TimingUnit;
+    std::shared_ptr<Tango::DeviceProxy> TopViewCamera;
+    std::shared_ptr<Tango::DeviceProxy> PointingCamera;
+    std::shared_ptr<Tango::DeviceProxy> ElectronSpectrometerA;
+    std::shared_ptr<Tango::DeviceProxy> ElectronSpectrometerB;
+
     void update_DB_HOST();
     void update_DB_PORT();
     void update_DB_SCHEMA();
@@ -51,9 +68,4 @@ private slots:
 
     void setRangeForRunControlParameter();
     void validateRunControlParameter(const QLineEdit* lineEdit, const std::string& lineEditName, float& DBReference);
-
-private:
-    Ui::MainWindow *ui;
-    std::unique_ptr<BeamlineDiagnosticsImageViewer> beamlineImgViewer;
-    std::unique_ptr<MariaDBController> DB_Controller;
 };

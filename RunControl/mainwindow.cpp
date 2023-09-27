@@ -232,3 +232,25 @@ void MainWindow::validateRunControlParameter(const QLineEdit* lineEdit, const st
         DBReference = inputValue;
     }
 }
+
+void MainWindow::setDeviceProxy_TimingUnit(shared_ptr<Tango::DeviceProxy> &deviceProxy) {
+    TimingUnit = deviceProxy;
+}
+
+void MainWindow::setDeviceProxy_TopViewCamera(shared_ptr<Tango::DeviceProxy> &deviceProxy) {
+    TopViewCamera = deviceProxy;
+}
+
+void MainWindow::setDeviceProxy_PointingCamera(shared_ptr<Tango::DeviceProxy> &deviceProxy) {
+    PointingCamera = deviceProxy;
+}
+
+void MainWindow::setDeviceProxy_ElectronSpectrometerA(shared_ptr<Tango::DeviceProxy> &deviceProxy) {
+    ElectronSpectrometerA = deviceProxy;
+}
+
+void MainWindow::setDeviceProxy_ElectronSpectrometerB(shared_ptr<Tango::DeviceProxy> &deviceProxy) {
+    ElectronSpectrometerB = deviceProxy;
+}
+
+
