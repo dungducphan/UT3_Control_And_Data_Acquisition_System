@@ -46,17 +46,17 @@ namespace TimingDistributionUnit_ns
 
 //--------------------------------------------------------
 /**
- *	Method      : TimingDistributionUnit::is_TriggerCounter_allowed()
- *	Description : Execution allowed for TriggerCounter attribute
+ *	Method      : TimingDistributionUnit::is_Timestamp_allowed()
+ *	Description : Execution allowed for Timestamp attribute
  */
 //--------------------------------------------------------
-bool TimingDistributionUnit::is_TriggerCounter_allowed(TANGO_UNUSED(Tango::AttReqType type))
+bool TimingDistributionUnit::is_Timestamp_allowed(TANGO_UNUSED(Tango::AttReqType type))
 {
 
-	//	Not any excluded states for TriggerCounter attribute in read access.
-	/*----- PROTECTED REGION ID(TimingDistributionUnit::TriggerCounterStateAllowed_READ) ENABLED START -----*/
+	//	Not any excluded states for Timestamp attribute in read access.
+	/*----- PROTECTED REGION ID(TimingDistributionUnit::TimestampStateAllowed_READ) ENABLED START -----*/
 	
-	/*----- PROTECTED REGION END -----*/	//	TimingDistributionUnit::TriggerCounterStateAllowed_READ
+	/*----- PROTECTED REGION END -----*/	//	TimingDistributionUnit::TimestampStateAllowed_READ
 	return true;
 }
 

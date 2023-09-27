@@ -54,17 +54,17 @@ namespace TimingDistributionUnit_ns
 //=========================================
 //	Define classes for attributes
 //=========================================
-//	Attribute TriggerCounter class definition
-class TriggerCounterAttrib: public Tango::Attr
+//	Attribute Timestamp class definition
+class TimestampAttrib: public Tango::Attr
 {
 public:
-	TriggerCounterAttrib():Attr("TriggerCounter",
+	TimestampAttrib():Attr("Timestamp",
 			Tango::DEV_ULONG64, Tango::READ) {};
-	~TriggerCounterAttrib() {};
+	~TimestampAttrib() {};
 	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<TimingDistributionUnit *>(dev))->read_TriggerCounter(att);}
+		{(static_cast<TimingDistributionUnit *>(dev))->read_Timestamp(att);}
 	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<TimingDistributionUnit *>(dev))->is_TriggerCounter_allowed(ty);}
+		{return (static_cast<TimingDistributionUnit *>(dev))->is_Timestamp_allowed(ty);}
 };
 
 

@@ -34,6 +34,7 @@
 #define TimingDistributionUnit_H
 
 #include <tango.h>
+#include <thread>
 
 
 /*----- PROTECTED REGION END -----*/	//	TimingDistributionUnit.h
@@ -57,13 +58,15 @@ class TimingDistributionUnit : public TANGO_BASE_CLASS
 /*----- PROTECTED REGION ID(TimingDistributionUnit::Data Members) ENABLED START -----*/
 
 //	Add your own data members
+        int SerialPort;
+        std::thread* EventListenerThread;
 
 /*----- PROTECTED REGION END -----*/	//	TimingDistributionUnit::Data Members
 
 
 //	Attribute data members
 public:
-	Tango::DevULong64	*attr_TriggerCounter_read;
+	Tango::DevULong64	*attr_Timestamp_read;
 
 //	Constructors and destructors
 public:
@@ -122,14 +125,14 @@ public:
 	virtual void read_attr_hardware(vector<long> &attr_list);
 
 /**
- *	Attribute TriggerCounter related methods
+ *	Attribute Timestamp related methods
  *	Description: 
  *
  *	Data type:	Tango::DevULong64
  *	Attr type:	Scalar
  */
-	virtual void read_TriggerCounter(Tango::Attribute &attr);
-	virtual bool is_TriggerCounter_allowed(Tango::AttReqType type);
+	virtual void read_Timestamp(Tango::Attribute &attr);
+	virtual bool is_Timestamp_allowed(Tango::AttReqType type);
 
 
 	//--------------------------------------------------------
@@ -158,6 +161,9 @@ public:
 /*----- PROTECTED REGION ID(TimingDistributionUnit::Additional Method prototypes) ENABLED START -----*/
 
 //	Additional Method prototypes
+
+        void OpenUART();
+        void ListenToEvent();
 
 /*----- PROTECTED REGION END -----*/	//	TimingDistributionUnit::Additional Method prototypes
 };

@@ -323,30 +323,30 @@ void TimingDistributionUnitClass::attribute_factory(vector<Tango::Attr *> &att_l
 	//	Add your own code
 	
 	/*----- PROTECTED REGION END -----*/	//	TimingDistributionUnitClass::attribute_factory_before
-	//	Attribute : TriggerCounter
-	TriggerCounterAttrib	*triggercounter = new TriggerCounterAttrib();
-	Tango::UserDefaultAttrProp	triggercounter_prop;
-	//	description	not set for TriggerCounter
-	triggercounter_prop.set_label("Trigger Counter");
-	//	unit	not set for TriggerCounter
-	//	standard_unit	not set for TriggerCounter
-	//	display_unit	not set for TriggerCounter
-	//	format	not set for TriggerCounter
-	//	max_value	not set for TriggerCounter
-	//	min_value	not set for TriggerCounter
-	//	max_alarm	not set for TriggerCounter
-	//	min_alarm	not set for TriggerCounter
-	//	max_warning	not set for TriggerCounter
-	//	min_warning	not set for TriggerCounter
-	//	delta_t	not set for TriggerCounter
-	//	delta_val	not set for TriggerCounter
+	//	Attribute : Timestamp
+	TimestampAttrib	*timestamp = new TimestampAttrib();
+	Tango::UserDefaultAttrProp	timestamp_prop;
+	//	description	not set for Timestamp
+	timestamp_prop.set_label("Trigger Counter");
+	//	unit	not set for Timestamp
+	//	standard_unit	not set for Timestamp
+	//	display_unit	not set for Timestamp
+	//	format	not set for Timestamp
+	//	max_value	not set for Timestamp
+	//	min_value	not set for Timestamp
+	//	max_alarm	not set for Timestamp
+	//	min_alarm	not set for Timestamp
+	//	max_warning	not set for Timestamp
+	//	min_warning	not set for Timestamp
+	//	delta_t	not set for Timestamp
+	//	delta_val	not set for Timestamp
 	
-	triggercounter->set_default_properties(triggercounter_prop);
+	timestamp->set_default_properties(timestamp_prop);
 	//	Not Polled
-	triggercounter->set_disp_level(Tango::OPERATOR);
+	timestamp->set_disp_level(Tango::OPERATOR);
 	//	Not Memorized
-	triggercounter->set_data_ready_event(true);
-	att_list.push_back(triggercounter);
+	timestamp->set_data_ready_event(true);
+	att_list.push_back(timestamp);
 
 
 	//	Create a list of static attributes
