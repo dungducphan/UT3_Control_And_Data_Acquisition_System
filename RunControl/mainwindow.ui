@@ -136,7 +136,7 @@
           <item row="4" column="1">
            <widget class="QLineEdit" name="LE_DatabaseSchema">
             <property name="placeholderText">
-             <string>LaserParameters</string>
+             <string>LaserCDAQ</string>
             </property>
            </widget>
           </item>
