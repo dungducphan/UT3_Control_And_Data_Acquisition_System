@@ -11,7 +11,14 @@ class DatabaseAuthDialog : public QDialog {
 
 public:
     explicit DatabaseAuthDialog(QWidget *parent = nullptr);
-    ~DatabaseAuthDialog();
+    ~DatabaseAuthDialog() override;
+
+    std::string DB_USER;
+    std::string DB_PASSWORD;
+
+private slots:
+    void on_Button_OK_clicked();
+    void on_Button_Cancel_clicked();
 
 private:
     Ui::DatabaseAuthDialog *ui;

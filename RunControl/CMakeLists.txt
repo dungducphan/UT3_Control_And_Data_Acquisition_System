@@ -14,6 +14,16 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
 
+find_package(Boost COMPONENTS system REQUIRED)
+include_directories(${Boost_INCLUDE_DIRS})
+
+include_directories(${TANGO_INCLUDES})
+link_directories(${TANGO_LIB_HOME})
+
+include_directories("/usr/include/mariadb")
+add_library(mariadbcpp STATIC IMPORTED)
+set_property(TARGET mariadbcpp PROPERTY IMPORTED_LOCATION "/usr/lib/libmariadbcpp.so")
+
 set(PROJECT_SOURCES
         main.cpp
         mainwindow.cpp
@@ -30,6 +40,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(RunControl
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+        databaseauthdialog.h databaseauthdialog.cpp databaseauthdialog.ui
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET RunControl APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
@@ -49,7 +60,7 @@ else()
     endif()
 endif()
 
-target_link_libraries(RunControl PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(RunControl PRIVATE Qt${QT_VERSION_MAJOR}::Widgets ${TANGO_LIBS} mariadbcpp ${Boost_LIBRARIES})
 
 set_target_properties(RunControl PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
