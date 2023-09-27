@@ -327,7 +327,7 @@ void TimingDistributionUnitClass::attribute_factory(vector<Tango::Attr *> &att_l
 	TimestampAttrib	*timestamp = new TimestampAttrib();
 	Tango::UserDefaultAttrProp	timestamp_prop;
 	//	description	not set for Timestamp
-	timestamp_prop.set_label("Trigger Counter");
+	timestamp_prop.set_label("Timestamp");
 	//	unit	not set for Timestamp
 	//	standard_unit	not set for Timestamp
 	//	display_unit	not set for Timestamp
