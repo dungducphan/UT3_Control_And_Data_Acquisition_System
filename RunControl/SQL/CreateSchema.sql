@@ -5,6 +5,8 @@ create table BeamlineParameters
     Timestamp             bigint unsigned null comment 'Linux timestamp of event',
     Date                  date            null comment 'Date of shot',
     EnergyOnTarget        float           null comment 'Laser pulse energy on target in Joules',
+    FarfieldEnergy        float           null comment 'Farfield energy in mJ',
+    PulseDuration         float           null comment 'Pulse duration in femtoseconds',
     GasJetBackPressure    float           null comment 'Gas jet back pressure in Bars',
     GasJetPosX            float           null comment 'Gas jet relative position (x) in microns',
     GasJetPosY            float           null comment 'Gas jet relative position (y) in microns',

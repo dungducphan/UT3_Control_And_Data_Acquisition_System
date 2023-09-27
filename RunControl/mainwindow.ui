@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1360</width>
-    <height>1003</height>
+    <width>1080</width>
+    <height>1000</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="maximumSize">
    <size>
@@ -20,7 +26,8 @@
    <string>UT3 Run Control</string>
   </property>
   <property name="windowIcon">
-   <iconset theme="system-run"/>
+   <iconset theme="system-run">
+    <normaloff>.</normaloff>.</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -42,13 +49,10 @@
        <item>
         <widget class="QWidget" name="DatabaseControlWidget" native="true">
          <layout class="QGridLayout" name="gridLayout">
-          <item row="2" column="1">
-           <widget class="QLineEdit" name="LE_DatabaseHost">
-            <property name="text">
-             <string/>
-            </property>
+          <item row="4" column="1">
+           <widget class="QLineEdit" name="LE_DatabaseSchema">
             <property name="placeholderText">
-             <string>localhost</string>
+             <string>UT3Data</string>
             </property>
            </widget>
           </item>
@@ -62,15 +66,45 @@
             </property>
            </widget>
           </item>
-          <item row="5" column="1">
-           <widget class="QLabel" name="URLLabel">
+          <item row="1" column="0" colspan="2">
+           <widget class="QLabel" name="DatabaseConnectionLabel">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>Database Connection</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="LE_DatabaseHost">
+            <property name="text">
+             <string/>
+            </property>
+            <property name="placeholderText">
+             <string>localhost</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="DatabasePortLabel">
+            <property name="text">
+             <string>Port</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="1">
+           <widget class="QLabel" name="ConnectionStatusLabel">
             <property name="font">
              <font>
               <pointsize>10</pointsize>
              </font>
             </property>
             <property name="text">
-             <string>jdbc:mariadb://localhost:3306/LaserParameter</string>
+             <string/>
             </property>
            </widget>
           </item>
@@ -78,18 +112,6 @@
            <widget class="QLabel" name="DatabaseSchemaLabel">
             <property name="text">
              <string>Schema</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0" colspan="2">
-           <widget class="QLabel" name="DatabaseConnectionLabel">
-            <property name="font">
-             <font>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="text">
-             <string>Database Connection</string>
             </property>
            </widget>
           </item>
@@ -108,40 +130,16 @@
               <height>0</height>
              </size>
             </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: green</string>
+            </property>
             <property name="text">
              <string>Connect</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="DatabasePortLabel">
-            <property name="text">
-             <string>Port</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="2">
-           <widget class="QPushButton" name="DisconnectButton">
-            <property name="minimumSize">
-             <size>
-              <width>90</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>Disconnect</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="1">
-           <widget class="QLineEdit" name="LE_DatabaseSchema">
-            <property name="placeholderText">
-             <string>LaserCDAQ</string>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="1">
-           <widget class="QLabel" name="ConnectionStatusLabel">
+          <item row="5" column="1">
+           <widget class="QLabel" name="URLLabel">
             <property name="font">
              <font>
               <pointsize>10</pointsize>
@@ -149,6 +147,22 @@
             </property>
             <property name="text">
              <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="4">
+           <widget class="QPushButton" name="DisconnectButton">
+            <property name="minimumSize">
+             <size>
+              <width>90</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: red</string>
+            </property>
+            <property name="text">
+             <string>Disconnect</string>
             </property>
            </widget>
           </item>
@@ -180,6 +194,7 @@
             </property>
             <property name="font">
              <font>
+              <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
@@ -201,7 +216,7 @@
           <item row="10" column="2">
            <widget class="QLabel" name="GasjetDurationUnitLabel">
             <property name="text">
-             <string>picoseconds</string>
+             <string>femtoseconds</string>
             </property>
            </widget>
           </item>
@@ -223,7 +238,7 @@
            </widget>
           </item>
           <item row="7" column="1">
-           <widget class="QLineEdit" name="LE_GasjetY_2"/>
+           <widget class="QLineEdit" name="LE_GasjetY"/>
           </item>
           <item row="1" column="1">
            <widget class="QLineEdit" name="LE_ImageBasePath"/>
@@ -246,7 +261,7 @@
            </widget>
           </item>
           <item row="9" column="1">
-           <widget class="QLineEdit" name="LE_GasjetY"/>
+           <widget class="QLineEdit" name="LE_GasjetTiming"/>
           </item>
           <item row="6" column="2">
            <widget class="QLabel" name="GasjetPosXUnitLabel">
@@ -444,6 +459,13 @@
          </property>
         </widget>
        </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="Label_RunControlStatus">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
     </item>
@@ -456,6 +478,19 @@
        <enum>QFrame::Raised</enum>
       </property>
       <layout class="QGridLayout" name="gridLayout_4">
+       <item row="2" column="2">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
        <item row="2" column="1">
         <widget class="QLabel" name="Label_CurrentShotTimestamp">
          <property name="minimumSize">
@@ -472,6 +507,42 @@
          </property>
         </widget>
        </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="Label_ShotIDLabel">
+         <property name="text">
+          <string>ShotID</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="3">
+        <widget class="QPushButton" name="pushButton">
+         <property name="minimumSize">
+          <size>
+           <width>90</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: green</string>
+         </property>
+         <property name="text">
+          <string>Start</string>
+         </property>
+        </widget>
+       </item>
        <item row="2" column="0">
         <widget class="QLabel" name="Label_TimestampLabel">
          <property name="text">
@@ -483,18 +554,12 @@
         <widget class="QLabel" name="Label_RunStatus">
          <property name="font">
           <font>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
          <property name="text">
           <string>Run Status</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="Label_ShotIDLabel">
-         <property name="text">
-          <string>ShotID</string>
          </property>
         </widget>
        </item>
@@ -514,31 +579,21 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="2">
-        <spacer name="horizontalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
+       <item row="0" column="4">
+        <widget class="QPushButton" name="pushButton_2">
+         <property name="minimumSize">
           <size>
-           <width>40</width>
-           <height>20</height>
+           <width>90</width>
+           <height>0</height>
           </size>
          </property>
-        </spacer>
-       </item>
-       <item row="2" column="2">
-        <spacer name="horizontalSpacer">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+         <property name="styleSheet">
+          <string notr="true">background-color: red</string>
          </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
+         <property name="text">
+          <string>Stop</string>
          </property>
-        </spacer>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -550,8 +605,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1360</width>
-     <height>23</height>
+     <width>1080</width>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
