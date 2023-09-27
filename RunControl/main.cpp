@@ -18,6 +18,6 @@ int main(int argc, char *argv[]) {
     w.setDeviceProxy_ElectronSpectrometerA(ElectronSpectrometerA);
     w.setDeviceProxy_ElectronSpectrometerB(ElectronSpectrometerB);
     w.show();
-    
+
     return QApplication::exec();
 }
