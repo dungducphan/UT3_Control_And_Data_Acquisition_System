@@ -47,3 +47,4 @@ log/
 
 # Python
 *.pyc
+/CMakeLists.txt.user
