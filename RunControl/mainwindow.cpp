@@ -62,8 +62,8 @@ void MainWindow::update_DB_PORT() {
 
 void MainWindow::update_DB_SCHEMA() {
     if (ui->LE_DatabaseSchema->text().isEmpty()) {
-        DB_Controller->DB_SCHEMA = "LaserParameter";
-        ui->LE_DatabaseSchema->setPlaceholderText("LaserParameter");
+        DB_Controller->DB_SCHEMA = "LaserParameters";
+        ui->LE_DatabaseSchema->setPlaceholderText("LaserParameters");
     } else {
         DB_Controller->DB_SCHEMA = ui->LE_DatabaseSchema->text().toStdString();
     }
