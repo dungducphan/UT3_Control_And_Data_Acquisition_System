@@ -52,13 +52,12 @@ find_package(TIFF REQUIRED)
 find_package(PNG REQUIRED)
 find_package(JPEG REQUIRED)
 
-
 # Subprojects
-set (CAMERA_SERVER_DIR      ${CMAKE_CURRENT_SOURCE_DIR}/DeviceServer/CameraServer)
-set (TIMING_SERVER_DIR      ${CMAKE_CURRENT_SOURCE_DIR}/DeviceServer/TimingUnitServer)
-set (DG656_SERVER_DIR       ${CMAKE_CURRENT_SOURCE_DIR}/DeviceServer/DG656)
-set (NEWPORT8742_SERVER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/DeviceServer/Newport8742)
-set (RUNCONTROL_CLIENT_DIR         ${CMAKE_CURRENT_SOURCE_DIR}/RunControl)
+set (CAMERA_SERVER_DIR              ${CMAKE_CURRENT_SOURCE_DIR}/DeviceServer/CameraServer)
+set (TIMING_SERVER_DIR              ${CMAKE_CURRENT_SOURCE_DIR}/DeviceServer/TimingDistributionServer)
+set (DG656_SERVER_DIR               ${CMAKE_CURRENT_SOURCE_DIR}/DeviceServer/DG656)
+set (NEWPORT8742_SERVER_DIR         ${CMAKE_CURRENT_SOURCE_DIR}/DeviceServer/Newport8742)
+set (RUNCONTROL_CLIENT_DIR          ${CMAKE_CURRENT_SOURCE_DIR}/RunControl)
 add_subdirectory(${CAMERA_SERVER_DIR})
 add_subdirectory(${TIMING_SERVER_DIR})
 add_subdirectory(${DG656_SERVER_DIR})
