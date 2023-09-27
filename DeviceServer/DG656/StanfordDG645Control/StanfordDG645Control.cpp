@@ -379,7 +379,7 @@ void StanfordDG645Control::write_attr_hardware(TANGO_UNUSED(vector<long> &attr_l
 //--------------------------------------------------------
 /**
  *	Read attribute TriggerMode related method
- *	Description: Int - Internal triggering at rates from 100 µHz to 10 MHz.
+ *	Description: Int - Internal triggering at rates from 100 ï¿½Hz to 10 MHz.
  *               ExtRisingEdge - External triggering on rising edges.
  *               ExtFallingEdge - External triggering on falling edges.
  *               SingleExtRisingEdge - Externally triggered single shot on a rising edges. Execute SingleShot command to arm the trigger.
@@ -424,7 +424,7 @@ void StanfordDG645Control::read_TriggerMode(Tango::Attribute &attr)
 //--------------------------------------------------------
 /**
  *	Write attribute TriggerMode related method
- *	Description: Int - Internal triggering at rates from 100 µHz to 10 MHz.
+ *	Description: Int - Internal triggering at rates from 100 ï¿½Hz to 10 MHz.
  *               ExtRisingEdge - External triggering on rising edges.
  *               ExtFallingEdge - External triggering on falling edges.
  *               SingleExtRisingEdge - Externally triggered single shot on a rising edges. Execute SingleShot command to arm the trigger.
@@ -1326,7 +1326,7 @@ void *StanfordDG645Control::init_connection(void *arg)
 				if(setsockopt(server->handle, SOL_SOCKET, SO_SNDTIMEO, (char *)&timeout, sizeof(struct timeval))) break;
 				if(setsockopt(server->handle, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(struct timeval))) break;
 
-				// connect socket
+				// Connect socket
 				if(connect(server->handle, ai->ai_addr, ai->ai_addrlen))
 				{
 					ret = errno;
