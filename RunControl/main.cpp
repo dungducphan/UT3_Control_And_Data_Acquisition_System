@@ -1,16 +1,20 @@
-#include "mainwindow.h"
+#include <mainwindow.h>
 
 #include <QApplication>
 
-void test_even_callback() {
-    std::cout << "test_even_callback" << std::endl;
-}
+class TriggerCallback : public Tango::CallBack {
+public:
+    void push_event(Tango::DataReadyEventData*) override {
+        std::cout << "Event received" << std::endl;
+    }
+};
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
     std::shared_ptr<Tango::DeviceProxy> TimingUnit = std::make_shared<Tango::DeviceProxy>("ut3/beamline/timingUnit");
-    TimingUnit->subscribe_event("Timestamp", Tango::DATA_READY_EVENT, &attr_read);
+    auto callback = new TriggerCallback();
+    TimingUnit->subscribe_event("Timestamp", Tango::DATA_READY_EVENT, callback);
     std::shared_ptr<Tango::DeviceProxy> TopViewCamera = std::make_shared<Tango::DeviceProxy>("ut3/beamline/topview");
     std::shared_ptr<Tango::DeviceProxy> PointingCamera = std::make_shared<Tango::DeviceProxy>("ut3/beamline/pointing");
     std::shared_ptr<Tango::DeviceProxy> ElectronSpectrometerA = std::make_shared<Tango::DeviceProxy>("ut3/beamline/especA");
