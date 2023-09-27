@@ -32,6 +32,9 @@ set(PROJECT_SOURCES
         beamlinediagnosticsimageviewer.cpp
         beamlinediagnosticsimageviewer.h
         beamlinediagnosticsimageviewer.ui
+        warningonmissingbasepath.cpp
+        warningonmissingbasepath.h
+        warningonmissingbasepath.ui
         MariaDBController.cpp
         MariaDBController.h
 )
