@@ -290,6 +290,7 @@ void TimingDistributionUnit::add_dynamic_commands()
         while (true) {
             read(SerialPort, &read_buf, sizeof(read_buf));
             if (read_buf[0] == 'T') {
+                std::cout << "read trigger" << std::endl;
                 auto now = std::chrono::system_clock::now();
                 *attr_Timestamp_read = (Tango::DevULong64) std::chrono::duration_cast<std::chrono::milliseconds>(
                         now.time_since_epoch()).count();
