@@ -6,19 +6,9 @@
 #include <QLineEdit>
 
 #include <beamlinediagnosticsimageviewer.h>
+#include <triggercallback.h>
 
 #include <MariaDBController.h>
-
-class TriggerCallback : public Tango::CallBack {
-public:
-    Tango::DevULong64 Timestamp;
-
-    void push_event(Tango::EventData* data) override {
-        Tango::DevVarULong64Array *double_value;
-        *(data->attr_value) >> double_value;
-        Timestamp = (*double_value)[0];
-    }
-};
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
