@@ -1,10 +1,23 @@
 #pragma once
 
+#include <tango.h>
+
 #include <QMainWindow>
 #include <QLineEdit>
+
 #include <beamlinediagnosticsimageviewer.h>
 
 #include <MariaDBController.h>
+
+class TriggerCallback : public Tango::CallBack {
+public:
+    void push_event(Tango::DataReadyEventData* data) override {
+        std::cout << "Event received: " << std::endl;
+        std::cout << " - " << data->attr_name << std::endl;
+        std::cout << " - " << data->event << std::endl;
+        std::cout << std::endl;
+    }
+};
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -16,12 +29,6 @@ class MainWindow : public QMainWindow {
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
-
-    void setDeviceProxy_TimingUnit(std::shared_ptr<Tango::DeviceProxy>& deviceProxy);
-    void setDeviceProxy_TopViewCamera(std::shared_ptr<Tango::DeviceProxy>& deviceProxy);
-    void setDeviceProxy_PointingCamera(std::shared_ptr<Tango::DeviceProxy>& deviceProxy);
-    void setDeviceProxy_ElectronSpectrometerA(std::shared_ptr<Tango::DeviceProxy>& deviceProxy);
-    void setDeviceProxy_ElectronSpectrometerB(std::shared_ptr<Tango::DeviceProxy>& deviceProxy);
 
 private slots:
     void on_actionExit_triggered();
@@ -55,11 +62,8 @@ private:
     std::unique_ptr<BeamlineDiagnosticsImageViewer> beamlineImgViewer;
     std::unique_ptr<MariaDBController> DB_Controller;
 
-    std::shared_ptr<Tango::DeviceProxy> TimingUnit;
-    std::shared_ptr<Tango::DeviceProxy> TopViewCamera;
-    std::shared_ptr<Tango::DeviceProxy> PointingCamera;
-    std::shared_ptr<Tango::DeviceProxy> ElectronSpectrometerA;
-    std::shared_ptr<Tango::DeviceProxy> ElectronSpectrometerB;
+    std::unique_ptr<Tango::DeviceProxy> TimingUnit;
+    TriggerCallback* TriggerCallbackInstance;
 
     void update_DB_HOST();
     void update_DB_PORT();

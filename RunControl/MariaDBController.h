@@ -2,7 +2,6 @@
 
 #include <conncpp.hpp>
 #include <boost/format.hpp>
-#include <tango.h>
 
 struct DBEntry_t {
     long Timestamp;
