@@ -6,7 +6,7 @@ MariaDBController::MariaDBController()
   DB_Connection{nullptr} {
 }
 
-MariaDBController::~MariaDBController() {}
+MariaDBController::~MariaDBController() = default;
 
 void MariaDBController::Connect() {
     sql::Properties properties({
