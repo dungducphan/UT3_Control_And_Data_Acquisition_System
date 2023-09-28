@@ -47,4 +47,7 @@ log/
 
 # Python
 *.pyc
-/CMakeLists.txt.user
+
+# QtCreator
+build-*/
+CMakeLists.txt.user
