@@ -1,3 +1,4 @@
+use UT3Data;
 create table BeamlineParameters
 (
     ShotID                int unsigned auto_increment comment 'Unique shot ID'
@@ -19,18 +20,6 @@ create table BeamlineParameters
     TopViewND             float           null comment 'Filter ND on plasma channel top view camera'
 )
     comment 'Electron Accelerator Beamline parameters';
-
-create table LaserParameters
-(
-    ShotID         int unsigned auto_increment comment 'Unique shot ID'
-        primary key,
-    Timestamp      bigint unsigned null comment 'Linux timestamp of event',
-    Date           date            null comment 'Date of shot',
-    PulseEnergy    float           null comment 'Pulse energy in Joules',
-    FarfieldEnergy float           null comment 'Farfield Energy in mJ',
-    PulseDuration  float           null comment 'Pulse duration in femtoseconds'
-)
-    comment 'Laser operational parameters';
 
 create table ShotRecord
 (
