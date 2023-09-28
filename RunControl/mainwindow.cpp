@@ -287,7 +287,7 @@ void MainWindow::on_TriggerCallback_TriggerReceived() {
     ui->Label_CurrentShotTimestamp->setText(timestamp.str().c_str());
     DB_Controller->DBEntry.Timestamp = (int64_t) TriggerCallbackInstance->Timestamp;
 
-    if (isDBReady) DB_Controller->AddEntry();
+    if (isDBReady) DB_Controller->AddEntryShotRecord();
 }
 
 void MainWindow::recallSettings() {

@@ -29,9 +29,7 @@ public:
 
     void Connect();
     void Disconnect() const;
-    void AddEntryBeamlineParameters() const;
     void AddEntryShotRecord() const;
-    void AddEntry() const;
 
     std::unique_ptr<sql::Driver> SQL_Driver;
     std::unique_ptr<sql::Connection> DB_Connection;

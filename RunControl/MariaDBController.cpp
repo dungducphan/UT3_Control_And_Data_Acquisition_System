@@ -6,7 +6,7 @@ MariaDBController::MariaDBController()
   DB_Connection{nullptr} {
 }
 
-MariaDBController::~MariaDBController() = default;
+MariaDBController::~MariaDBController() {}
 
 void MariaDBController::Connect() {
     sql::Properties properties({
@@ -20,61 +20,40 @@ void MariaDBController::Disconnect() const {
     DB_Connection->close();
 }
 
-void MariaDBController::AddEntry() const {
-    AddEntryBeamlineParameters();
-//    AddEntryShotRecord();
-}
-
 void MariaDBController::AddEntryShotRecord() const {
     try {
         auto date = boost::gregorian::to_iso_string(boost::gregorian::day_clock::local_day());
+        auto iso_date = boost::gregorian::to_iso_extended_string(boost::gregorian::day_clock::local_day());
         auto statement = boost::format("INSERT INTO UT3Data.ShotRecord "
-                                       "(Timestamp, Date, BasePath, WFS, TopView, PointingScreen, ESpecScreenA, ESpecScreenB, PointingScreenBrem) VALUES "
-                                       "(%1%,       %2%,  %3%,      %4%, %5%,     %6,             %7,           %8,           %9)")
-                         % DBEntry.Timestamp
-                         % date
-                         % DBEntry.ImageBasePath
-                         // FIXME: this client is responsible to save the received images from TANGO device servers to disk,
-                         //  so it knows the name of the files. The problem is to keep these names consistent within the code.
-                         % boost::format{"%1%/WFS_%2%.tiff"}  % date % DBEntry.Timestamp
-                         % boost::format{"%1%/TopView_%2%.tiff"}  % date % DBEntry.Timestamp
-                         % boost::format{"%1%/PointingScreen_%2%.tiff"}  % date % DBEntry.Timestamp
-                         % boost::format{"%1%/ESpecScreenA_%2%.tiff"}  % date % DBEntry.Timestamp
-                         % boost::format{"%1%/ESpecScreenB_%2%.tiff"}  % date % DBEntry.Timestamp
-                         % boost::format{"%1%/PointingScreenBrem_%2%.tiff"}  % date % DBEntry.Timestamp;
-        std::unique_ptr<sql::PreparedStatement> query(DB_Connection->prepareStatement(statement.str()));
-        query->executeQuery();
-    } catch(sql::SQLException& e){
-        std::cerr << "Error inserting new data entry: " << e.what() << std::endl;
-    }
-}
-
-void MariaDBController::AddEntryBeamlineParameters() const {
-    try {
-        auto date = boost::gregorian::to_iso_string(boost::gregorian::day_clock::local_day());
-        auto statement = boost::format("INSERT INTO UT3Data.BeamlineParameters "
-                                       "(Timestamp, Date, EnergyOnTarget, FarfieldEnergy, PulseDuration, GasJetBackPressure, GasJetPosX, GasJetPosY, GasJetPosZ, GasJetOpeningDuration, GasJetTiming, ProbeTiming, ProbeND, WFSND, TopViewND, Notes) VALUES "
-                                       "(%1%, %2%, %3%, %4%, %5%, %6%, %7%, %8%, %9%, %10%, %11%, %12%, %13%, %14%, %15%, %16%)") \
-                                        % DBEntry.Timestamp \
-                                        % date \
-                                        % DBEntry.EnergyOnTargetInMilliJoules \
-                                        % DBEntry.FarfieldEnergyInMilliJoules \
-                                        % DBEntry.PulseDurationInFemtoSeconds \
-                                        % DBEntry.GasjetBackpressureInBars \
-                                        % DBEntry.GasjetXInMicrons \
-                                        % DBEntry.GasjetYInMicrons \
-                                        % DBEntry.GasjetZInMicrons \
-                                        % DBEntry.GasjetDurationInMilliSeconds \
-                                        % DBEntry.GasjetTimingInMilliSeconds \
-                                        % DBEntry.ProbeTimingInFemtoSeconds \
-                                        % DBEntry.ProbeND \
-                                        % DBEntry.WFSND \
-                                        % DBEntry.TopviewND \
-                                        % DBEntry.Notes;
+                                       "(Timestamp, Date, EnergyOnTarget, FarfieldEnergy, PulseDuration, GasJetBackPressure, GasJetPosX, GasJetPosY, GasJetPosZ, GasJetOpeningDuration, GasJetTiming, ProbeTiming, ProbeND, WFSND, TopViewND, Notes, BasePath, WFS, Topview, PointingScreen, ESpecScreenA, ESpecScreenB, PointingScreenBrem) VALUES "
+                                       "(%1%,%2%,%3%,%4%,%5%,%6%,%7%,%8%,%9%,%10%,%11%,%12%,%13%,%14%,%15%,%16%,'%17%','%18%','%19%','%20%','%21%','%22%','%23%')")
+                                        % DBEntry.Timestamp
+                                        % date
+                                        % DBEntry.EnergyOnTargetInMilliJoules
+                                        % DBEntry.FarfieldEnergyInMilliJoules
+                                        % DBEntry.PulseDurationInFemtoSeconds
+                                        % DBEntry.GasjetBackpressureInBars
+                                        % DBEntry.GasjetXInMicrons
+                                        % DBEntry.GasjetYInMicrons
+                                        % DBEntry.GasjetZInMicrons
+                                        % DBEntry.GasjetDurationInMilliSeconds
+                                        % DBEntry.GasjetTimingInMilliSeconds
+                                        % DBEntry.ProbeTimingInFemtoSeconds
+                                        % DBEntry.ProbeND
+                                        % DBEntry.WFSND
+                                        % DBEntry.TopviewND
+                                        % DBEntry.Notes
+                                        % DBEntry.ImageBasePath
+                                        % (boost::format{"%1%/WFS_%2%.tiff"}                   % iso_date % DBEntry.Timestamp)
+                                        % (boost::format{"%1%/Topview_%2%.tiff"}               % iso_date % DBEntry.Timestamp)
+                                        % (boost::format{"%1%/PointingScreen_%2%.tiff"}        % iso_date % DBEntry.Timestamp)
+                                        % (boost::format{"%1%/ESpecScreenA_%2%.tiff"}          % iso_date % DBEntry.Timestamp)
+                                        % (boost::format{"%1%/ESpecScreenB_%2%.tiff"}          % iso_date % DBEntry.Timestamp)
+                                        % (boost::format{"%1%/PointingScreenBrem_%2%.tiff"}    % iso_date % DBEntry.Timestamp);
         std::cout << statement << std::endl;
         std::unique_ptr<sql::PreparedStatement> query(DB_Connection->prepareStatement(statement.str()));
         query->executeQuery();
     } catch(sql::SQLException& e){
-        std::cerr << "Error inserting new data entry: " << e.what() << std::endl;
+        std::cerr << e.what() << std::endl;
     }
 }
