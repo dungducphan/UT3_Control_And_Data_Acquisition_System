@@ -140,6 +140,7 @@ void TestTimingDistributionUnit::init_device()
 	/*----- PROTECTED REGION ID(TestTimingDistributionUnit::init_device) ENABLED START -----*/
 	
 	//	Initialize device
+    EventListenerThread = new std::thread(&TestTimingDistributionUnit_ns::TestTimingDistributionUnit::ListenToEvent, this);
 	
 	/*----- PROTECTED REGION END -----*/	//	TestTimingDistributionUnit::init_device
 }
@@ -231,6 +232,14 @@ void TestTimingDistributionUnit::add_dynamic_commands()
 /*----- PROTECTED REGION ID(TestTimingDistributionUnit::namespace_ending) ENABLED START -----*/
 
 //	Additional Methods
+    [[noreturn]] void TestTimingDistributionUnit::ListenToEvent() {
+        while (true) {
+            auto now = std::chrono::system_clock::now();
+            *attr_Timestamp_read = (Tango::DevULong64) std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count();
+            push_data_ready_event("Timestamp");
+            sleep(1);
+        }
+    }
 
 /*----- PROTECTED REGION END -----*/	//	TestTimingDistributionUnit::namespace_ending
 } //	namespace

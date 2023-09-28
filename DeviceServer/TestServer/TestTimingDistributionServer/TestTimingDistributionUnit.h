@@ -35,6 +35,7 @@
 
 #include <tango.h>
 
+#include <thread>
 
 /*----- PROTECTED REGION END -----*/	//	TestTimingDistributionUnit.h
 
@@ -57,6 +58,7 @@ class TestTimingDistributionUnit : public TANGO_BASE_CLASS
 /*----- PROTECTED REGION ID(TestTimingDistributionUnit::Data Members) ENABLED START -----*/
 
 //	Add your own data members
+        std::thread* EventListenerThread;
 
 /*----- PROTECTED REGION END -----*/	//	TestTimingDistributionUnit::Data Members
 
@@ -158,6 +160,7 @@ public:
 /*----- PROTECTED REGION ID(TestTimingDistributionUnit::Additional Method prototypes) ENABLED START -----*/
 
 //	Additional Method prototypes
+        [[noreturn]] void ListenToEvent();
 
 /*----- PROTECTED REGION END -----*/	//	TestTimingDistributionUnit::Additional Method prototypes
 };
