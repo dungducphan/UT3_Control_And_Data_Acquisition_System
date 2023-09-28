@@ -201,7 +201,7 @@ void FLIRCameraDriver::AcquisitionLoop() {
 #ifdef ENABLE_DEBUG_FEATURES
                 std::cout << "Pushing data ready event for " << TangoCameraPtr->get_name() << std::endl;
 #endif
-                TangoCameraPtr->push_data_ready_event("DynamicImage");
+                TangoCameraPtr->push_change_event("DynamicImage", ImageDataPtr.get());
             }
         }
         if (ResultImagePtr.IsValid()) ResultImagePtr->Release();
