@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1080</width>
-    <height>1000</height>
+    <width>1000</width>
+    <height>1100</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -16,10 +16,16 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>1000</width>
+    <height>1100</height>
+   </size>
+  </property>
   <property name="maximumSize">
    <size>
-    <width>1360</width>
-    <height>1200</height>
+    <width>1000</width>
+    <height>1100</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -70,7 +76,6 @@
            <widget class="QLabel" name="DatabaseConnectionLabel">
             <property name="font">
              <font>
-              <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
@@ -194,7 +199,6 @@
             </property>
             <property name="font">
              <font>
-              <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
@@ -484,6 +488,45 @@
        <enum>QFrame::Raised</enum>
       </property>
       <layout class="QGridLayout" name="gridLayout_4">
+       <item row="2" column="0">
+        <widget class="QLabel" name="Label_TimestampLabel">
+         <property name="text">
+          <string>Timestamp</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="Label_RunStatus">
+         <property name="font">
+          <font>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Run Status</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="Label_ShotIDLabel">
+         <property name="text">
+          <string>ShotID</string>
+         </property>
+        </widget>
+       </item>
        <item row="2" column="2">
         <spacer name="horizontalSpacer">
          <property name="orientation">
@@ -505,67 +548,16 @@
            <height>0</height>
           </size>
          </property>
+         <property name="font">
+          <font>
+           <family>FiraCode Nerd Font Mono</family>
+          </font>
+         </property>
          <property name="text">
           <string/>
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="Label_ShotIDLabel">
-         <property name="text">
-          <string>ShotID</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="2">
-        <spacer name="horizontalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="0" column="3">
-        <widget class="QPushButton" name="pushButton">
-         <property name="minimumSize">
-          <size>
-           <width>90</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: green</string>
-         </property>
-         <property name="text">
-          <string>Start</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="Label_TimestampLabel">
-         <property name="text">
-          <string>Timestamp</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="Label_RunStatus">
-         <property name="font">
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>Run Status</string>
          </property>
         </widget>
        </item>
@@ -585,22 +577,6 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="4">
-        <widget class="QPushButton" name="pushButton_2">
-         <property name="minimumSize">
-          <size>
-           <width>90</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: red</string>
-         </property>
-         <property name="text">
-          <string>Stop</string>
-         </property>
-        </widget>
-       </item>
       </layout>
      </widget>
     </item>
@@ -611,8 +587,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1080</width>
-     <height>22</height>
+     <width>1000</width>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

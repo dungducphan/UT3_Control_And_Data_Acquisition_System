@@ -14,8 +14,10 @@ public:
         Tango::DevVarULong64Array *double_value;
         *(data->attr_value) >> double_value;
         Timestamp = (*double_value)[0];
+        emit TriggerReceived();
     }
 
 signals:
+    void TriggerReceived();
 };
 

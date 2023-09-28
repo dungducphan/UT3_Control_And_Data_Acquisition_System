@@ -235,9 +235,9 @@ void TestTimingDistributionUnit::add_dynamic_commands()
     [[noreturn]] void TestTimingDistributionUnit::ListenToEvent() {
         while (true) {
             auto now = std::chrono::system_clock::now();
-            *attr_Timestamp_read = (Tango::DevULong64) std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count();
+            *attr_Timestamp_read = (Tango::DevULong64) std::chrono::duration_cast<std::chrono::microseconds>(now.time_since_epoch()).count();
             push_change_event("Timestamp", attr_Timestamp_read, 1);
-            sleep(1);
+            usleep(500000);
         }
     }
 

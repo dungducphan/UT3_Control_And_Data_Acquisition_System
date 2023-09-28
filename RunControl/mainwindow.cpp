@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
     TimingUnit = std::make_unique<Tango::DeviceProxy>("tau/beamline/ttdu");
     TriggerCallbackInstance = new TriggerCallback();
     TimingUnit->subscribe_event("Timestamp", Tango::CHANGE_EVENT, TriggerCallbackInstance);
+    connect(TriggerCallbackInstance, &TriggerCallback::TriggerReceived, this, &MainWindow::on_TriggerCallback_TriggerReceived);
 }
 
 void MainWindow::setRangeForRunControlParameter() {
@@ -235,5 +236,10 @@ void MainWindow::validateRunControlParameter(const QLineEdit* lineEdit, const st
         ui->Label_RunControlStatus->setText(status.str().c_str());
         DBReference = inputValue;
     }
+}
+
+void MainWindow::on_TriggerCallback_TriggerReceived() {
+    auto timestamp = boost::format("%1%") % TriggerCallbackInstance->Timestamp;
+    ui->Label_CurrentShotTimestamp->setText(timestamp.str().c_str());
 }
 

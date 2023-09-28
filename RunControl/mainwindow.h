@@ -63,4 +63,5 @@ private:
 
     void setRangeForRunControlParameter();
     void validateRunControlParameter(const QLineEdit* lineEdit, const std::string& lineEditName, float& DBReference);
+    void on_TriggerCallback_TriggerReceived();
 };
