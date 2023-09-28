@@ -96,7 +96,7 @@ void TANGOCamera::add_dynImage_dynamic_attribute(string attname, Tango::DevUShor
 	//	Not Polled
 	dynimage->set_disp_level(Tango::OPERATOR);
 	//	Not Memorized
-	dynimage->set_data_ready_event(true);
+	dynimage->set_change_event(true, true);
 	dynImage_data.insert(make_pair(attname, ptr));
 	add_attribute(dynimage);
 }
