@@ -12,12 +12,16 @@ MainWindow::MainWindow(QWidget *parent)
   ui(new Ui::MainWindow),
   isDBReady(false),
   beamlineImgViewer{nullptr} {
+    // Setup MariaDB
     DB_Controller = std::make_unique<MariaDBController>();
+    DB_Controller->DBEntry.Notes = "NULL";
+
+    // Setup UI
     ui->setupUi(this);
     setRangeForRunControlParameter();
-
     recallSettings();
 
+    // Setup TANGO device clients
     TimingUnit = std::make_unique<Tango::DeviceProxy>("tau/beamline/ttdu");
     TriggerCallbackInstance = new TriggerCallback();
     TimingUnit->subscribe_event("Timestamp", Tango::CHANGE_EVENT, TriggerCallbackInstance);
@@ -112,6 +116,7 @@ void MainWindow::update_DB_CONNECTION_PARAMETERS() {
 
 void MainWindow::on_ConnectButton_clicked() {
     auto authDialog = std::make_unique<DatabaseAuthDialog>(this);
+    authDialog->setSettings(settings);
     authDialog->exec();
     DB_Controller->DB_USER = authDialog->DB_USER;
     DB_Controller->DB_PASSWORD = authDialog->DB_PASSWORD;
@@ -193,7 +198,13 @@ void MainWindow::on_LE_TopviewND_textChanged(const QString& newText) {
 }
 
 void MainWindow::on_LE_Notes_textChanged() {
-    DB_Controller->DBEntry.Notes = ui->LE_Notes->toPlainText().toStdString();
+    if (ui->LE_Notes->toPlainText().isEmpty()) {
+        std::cout << "No notes." << std::endl;
+        DB_Controller->DBEntry.Notes = "NULL";
+    } else {
+        std::cout << "Some notes." << std::endl;
+        DB_Controller->DBEntry.Notes = ui->LE_Notes->toPlainText().toStdString();
+    }
 }
 
 void MainWindow::on_ApplyConfigButton_clicked() {
@@ -215,7 +226,28 @@ void MainWindow::on_ApplyConfigButton_clicked() {
     DB_Controller->DBEntry.ProbeND = ui->LE_ProbeND->text().toFloat();
     DB_Controller->DBEntry.WFSND = ui->LE_WFSND->text().toFloat();
     DB_Controller->DBEntry.TopviewND = ui->LE_TopviewND->text().toFloat();
-    DB_Controller->DBEntry.Notes = ui->LE_Notes->toPlainText().toStdString();
+    if (ui->LE_Notes->toPlainText().isEmpty()) {
+        std::cout << "No notes." << std::endl;
+        DB_Controller->DBEntry.Notes = "NULL";
+    } else {
+        std::cout << "Some notes." << std::endl;
+        DB_Controller->DBEntry.Notes = ui->LE_Notes->toPlainText().toStdString();
+    }
+
+    settings.setValue("ImageBasePath", ui->LE_ImageBasePath->text());
+    settings.setValue("EnergyOnTarget", ui->LE_EnergyOnTarget->text());
+    settings.setValue("FarfieldEnergy", ui->LE_FarfieldEnergy->text());
+    settings.setValue("PulseDuration", ui->LE_PulseDuration->text());
+    settings.setValue("GasjetBackpressure", ui->LE_GasjetBackpressure->text());
+    settings.setValue("GasjetX", ui->LE_GasjetX->text());
+    settings.setValue("GasjetY", ui->LE_GasjetY->text());
+    settings.setValue("GasjetZ", ui->LE_GasjetZ->text());
+    settings.setValue("GasjetTiming", ui->LE_GasjetTiming->text());
+    settings.setValue("GasjetDuration", ui->LE_GasjetDuration->text());
+    settings.setValue("ProbeTiming", ui->LE_ProbeTiming->text());
+    settings.setValue("ProbeND", ui->LE_ProbeND->text());
+    settings.setValue("WFSND", ui->LE_WFSND->text());
+    settings.setValue("TopviewND", ui->LE_TopviewND->text());
 }
 
 void MainWindow::on_ClearConfigButton_clicked() {

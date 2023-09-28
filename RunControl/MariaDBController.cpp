@@ -27,7 +27,7 @@ void MariaDBController::AddEntry() const {
 
 void MariaDBController::AddEntryShotRecord() const {
     try {
-        auto date = boost::gregorian::to_iso_extended_string(boost::gregorian::day_clock::local_day());
+        auto date = boost::gregorian::to_iso_string(boost::gregorian::day_clock::local_day());
         auto statement = boost::format("INSERT INTO UT3Data.ShotRecord "
                                        "(Timestamp, Date, BasePath, WFS, TopView, PointingScreen, ESpecScreenA, ESpecScreenB, PointingScreenBrem) VALUES "
                                        "(%1%,       %2%,  %3%,      %4%, %5%,     %6,             %7,           %8,           %9)")
@@ -51,7 +51,7 @@ void MariaDBController::AddEntryShotRecord() const {
 
 void MariaDBController::AddEntryBeamlineParameters() const {
     try {
-        auto date = boost::gregorian::to_iso_extended_string(boost::gregorian::day_clock::local_day());
+        auto date = boost::gregorian::to_iso_string(boost::gregorian::day_clock::local_day());
         auto statement = boost::format("INSERT INTO UT3Data.BeamlineParameters "
                                        "(Timestamp, Date, EnergyOnTarget, FarfieldEnergy, PulseDuration, GasJetBackPressure, GasJetPosX, GasJetPosY, GasJetPosZ, GasJetOpeningDuration, GasJetTiming, ProbeTiming, ProbeND, WFSND, TopViewND, Notes) VALUES "
                                        "(%1%, %2%, %3%, %4%, %5%, %6%, %7%, %8%, %9%, %10%, %11%, %12%, %13%, %14%, %15%, %16%)") \
@@ -71,9 +71,9 @@ void MariaDBController::AddEntryBeamlineParameters() const {
                                         % DBEntry.WFSND \
                                         % DBEntry.TopviewND \
                                         % DBEntry.Notes;
+        std::cout << statement << std::endl;
         std::unique_ptr<sql::PreparedStatement> query(DB_Connection->prepareStatement(statement.str()));
         query->executeQuery();
-        std::cout << statement << std::endl;
     } catch(sql::SQLException& e){
         std::cerr << "Error inserting new data entry: " << e.what() << std::endl;
     }

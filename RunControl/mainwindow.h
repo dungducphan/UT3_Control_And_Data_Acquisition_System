@@ -33,7 +33,7 @@ private slots:
     void on_DisconnectButton_clicked();
     void on_ApplyConfigButton_clicked();
     void on_ClearConfigButton_clicked();
-    
+
     void on_LE_ImageBasePath_textChanged(const QString& newText);
     void on_LE_EnergyOnTarget_textChanged(const QString& newText);
     void on_LE_FarfieldEnergy_textChanged(const QString& newText);
