@@ -1,9 +1,10 @@
 use UT3Data;
-create table BeamlineParameters
+
+create table ShotRecord
 (
     ShotID                int unsigned auto_increment comment 'Unique shot ID'
         primary key,
-    Timestamp             bigint unsigned null comment 'Linux timestamp of event',
+    Timestamp             bigint unsigned not null comment 'Linux timestamp of event',
     Date                  date            null comment 'Date of shot',
     EnergyOnTarget        float           null comment 'Laser pulse energy on target in Joules',
     FarfieldEnergy        float           null comment 'Farfield energy in mJ',
@@ -17,23 +18,15 @@ create table BeamlineParameters
     ProbeTiming           float           null comment 'Probe to main pulse in picoseconds',
     ProbeND               float           null comment 'Filter ND on probe camera',
     WFSND                 float           null comment 'Filter ND on wavefront sensor',
-    TopViewND             float           null comment 'Filter ND on plasma channel top view camera'
+    TopViewND             float           null comment 'Filter ND on plasma channel top view camera',
+    Notes                 varchar(200)    null comment 'Notes on shot',
+    BasePath              varchar(100)    null comment 'Base path to the images',
+    WFS                   varchar(100)    null comment 'Relative path to WFS image',
+    Topview               varchar(100)    null comment 'Relative path to plasma channel top view image',
+    PointingScreen        varchar(100)    null comment 'Relative path to pointing screen images',
+    ESpecScreenA          varchar(100)    null comment 'Relative path to electron spectrometer screen A',
+    ESpecScreenB          varchar(100)    null comment 'Relative path to electron spectrometer screen B',
+    PointingScreenBrem    varchar(100)    null comment 'Relative path to pointing screen for Bremsstrahlung'
 )
-    comment 'Electron Accelerator Beamline parameters';
-
-create table ShotRecord
-(
-    ShotID             int unsigned auto_increment comment 'Unique shot ID'
-        primary key,
-    Timestamp          bigint unsigned null comment 'Linux timestamp of event',
-    Date               date            null comment 'Date of shot',
-    BasePath           varchar(100)    not null comment 'Base path of the image directory',
-    WFS                varchar(100)    null comment 'Path to image from wavefront sensor',
-    TopView            varchar(100)    null comment 'Path to image of plasma channel top view',
-    PointingScreen     varchar(100)    null comment 'Path to image of electron pointing screen',
-    ESpecScreenA       varchar(100)    null comment 'Path to image from electron spectrometer screen A',
-    ESpecScreenB       varchar(100)    null comment 'Path to image from electron spectrometer screen B',
-    PointingScreenBrem varchar(100)    null comment 'Path to image of the second pointing screen'
-)
-    comment 'Actual shot data';
+    comment 'Shot record';
 
