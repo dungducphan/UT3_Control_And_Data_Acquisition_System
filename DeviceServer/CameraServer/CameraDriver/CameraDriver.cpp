@@ -13,7 +13,7 @@ CameraDriver::CameraDriver(const TANGOCamera_ns::TANGOCamera *tango_device_ptr) 
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
-
+/*
 BaslerCameraDriver::BaslerCameraDriver(const TANGOCamera_ns::TANGOCamera *tango_device_ptr) : CameraDriver(
         tango_device_ptr) {
 }
@@ -35,9 +35,9 @@ void BaslerCameraDriver::ConfigureFreeRunMode() {
 
 void BaslerCameraDriver::ConfigureManualTriggerMode() {
 }
-
+*/
 /*--------------------------------------------------------------------------------------------------------------------*/
-
+/*
 PCOCameraDriver::PCOCameraDriver(const TANGOCamera_ns::TANGOCamera *tango_device_ptr) : CameraDriver(tango_device_ptr) {
 }
 
@@ -58,7 +58,7 @@ void PCOCameraDriver::ConfigureFreeRunMode() {
 
 void PCOCameraDriver::ConfigureManualTriggerMode() {
 }
-
+*/
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 #include <Spinnaker.h>

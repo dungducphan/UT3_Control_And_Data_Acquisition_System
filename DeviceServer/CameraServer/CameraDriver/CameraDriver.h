@@ -36,6 +36,7 @@ public:
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
+/* FIXME: Remove pylon and PCO dependencies for testing @ UT3
 #include <pylon/PylonIncludes.h>
 #include <pylon/Device.h>
 #include <pylon/TypeMappings.h>
@@ -61,9 +62,10 @@ public:
 private:
     std::unique_ptr<Pylon::CInstantCamera> PylonCameraPtr;
 };
+*/
 
 /*--------------------------------------------------------------------------------------------------------------------*/
-
+/*
 #include <pco.camera/stdafx.h>
 #include <pco.camera/camera.h>
 #include <pco.camera/cameraexception.h>
@@ -81,7 +83,7 @@ public:
 private:
     std::shared_ptr<pco::Camera> PCOCameraPtr;
 };
-
+*/
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 #include <Spinnaker.h>

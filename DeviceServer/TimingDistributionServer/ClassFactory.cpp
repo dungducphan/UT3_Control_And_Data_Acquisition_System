@@ -1,4 +1,4 @@
-/*----- PROTECTED REGION ID(TimingUnit::ClassFactory.cpp) ENABLED START -----*/
+/*----- PROTECTED REGION ID(TimingDistributionUnit::ClassFactory.cpp) ENABLED START -----*/
 //=============================================================================
 //
 // file :        ClassFactory.cpp
@@ -33,18 +33,18 @@
 //=============================================================================
 
 #include <tango.h>
-#include <TimingUnitClass.h>
+#include <TimingDistributionUnitClass.h>
 
 //	Add class header files if needed
 
 
 /**
- *	Create TimingUnit Class singleton and store it in DServer object.
+ *	Create TimingDistributionUnit Class singleton and store it in DServer object.
  */
 
 void Tango::DServer::class_factory()
 {
 	//	Add method class init if needed
-	add_class(TimingUnit_ns::TimingUnitClass::init("TimingUnit"));
+	add_class(TimingDistributionUnit_ns::TimingDistributionUnitClass::init("TimingDistributionUnit"));
 }
-/*----- PROTECTED REGION END -----*/	//	TimingUnit::ClassFactory.cpp
+/*----- PROTECTED REGION END -----*/	//	TimingDistributionUnit::ClassFactory.cpp

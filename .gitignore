@@ -35,6 +35,9 @@
 .idea
 cmake-build-*
 
+# QtCreator
+build-*
+
 # VSCode
 .vscode
 build/
@@ -45,6 +48,6 @@ log/
 # Python
 *.pyc
 
-
 # QtCreator
 build-*/
+CMakeLists.txt.user

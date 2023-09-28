@@ -4,24 +4,26 @@
 #
 # description : Solution-Level CMake
 #
-# project :     TimingUnitServer
+# project :     TimingDistributionServer
 #
 #=============================================================================
 
 #
-# Files for TimingUnit TANGO class
+# Files for TANGOCamera TANGO class
 #
-set(TIMINGUNIT
-        TimingUnit)
-set(TIMINGUNIT_INCLUDE
-        ${TIMING_SERVER_DIR}
-)
-set(TIMINGUNIT_SRC
-        ${TIMING_SERVER_DIR}/${TIMINGUNIT}.cpp
-        ${TIMING_SERVER_DIR}/${TIMINGUNIT}Class.cpp
-        ${TIMING_SERVER_DIR}/${TIMINGUNIT}StateMachine.cpp
+set(TIMINGDISTRIBUTIONUNIT
+        TimingDistributionUnit
 )
 
+set(TIMINGDISTRIBUTIONUNIT_INCLUDE
+        ${TIMING_SERVER_DIR}
+)
+
+set(TIMINGDISTRIBUTIONUNIT_SRC
+        ${TIMINGDISTRIBUTIONUNIT}.cpp
+        ${TIMINGDISTRIBUTIONUNIT}Class.cpp
+        ${TIMINGDISTRIBUTIONUNIT}StateMachine.cpp
+)
 
 #
 # User additional include, link folders/libraries and source files
@@ -29,24 +31,23 @@ set(TIMINGUNIT_SRC
 set(USER_INCL_DIR )
 set(USER_LIB_DIR )
 set(USER_LIBS )
-set(USER_SRC_FILES
-        ${TIMING_SERVER_DIR}/TimingUnitDriver.cpp
-        ${TIMING_SERVER_DIR}/TimingUnitDriver.h
-)
+set(USER_SRC_FILES )
 
 #
 # Set global info and include directories
 #
 set(ALL_CLASS_INCLUDE
-        ${TIMINGUNIT_INCLUDE}
+        ${TIMINGDISTRIBUTIONUNIT_INCLUDE}
         ${USER_INCL_DIR}
 )
+
 set(SERVER_SRC
-        ${TIMINGUNIT_SRC}
+        ${TIMINGDISTRIBUTIONUNIT_SRC}
         ${USER_SRC_FILES}
         ClassFactory.cpp
         main.cpp
 )
+
 include_directories(
         ${ALL_CLASS_INCLUDE}
         ${USER_INCL_DIR}
@@ -56,7 +57,7 @@ include_directories(
 #
 # Device Server generation
 #
-set(SERVER_NAME TimingUnitServer)
+set(SERVER_NAME TimingDistributionServer)
 #
 #	Set library directories
 #
@@ -72,3 +73,4 @@ if(ENABLE_DEBUG_FEATURES)
     target_compile_definitions(${SERVER_NAME} PRIVATE ENABLE_DEBUG_FEATURES)
 endif()
 target_link_libraries(${SERVER_NAME} ${USER_LIBS} ${TANGO_LIBS})
+

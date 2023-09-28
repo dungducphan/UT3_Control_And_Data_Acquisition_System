@@ -168,7 +168,7 @@ void StanfordDG645Channel::init_device()
 	hooks->registerHook(DG645_HOOK_CONNECTION_START, set_connection_state, this);
 	hooks->registerHook(DG645_HOOK_CONNECTION_STOP, set_connection_state, this);
 
-	// connect to controller
+	// Connect to controller
 	connect_controller((void *)this);
 	if(controller == NULL)
 	{
