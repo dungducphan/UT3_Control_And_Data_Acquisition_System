@@ -10,11 +10,13 @@
 MainWindow::MainWindow(QWidget *parent)
 : QMainWindow(parent),
   ui(new Ui::MainWindow),
+  isDBReady(false),
   beamlineImgViewer{nullptr} {
     DB_Controller = std::make_unique<MariaDBController>();
     ui->setupUi(this);
     setRangeForRunControlParameter();
-    update_DB_CONNECTION_PARAMETERS();
+
+    recallSettings();
 
     TimingUnit = std::make_unique<Tango::DeviceProxy>("tau/beamline/ttdu");
     TriggerCallbackInstance = new TriggerCallback();
@@ -71,8 +73,10 @@ void MainWindow::update_DB_HOST() {
     if (ui->LE_DatabaseHost->text().isEmpty()) {
         DB_Controller->DB_HOST = "localhost";
         ui->LE_DatabaseHost->setPlaceholderText("localhost");
+        settings.setValue("DB_HOST", "localhost");
     } else {
         DB_Controller->DB_HOST = ui->LE_DatabaseHost->text().toStdString();
+        settings.setValue("DB_HOST", ui->LE_DatabaseHost->text());
     }
 }
 
@@ -80,8 +84,10 @@ void MainWindow::update_DB_PORT() {
     if (ui->LE_DatabasePort->text().isEmpty()) {
         DB_Controller->DB_PORT = "3306";
         ui->LE_DatabasePort->setPlaceholderText("3306");
+        settings.setValue("DB_PORT", "3306");
     } else {
         DB_Controller->DB_PORT = ui->LE_DatabasePort->text().toStdString();
+        settings.setValue("DB_PORT", ui->LE_DatabasePort->text());
     }
 }
 
@@ -89,8 +95,10 @@ void MainWindow::update_DB_SCHEMA() {
     if (ui->LE_DatabaseSchema->text().isEmpty()) {
         DB_Controller->DB_SCHEMA = "UT3Data";
         ui->LE_DatabaseSchema->setPlaceholderText("UT3Data");
+        settings.setValue("DB_SCHEMA", "UT3Data");
     } else {
         DB_Controller->DB_SCHEMA = ui->LE_DatabaseSchema->text().toStdString();
+        settings.setValue("DB_SCHEMA", ui->LE_DatabaseSchema->text());
     }
 }
 
@@ -111,6 +119,7 @@ void MainWindow::on_ConnectButton_clicked() {
     try {
         DB_Controller->Connect();
         ui->ConnectionStatusLabel->setText("Database connected.");
+        isDBReady = true;
     } catch (sql::SQLException &e) {
         ui->ConnectionStatusLabel->setText(e.what());
     }
@@ -119,6 +128,7 @@ void MainWindow::on_ConnectButton_clicked() {
 void MainWindow::on_DisconnectButton_clicked()  {
     DB_Controller->Disconnect();
     ui->ConnectionStatusLabel->setText("Database disconnected.");
+    isDBReady = false;
 }
 
 void MainWindow::on_LE_ImageBasePath_textChanged(const QString& newText) {
@@ -127,58 +137,59 @@ void MainWindow::on_LE_ImageBasePath_textChanged(const QString& newText) {
         warningOnMissingBasePath.exec();
     }
     DB_Controller->DBEntry.ImageBasePath = ui->LE_ImageBasePath->text().toStdString();
+    settings.setValue("ImageBasePath", ui->LE_ImageBasePath->text());
 }
 
 void MainWindow::on_LE_EnergyOnTarget_textChanged(const QString& newText) {
-    validateRunControlParameter(ui->LE_EnergyOnTarget, "Energy-on-Target", DB_Controller->DBEntry.EnergyOnTargetInMilliJoules);
+    validateRunControlParameter(ui->LE_EnergyOnTarget, "EnergyOnTarget", DB_Controller->DBEntry.EnergyOnTargetInMilliJoules);
 }
 
 void MainWindow::on_LE_FarfieldEnergy_textChanged(const QString& newText) {
-    validateRunControlParameter(ui->LE_FarfieldEnergy, "Far-field energy", DB_Controller->DBEntry.FarfieldEnergyInMilliJoules);
+    validateRunControlParameter(ui->LE_FarfieldEnergy, "FarfieldEnergy", DB_Controller->DBEntry.FarfieldEnergyInMilliJoules);
 }
 
 void MainWindow::on_LE_PulseDuration_textChanged(const QString& newText) {
-    validateRunControlParameter(ui->LE_PulseDuration, "Pulse duration", DB_Controller->DBEntry.PulseDurationInFemtoSeconds);
+    validateRunControlParameter(ui->LE_PulseDuration, "PulseDuration", DB_Controller->DBEntry.PulseDurationInFemtoSeconds);
 }
 
 void MainWindow::on_LE_GasjetBackpressure_textChanged(const QString& newText) {
-    validateRunControlParameter(ui->LE_GasjetBackpressure, "Gasjet backpressure", DB_Controller->DBEntry.GasjetBackpressureInBars);
+    validateRunControlParameter(ui->LE_GasjetBackpressure, "GasjetBackpressure", DB_Controller->DBEntry.GasjetBackpressureInBars);
 }
 
 void MainWindow::on_LE_GasjetX_textChanged(const QString& newText) {
-    validateRunControlParameter(ui->LE_GasjetX, "Gasjet X", DB_Controller->DBEntry.GasjetXInMicrons);
+    validateRunControlParameter(ui->LE_GasjetX, "GasjetX", DB_Controller->DBEntry.GasjetXInMicrons);
 }
 
 void MainWindow::on_LE_GasjetY_textChanged(const QString& newText) {
-    validateRunControlParameter(ui->LE_GasjetY, "Gasjet Y", DB_Controller->DBEntry.GasjetYInMicrons);
+    validateRunControlParameter(ui->LE_GasjetY, "GasjetY", DB_Controller->DBEntry.GasjetYInMicrons);
 }
 
 void MainWindow::on_LE_GasjetZ_textChanged(const QString& newText) {
-    validateRunControlParameter(ui->LE_GasjetZ, "Gasjet Z", DB_Controller->DBEntry.GasjetZInMicrons);
+    validateRunControlParameter(ui->LE_GasjetZ, "GasjetZ", DB_Controller->DBEntry.GasjetZInMicrons);
 }
 
 void MainWindow::on_LE_GasjetTiming_textChanged(const QString& newText) {
-    validateRunControlParameter(ui->LE_GasjetTiming, "Gasjet timing", DB_Controller->DBEntry.GasjetTimingInMilliSeconds);
+    validateRunControlParameter(ui->LE_GasjetTiming, "GasjetTiming", DB_Controller->DBEntry.GasjetTimingInMilliSeconds);
 }
 
 void MainWindow::on_LE_GasjetDuration_textChanged(const QString& newText) {
-    validateRunControlParameter(ui->LE_GasjetDuration, "Gasjet duration", DB_Controller->DBEntry.GasjetDurationInMilliSeconds);
+    validateRunControlParameter(ui->LE_GasjetDuration, "GasjetDuration", DB_Controller->DBEntry.GasjetDurationInMilliSeconds);
 }
 
 void MainWindow::on_LE_ProbeTiming_textChanged(const QString& newText) {
-    validateRunControlParameter(ui->LE_ProbeTiming, "Probe timing", DB_Controller->DBEntry.ProbeTimingInFemtoSeconds);
+    validateRunControlParameter(ui->LE_ProbeTiming, "ProbeTiming", DB_Controller->DBEntry.ProbeTimingInFemtoSeconds);
 }
 
 void MainWindow::on_LE_ProbeND_textChanged(const QString& newText) {
-    validateRunControlParameter(ui->LE_ProbeND, "Probe ND", DB_Controller->DBEntry.ProbeND);
+    validateRunControlParameter(ui->LE_ProbeND, "ProbeND", DB_Controller->DBEntry.ProbeND);
 }
 
 void MainWindow::on_LE_WFSND_textChanged(const QString& newText) {
-    validateRunControlParameter(ui->LE_WFSND, "WFS ND", DB_Controller->DBEntry.WFSND);
+    validateRunControlParameter(ui->LE_WFSND, "WFSND", DB_Controller->DBEntry.WFSND);
 }
 
 void MainWindow::on_LE_TopviewND_textChanged(const QString& newText) {
-    validateRunControlParameter(ui->LE_TopviewND, "Topview ND", DB_Controller->DBEntry.TopviewND);
+    validateRunControlParameter(ui->LE_TopviewND, "TopviewND", DB_Controller->DBEntry.TopviewND);
 }
 
 void MainWindow::on_LE_Notes_textChanged() {
@@ -235,11 +246,59 @@ void MainWindow::validateRunControlParameter(const QLineEdit* lineEdit, const st
         auto status = boost::format("%1% set value is %2%.") % lineEditName % inputValue;
         ui->Label_RunControlStatus->setText(status.str().c_str());
         DBReference = inputValue;
+        settings.setValue(QString::fromStdString(lineEditName), lineEdit->text());
     }
 }
 
 void MainWindow::on_TriggerCallback_TriggerReceived() {
     auto timestamp = boost::format("%1%") % TriggerCallbackInstance->Timestamp;
     ui->Label_CurrentShotTimestamp->setText(timestamp.str().c_str());
+    DB_Controller->DBEntry.Timestamp = (int64_t) TriggerCallbackInstance->Timestamp;
+
+    if (isDBReady) DB_Controller->AddEntry();
+}
+
+void MainWindow::recallSettings() {
+    auto db_host = settings.value("DB_HOST").toString().toStdString();
+    if (db_host.empty()) {
+        ui->LE_DatabaseHost->setPlaceholderText("localhost");
+        settings.setValue("DB_HOST", "localhost");
+    }
+    else ui->LE_DatabaseHost->setText(QString::fromStdString(db_host));
+
+    auto db_port = settings.value("DB_PORT").toString().toStdString();
+    if (db_port.empty()) ui->LE_DatabasePort->setPlaceholderText("3306");
+    else ui->LE_DatabasePort->setText(QString::fromStdString(db_port));
+
+    auto db_schema = settings.value("DB_SCHEMA").toString().toStdString();
+    if (db_schema.empty()) ui->LE_DatabaseSchema->setPlaceholderText("UT3Data");
+    else ui->LE_DatabaseSchema->setText(QString::fromStdString(db_schema));
+
+    update_DB_CONNECTION_PARAMETERS();
+
+    auto image_base_path = settings.value("ImageBasePath").toString().toStdString();
+    if (image_base_path.empty()) {
+        std::string home = getenv("HOME");
+        std::string defaultDir = home + "/UT3Data";
+        ui->LE_ImageBasePath->setPlaceholderText(defaultDir.c_str());
+        settings.setValue("ImageBasePath", defaultDir.c_str());
+        DB_Controller->DBEntry.ImageBasePath = defaultDir;
+    } else {
+        ui->LE_ImageBasePath->setText(QString::fromStdString(image_base_path));
+    }
+
+    ui->LE_EnergyOnTarget->setText(QString::fromStdString(settings.value("EnergyOnTarget").toString().toStdString()));
+    ui->LE_FarfieldEnergy->setText(QString::fromStdString(settings.value("FarfieldEnergy").toString().toStdString()));
+    ui->LE_PulseDuration->setText(QString::fromStdString(settings.value("PulseDuration").toString().toStdString()));
+    ui->LE_GasjetBackpressure->setText(QString::fromStdString(settings.value("GasjetBackpressure").toString().toStdString()));
+    ui->LE_GasjetX->setText(QString::fromStdString(settings.value("GasjetX").toString().toStdString()));
+    ui->LE_GasjetY->setText(QString::fromStdString(settings.value("GasjetY").toString().toStdString()));
+    ui->LE_GasjetZ->setText(QString::fromStdString(settings.value("GasjetZ").toString().toStdString()));
+    ui->LE_GasjetTiming->setText(QString::fromStdString(settings.value("GasjetTiming").toString().toStdString()));
+    ui->LE_GasjetDuration->setText(QString::fromStdString(settings.value("GasjetDuration").toString().toStdString()));
+    ui->LE_ProbeTiming->setText(QString::fromStdString(settings.value("ProbeTiming").toString().toStdString()));
+    ui->LE_ProbeND->setText(QString::fromStdString(settings.value("ProbeND").toString().toStdString()));
+    ui->LE_WFSND->setText(QString::fromStdString(settings.value("WFSND").toString().toStdString()));
+    ui->LE_TopviewND->setText(QString::fromStdString(settings.value("TopviewND").toString().toStdString()));
 }
 

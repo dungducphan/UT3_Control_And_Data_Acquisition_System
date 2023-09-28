@@ -4,6 +4,7 @@
 
 #include <QMainWindow>
 #include <QLineEdit>
+#include <QSettings>
 
 #include <beamlinediagnosticsimageviewer.h>
 #include <triggercallback.h>
@@ -30,9 +31,9 @@ private slots:
     void on_LE_DatabaseSchema_returnPressed();
     void on_ConnectButton_clicked();
     void on_DisconnectButton_clicked();
-    void on_LE_Notes_textChanged();
     void on_ApplyConfigButton_clicked();
     void on_ClearConfigButton_clicked();
+    
     void on_LE_ImageBasePath_textChanged(const QString& newText);
     void on_LE_EnergyOnTarget_textChanged(const QString& newText);
     void on_LE_FarfieldEnergy_textChanged(const QString& newText);
@@ -47,14 +48,21 @@ private slots:
     void on_LE_ProbeND_textChanged(const QString& newText);
     void on_LE_WFSND_textChanged(const QString& newText);
     void on_LE_TopviewND_textChanged(const QString& newText);
+    void on_LE_Notes_textChanged();
 
 private:
     Ui::MainWindow *ui;
+
     std::unique_ptr<BeamlineDiagnosticsImageViewer> beamlineImgViewer;
+
     std::unique_ptr<MariaDBController> DB_Controller;
 
     std::unique_ptr<Tango::DeviceProxy> TimingUnit;
     TriggerCallback* TriggerCallbackInstance;
+
+    bool isDBReady;
+
+    QSettings settings;
 
     void update_DB_HOST();
     void update_DB_PORT();
@@ -64,4 +72,5 @@ private:
     void setRangeForRunControlParameter();
     void validateRunControlParameter(const QLineEdit* lineEdit, const std::string& lineEditName, float& DBReference);
     void on_TriggerCallback_TriggerReceived();
+    void recallSettings();
 };
