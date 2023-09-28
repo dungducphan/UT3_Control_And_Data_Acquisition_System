@@ -11,11 +11,12 @@
 
 class TriggerCallback : public Tango::CallBack {
 public:
-    void push_event(Tango::DataReadyEventData* data) override {
-        std::cout << "Event received: " << std::endl;
-        std::cout << " - " << data->attr_name << std::endl;
-        std::cout << " - " << data->event << std::endl;
-        std::cout << std::endl;
+    Tango::DevULong64 Timestamp;
+
+    void push_event(Tango::EventData* data) override {
+        Tango::DevVarULong64Array *double_value;
+        *(data->attr_value) >> double_value;
+        Timestamp = (*double_value)[0];
     }
 };
 

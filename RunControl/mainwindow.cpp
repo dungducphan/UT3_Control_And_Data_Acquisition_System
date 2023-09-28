@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     TimingUnit = std::make_unique<Tango::DeviceProxy>("tau/beamline/ttdu");
     TriggerCallbackInstance = new TriggerCallback();
-    TimingUnit->subscribe_event("Timestamp", Tango::DATA_READY_EVENT, TriggerCallbackInstance);
+    TimingUnit->subscribe_event("Timestamp", Tango::CHANGE_EVENT, TriggerCallbackInstance);
 }
 
 void MainWindow::setRangeForRunControlParameter() {
