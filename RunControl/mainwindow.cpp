@@ -22,6 +22,8 @@ MainWindow::MainWindow(QWidget *parent)
     recallSettings();
 
     // Setup TANGO device clients
+    ResetTANGODataReady();
+
     TimingUnit = std::make_unique<Tango::DeviceProxy>("tau/beamline/ttdu");
     TriggerCallbackInstance = new TriggerCallback();
     TimingUnit->subscribe_event("Timestamp", Tango::CHANGE_EVENT, TriggerCallbackInstance);
@@ -287,20 +289,31 @@ void MainWindow::validateRunControlParameter(const QLineEdit* lineEdit, const st
     }
 }
 
+void MainWindow::ResetTANGODataReady() {
+    IsTimestampReady = false;
+    IsWFSReady = false;
+}
+
 void MainWindow::on_TriggerReceived() {
     auto timestamp = boost::format("%1%") % TriggerCallbackInstance->Timestamp;
     ui->Label_CurrentShotTimestamp->setText(timestamp.str().c_str());
     DB_Controller->DBEntry.Timestamp = (int64_t) TriggerCallbackInstance->Timestamp;
 
-    if (isDBReady) DB_Controller->AddEntryShotRecord();
+    if (isDBReady) {
+        // DB_Controller->AddEntryShotRecord();
+    }
+
+    // FIXME:
+    //  A while loop on a new thread to check if all the images has been available
+    //  Maybe instead of while loop, use for loop with a timeout (there might be problems
+    //  with the CameraServer so the image is not available, in this case the while loop
+    //  will be stuck forever)
 }
 
 void MainWindow::on_WFSReceived() {
-    auto timestamp = boost::format("%1%") % TriggerCallbackInstance->Timestamp;
-    ui->Label_CurrentShotTimestamp->setText(timestamp.str().c_str());
-    DB_Controller->DBEntry.Timestamp = (int64_t) TriggerCallbackInstance->Timestamp;
-
-    if (isDBReady) DB_Controller->AddEntryShotRecord();
+    // FIXME:
+    //  Setting name for WFS, need Timestamp from TriggerCallback
+    //  Set flag for WFS image available, need to reset the flag after AddEntryShotRecord()
 }
 
 void MainWindow::recallSettings() {

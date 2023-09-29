@@ -1,5 +1,7 @@
 #pragma once
 
+#include <thread>
+
 #include <tango.h>
 
 #include <QMainWindow>
@@ -60,16 +62,16 @@ private:
     // MariaDB
     std::unique_ptr<MariaDBController> DB_Controller;
     bool isDBReady;
+    std::thread DB_Thread;
 
     // Tango DeviceProxies
     std::unique_ptr<Tango::DeviceProxy> TimingUnit;
     std::unique_ptr<Tango::DeviceProxy> WFS;
-    std::unique_ptr<Tango::DeviceProxy> Topview;
-    std::unique_ptr<Tango::DeviceProxy> PointScreen;
-    std::unique_ptr<Tango::DeviceProxy> ESpecScreenA;
-    std::unique_ptr<Tango::DeviceProxy> ESpecScreenB;
     TriggerCallback* TriggerCallbackInstance;
     WFSCallback* WFSCallbackInstance;
+    bool IsTimestampReady;
+    bool IsWFSReady;
+    void ResetTANGODataReady();
 
 private:
     void update_DB_HOST();
