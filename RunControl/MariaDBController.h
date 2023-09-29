@@ -30,6 +30,7 @@ public:
     void Connect();
     void Disconnect() const;
     void AddEntryShotRecord() const;
+    unsigned long GetLatestShotID() const;
 
     std::unique_ptr<sql::Driver> SQL_Driver;
     std::unique_ptr<sql::Connection> DB_Connection;

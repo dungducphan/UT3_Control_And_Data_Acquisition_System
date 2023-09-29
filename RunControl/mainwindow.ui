@@ -373,7 +373,7 @@
           <item row="13" column="0">
            <widget class="QLabel" name="WFSNDLabel">
             <property name="text">
-             <string>WFS ND</string>
+             <string>TANGO_WFS ND</string>
             </property>
            </widget>
           </item>

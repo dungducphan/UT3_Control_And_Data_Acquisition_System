@@ -56,32 +56,30 @@ private slots:
 private:
     // UI elements
     Ui::MainWindow *ui;
-    QSettings settings;
+    QSettings UI_settings;
     std::unique_ptr<BeamlineDiagnosticsImageViewer> beamlineImgViewer;
 
     // MariaDB
     std::unique_ptr<MariaDBController> DB_Controller;
-    bool isDBReady;
+    bool DB_IsDBReady;
     std::thread DB_Thread;
+    unsigned long DB_LatestShotID;
 
     // Tango DeviceProxies
-    std::unique_ptr<Tango::DeviceProxy> TimingUnit;
-    std::unique_ptr<Tango::DeviceProxy> WFS;
-    TriggerCallback* TriggerCallbackInstance;
-    WFSCallback* WFSCallbackInstance;
-    bool IsTimestampReady;
-    bool IsWFSReady;
-    void ResetTANGODataReady();
+    std::unique_ptr<Tango::DeviceProxy> TANGO_TimingUnit;
+    std::unique_ptr<Tango::DeviceProxy> TANGO_WFS;
+    TriggerCallback* TANGO_TriggerCallback;
+    WFSCallback* TANGO_WFSCallback;
 
 private:
-    void update_DB_HOST();
-    void update_DB_PORT();
-    void update_DB_SCHEMA();
-    void update_DB_CONNECTION_PARAMETERS();
+    void DB_update_DB_HOST();
+    void DB_update_DB_PORT();
+    void DB_update_DB_SCHEMA();
+    void DB_update_DB_CONNECTION_PARAMETERS();
 
-    void setRangeForRunControlParameter();
-    void validateRunControlParameter(const QLineEdit* lineEdit, const std::string& lineEditName, float& DBReference);
-    void on_TriggerReceived();
-    void on_WFSReceived();
-    void recallSettings();
+    void UI_setRangeForRunControlParameter();
+    void UI_validateRunControlParameter(const QLineEdit* lineEdit, const std::string& lineEditName, float& DBReference);
+    void UI_on_TriggerReceived();
+    void UI_on_WFSReceived();
+    void UI_recallSettings();
 };

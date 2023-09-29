@@ -1058,7 +1058,7 @@ void StanfordDG645Control::single_shot()
 //--------------------------------------------------------
 /**
  *	Command LoadDefaults related method
- *	Description: Resets the device to it`s default settings.
+ *	Description: Resets the device to it`s default UI_settings.
  *
  */
 //--------------------------------------------------------
@@ -1078,7 +1078,7 @@ void StanfordDG645Control::load_defaults()
 //--------------------------------------------------------
 /**
  *	Command LoadSettings related method
- *	Description: Reads back the previously saved instrument settings from location [1..9].
+ *	Description: Reads back the previously saved instrument UI_settings from location [1..9].
  *
  *	@param argin 
  */
@@ -1101,7 +1101,7 @@ void StanfordDG645Control::load_settings(Tango::DevUShort argin)
 //--------------------------------------------------------
 /**
  *	Command SaveSettings related method
- *	Description: Saves the current instrument settings to location [1..9].
+ *	Description: Saves the current instrument UI_settings to location [1..9].
  *
  *	@param argin 
  */

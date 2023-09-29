@@ -183,7 +183,7 @@ public:
 
 /**
  *	Attribute TriggerMode related methods
- *	Description: Int - Internal triggering at rates from 100 µHz to 10 MHz.
+ *	Description: Int - Internal triggering at rates from 100 ï¿½Hz to 10 MHz.
  *               ExtRisingEdge - External triggering on rising edges.
  *               ExtFallingEdge - External triggering on falling edges.
  *               SingleExtRisingEdge - Externally triggered single shot on a rising edges. Execute SingleShot command to arm the trigger.
@@ -319,14 +319,14 @@ public:
 	virtual bool is_SingleShot_allowed(const CORBA::Any &any);
 	/**
 	 *	Command LoadDefaults related method
-	 *	Description: Resets the device to it`s default settings.
+	 *	Description: Resets the device to it`s default UI_settings.
 	 *
 	 */
 	virtual void load_defaults();
 	virtual bool is_LoadDefaults_allowed(const CORBA::Any &any);
 	/**
 	 *	Command LoadSettings related method
-	 *	Description: Reads back the previously saved instrument settings from location [1..9].
+	 *	Description: Reads back the previously saved instrument UI_settings from location [1..9].
 	 *
 	 *	@param argin 
 	 */
@@ -334,7 +334,7 @@ public:
 	virtual bool is_LoadSettings_allowed(const CORBA::Any &any);
 	/**
 	 *	Command SaveSettings related method
-	 *	Description: Saves the current instrument settings to location [1..9].
+	 *	Description: Saves the current instrument UI_settings to location [1..9].
 	 *
 	 *	@param argin 
 	 */

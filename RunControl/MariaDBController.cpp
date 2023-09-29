@@ -59,3 +59,16 @@ void MariaDBController::AddEntryShotRecord() const {
         std::cerr << e.what() << std::endl;
     }
 }
+
+unsigned long MariaDBController::GetLatestShotID() const {
+    try {
+        std::unique_ptr<sql::Statement> query(DB_Connection->createStatement());
+        std::unique_ptr<sql::ResultSet> result(query->executeQuery("SELECT * FROM UT3Data.ShotRecord WHERE ShotID=(SELECT MAX(ShotID) FROM UT3Data.ShotRecord);"));
+        result->next();
+        return result->getUInt64(1);
+    } catch(sql::SQLException& e){
+        std::cerr << e.what() << std::endl;
+    }
+
+    return 0;
+}

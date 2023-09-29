@@ -21,7 +21,7 @@ create table ShotRecord
     TopViewND             float           null comment 'Filter ND on plasma channel top view camera',
     Notes                 varchar(200)    null comment 'Notes on shot',
     BasePath              varchar(100)    null comment 'Base path to the images',
-    WFS                   varchar(100)    null comment 'Relative path to WFS image',
+    TANGO_WFS                   varchar(100)    null comment 'Relative path to TANGO_WFS image',
     Topview               varchar(100)    null comment 'Relative path to plasma channel top view image',
     PointingScreen        varchar(100)    null comment 'Relative path to pointing screen images',
     ESpecScreenA          varchar(100)    null comment 'Relative path to electron spectrometer screen A',
