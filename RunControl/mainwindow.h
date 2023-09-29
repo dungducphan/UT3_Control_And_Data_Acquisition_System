@@ -7,7 +7,7 @@
 #include <QSettings>
 
 #include <beamlinediagnosticsimageviewer.h>
-#include <triggercallback.h>
+#include <callback.h>
 
 #include <MariaDBController.h>
 
@@ -34,6 +34,7 @@ private slots:
     void on_ApplyConfigButton_clicked();
     void on_ClearConfigButton_clicked();
 
+    // Run Control Parameters
     void on_LE_ImageBasePath_textChanged(const QString& newText);
     void on_LE_EnergyOnTarget_textChanged(const QString& newText);
     void on_LE_FarfieldEnergy_textChanged(const QString& newText);
@@ -51,19 +52,26 @@ private slots:
     void on_LE_Notes_textChanged();
 
 private:
+    // UI elements
     Ui::MainWindow *ui;
-
+    QSettings settings;
     std::unique_ptr<BeamlineDiagnosticsImageViewer> beamlineImgViewer;
 
+    // MariaDB
     std::unique_ptr<MariaDBController> DB_Controller;
-
-    std::unique_ptr<Tango::DeviceProxy> TimingUnit;
-    TriggerCallback* TriggerCallbackInstance;
-
     bool isDBReady;
 
-    QSettings settings;
+    // Tango DeviceProxies
+    std::unique_ptr<Tango::DeviceProxy> TimingUnit;
+    std::unique_ptr<Tango::DeviceProxy> WFS;
+    std::unique_ptr<Tango::DeviceProxy> Topview;
+    std::unique_ptr<Tango::DeviceProxy> PointScreen;
+    std::unique_ptr<Tango::DeviceProxy> ESpecScreenA;
+    std::unique_ptr<Tango::DeviceProxy> ESpecScreenB;
+    TriggerCallback* TriggerCallbackInstance;
+    WFSCallback* WFSCallbackInstance;
 
+private:
     void update_DB_HOST();
     void update_DB_PORT();
     void update_DB_SCHEMA();
@@ -71,6 +79,7 @@ private:
 
     void setRangeForRunControlParameter();
     void validateRunControlParameter(const QLineEdit* lineEdit, const std::string& lineEditName, float& DBReference);
-    void on_TriggerCallback_TriggerReceived();
+    void on_TriggerReceived();
+    void on_WFSReceived();
     void recallSettings();
 };

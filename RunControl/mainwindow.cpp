@@ -25,7 +25,12 @@ MainWindow::MainWindow(QWidget *parent)
     TimingUnit = std::make_unique<Tango::DeviceProxy>("tau/beamline/ttdu");
     TriggerCallbackInstance = new TriggerCallback();
     TimingUnit->subscribe_event("Timestamp", Tango::CHANGE_EVENT, TriggerCallbackInstance);
-    connect(TriggerCallbackInstance, &TriggerCallback::TriggerReceived, this, &MainWindow::on_TriggerCallback_TriggerReceived);
+    connect(TriggerCallbackInstance, &TriggerCallback::TriggerReceived, this, &MainWindow::on_TriggerReceived);
+
+    WFS = std::make_unique<Tango::DeviceProxy>("tau/beamline/wfs");
+    WFSCallbackInstance = new WFSCallback();
+    WFS->subscribe_event("dynImage", Tango::CHANGE_EVENT, WFSCallbackInstance);
+    connect(WFSCallbackInstance, &WFSCallback::WFSReceived, this, &MainWindow::on_WFSReceived);
 }
 
 void MainWindow::setRangeForRunControlParameter() {
@@ -282,7 +287,15 @@ void MainWindow::validateRunControlParameter(const QLineEdit* lineEdit, const st
     }
 }
 
-void MainWindow::on_TriggerCallback_TriggerReceived() {
+void MainWindow::on_TriggerReceived() {
+    auto timestamp = boost::format("%1%") % TriggerCallbackInstance->Timestamp;
+    ui->Label_CurrentShotTimestamp->setText(timestamp.str().c_str());
+    DB_Controller->DBEntry.Timestamp = (int64_t) TriggerCallbackInstance->Timestamp;
+
+    if (isDBReady) DB_Controller->AddEntryShotRecord();
+}
+
+void MainWindow::on_WFSReceived() {
     auto timestamp = boost::format("%1%") % TriggerCallbackInstance->Timestamp;
     ui->Label_CurrentShotTimestamp->setText(timestamp.str().c_str());
     DB_Controller->DBEntry.Timestamp = (int64_t) TriggerCallbackInstance->Timestamp;

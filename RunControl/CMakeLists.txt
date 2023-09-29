@@ -37,8 +37,8 @@ set(PROJECT_SOURCES
         warningonmissingbasepath.ui
         MariaDBController.cpp
         MariaDBController.h
-        triggercallback.cpp
-        triggercallback.h
+        callback.cpp
+        callback.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
