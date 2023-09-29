@@ -249,7 +249,7 @@ void TimingDistributionUnit::add_dynamic_commands()
         // Create new termios struct, we call it 'tty' for convention
         struct termios tty{};
 
-        // Read in existing settings, and handle any error
+        // Read in existing UI_settings, and handle any error
         if (tcgetattr(SerialPort, &tty) != 0) {
             printf("Error %i from tcgetattr: %s\n", errno, strerror(errno));
             return;
@@ -281,7 +281,7 @@ void TimingDistributionUnit::add_dynamic_commands()
         cfsetispeed(&tty, B115200);
         cfsetospeed(&tty, B115200);
 
-        // Save tty settings, also checking for error
+        // Save tty UI_settings, also checking for error
         if (tcsetattr(SerialPort, TCSANOW, &tty) != 0) return;
     }
 
@@ -291,9 +291,9 @@ void TimingDistributionUnit::add_dynamic_commands()
             read(SerialPort, &read_buf, sizeof(read_buf));
             if (read_buf[0] == 'T') {
                 auto now = std::chrono::system_clock::now();
-                *attr_Timestamp_read = (Tango::DevULong64) std::chrono::duration_cast<std::chrono::milliseconds>(
+                *attr_Timestamp_read = (Tango::DevULong64) std::chrono::duration_cast<std::chrono::microseconds>(
                         now.time_since_epoch()).count();
-                push_data_ready_event("Timestamp");
+                push_change_event("Timestamp", attr_Timestamp_read, 1);
             }
         }
     }

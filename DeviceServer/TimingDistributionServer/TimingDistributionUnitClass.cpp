@@ -340,12 +340,13 @@ void TimingDistributionUnitClass::attribute_factory(vector<Tango::Attr *> &att_l
 	//	min_warning	not set for Timestamp
 	//	delta_t	not set for Timestamp
 	//	delta_val	not set for Timestamp
+	timestamp_prop.set_event_abs_change("1");
 	
 	timestamp->set_default_properties(timestamp_prop);
 	//	Not Polled
 	timestamp->set_disp_level(Tango::OPERATOR);
 	//	Not Memorized
-	timestamp->set_data_ready_event(true);
+	timestamp->set_change_event(true, true);
 	att_list.push_back(timestamp);
 
 

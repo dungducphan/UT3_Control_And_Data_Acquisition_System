@@ -25,11 +25,12 @@
     </commands>
     <attributes name="Timestamp" attType="Scalar" rwType="READ" displayLevel="OPERATOR" polledPeriod="0" maxX="" maxY="" allocReadMember="true" isDynamic="false">
       <dataType xsi:type="pogoDsl:ULongType"/>
-      <changeEvent fire="false" libCheckCriteria="false"/>
+      <changeEvent fire="true" libCheckCriteria="true"/>
       <archiveEvent fire="false" libCheckCriteria="false"/>
-      <dataReadyEvent fire="true" libCheckCriteria="true"/>
+      <dataReadyEvent fire="false" libCheckCriteria="true"/>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
       <properties description="" label="Timestamp" unit="" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
+      <eventCriteria relChange="" absChange="1" period=""/>
     </attributes>
     <preferences docHome="./doc_html" makefileHome="/usr/local/tango/share/pogo/preferences"/>
   </classes>
