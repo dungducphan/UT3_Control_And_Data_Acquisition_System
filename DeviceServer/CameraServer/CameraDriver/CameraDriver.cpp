@@ -193,7 +193,7 @@ void FLIRCameraDriver::AcquisitionLoop() {
         if (ResultImagePtr->IsIncomplete()) {
             std::cout << Spinnaker::Image::GetImageStatusDescription(ResultImagePtr->GetImageStatus()) << std::endl;
         } else {
-            // Only handling data if the StopAcquisition has NOT been issue
+            // Only handling data if the StopAcquisition has NOT been issued
             if (TangoCameraPtr->get_state() == Tango::RUNNING) {
                 std::copy((Tango::DevUShort *) ResultImagePtr->GetData(),
                           (Tango::DevUShort *) ResultImagePtr->GetData() + ImageWidth * ImageHeight,
