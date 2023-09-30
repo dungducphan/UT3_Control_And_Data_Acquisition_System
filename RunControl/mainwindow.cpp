@@ -6,11 +6,13 @@
 #include <iostream>
 
 #include <QDoubleValidator>
+#include <QFileDialog>
 
 MainWindow::MainWindow(QWidget *parent)
 : QMainWindow(parent),
   ui(new Ui::MainWindow),
   DB_IsDBReady(false),
+  DB_LatestShotID{0},
   beamlineImgViewer{nullptr} {
     // Setup MariaDB
     DB_Controller = std::make_unique<MariaDBController>();
@@ -27,10 +29,10 @@ MainWindow::MainWindow(QWidget *parent)
     TANGO_TimingUnit->subscribe_event("Timestamp", Tango::CHANGE_EVENT, TANGO_TriggerCallback);
     connect(TANGO_TriggerCallback, &TriggerCallback::TriggerReceived, this, &MainWindow::UI_on_TriggerReceived);
 
-    TANGO_WFS = std::make_unique<Tango::DeviceProxy>("UT3/Beamline/WFS");
-    TANGO_WFSCallback = new WFSCallback();
-    TANGO_WFS->subscribe_event("DynamicImage", Tango::CHANGE_EVENT, TANGO_WFSCallback);
-    connect(TANGO_WFSCallback, &WFSCallback::WFSReceived, this, &MainWindow::UI_on_WFSReceived);
+//    TANGO_WFS = std::make_unique<Tango::DeviceProxy>("UT3/Beamline/WFS");
+//    TANGO_WFSCallback = new WFSCallback();
+//    TANGO_WFS->subscribe_event("DynamicImage", Tango::CHANGE_EVENT, TANGO_WFSCallback);
+//    connect(TANGO_WFSCallback, &WFSCallback::WFSReceived, this, &MainWindow::UI_on_WFSReceived);
 }
 
 void MainWindow::UI_setRangeForRunControlParameter() {
@@ -63,7 +65,11 @@ void MainWindow::on_actionExit_triggered() {
 }
 
 void MainWindow::on_Button_ImageBasePathFileDialog_clicked() {
-    // FIXME: open a file dialog here to set the base path for image saving. View this video: https://www.youtube.com/watch?v=NANhXeoOwNY
+    QFileDialog fileDialog(this);
+    fileDialog.setFileMode(QFileDialog::Directory);
+    fileDialog.setOption(QFileDialog::ShowDirsOnly);
+    fileDialog.exec();
+    ui->LE_ImageBasePath->setText(fileDialog.selectedFiles().first());
 }
 
 void MainWindow::on_LE_DatabaseHost_returnPressed() {
