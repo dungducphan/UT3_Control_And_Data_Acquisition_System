@@ -291,7 +291,7 @@ void TimingDistributionUnit::add_dynamic_commands()
             read(SerialPort, &read_buf, sizeof(read_buf));
             if (read_buf[0] == 'T') {
                 auto now = std::chrono::system_clock::now();
-                *attr_Timestamp_read = (Tango::DevULong64) std::chrono::duration_cast<std::chrono::microseconds>(
+                *attr_Timestamp_read = (Tango::DevULong64) std::chrono::duration_cast<std::chrono::milliseconds>(
                         now.time_since_epoch()).count();
                 push_change_event("Timestamp", attr_Timestamp_read, 1);
             }
