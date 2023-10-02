@@ -6,11 +6,13 @@
 #include <iostream>
 
 #include <QDoubleValidator>
+#include <QFileDialog>
 
 MainWindow::MainWindow(QWidget *parent)
 : QMainWindow(parent),
   ui(new Ui::MainWindow),
   DB_IsDBReady(false),
+  DB_LatestShotID{0},
   beamlineImgViewer{nullptr} {
     // Setup MariaDB
     DB_Controller = std::make_unique<MariaDBController>();
@@ -27,9 +29,9 @@ MainWindow::MainWindow(QWidget *parent)
     TANGO_TimingUnit->subscribe_event("Timestamp", Tango::CHANGE_EVENT, TANGO_TriggerCallback);
     connect(TANGO_TriggerCallback, &TriggerCallback::TriggerReceived, this, &MainWindow::UI_on_TriggerReceived);
 
-//    TANGO_WFS = std::make_unique<Tango::DeviceProxy>("UT3/TauBeamline/ElectronSpectrometer_FirstScreen");
+//    TANGO_WFS = std::make_unique<Tango::DeviceProxy>("UT3/Beamline/WFS");
 //    TANGO_WFSCallback = new WFSCallback();
-//    TANGO_WFS->subscribe_event("dynImage", Tango::CHANGE_EVENT, TANGO_WFSCallback);
+//    TANGO_WFS->subscribe_event("DynamicImage", Tango::CHANGE_EVENT, TANGO_WFSCallback);
 //    connect(TANGO_WFSCallback, &WFSCallback::WFSReceived, this, &MainWindow::UI_on_WFSReceived);
 }
 
@@ -63,7 +65,11 @@ void MainWindow::on_actionExit_triggered() {
 }
 
 void MainWindow::on_Button_ImageBasePathFileDialog_clicked() {
-    // FIXME: open a file dialog here to set the base path for image saving. View this video: https://www.youtube.com/watch?v=NANhXeoOwNY
+    QFileDialog fileDialog(this);
+    fileDialog.setFileMode(QFileDialog::Directory);
+    fileDialog.setOption(QFileDialog::ShowDirsOnly);
+    fileDialog.exec();
+    ui->LE_ImageBasePath->setText(fileDialog.selectedFiles().first());
 }
 
 void MainWindow::on_LE_DatabaseHost_returnPressed() {
@@ -297,26 +303,17 @@ void MainWindow::UI_validateRunControlParameter(const QLineEdit* lineEdit, const
 
 void MainWindow::UI_on_TriggerReceived() {
     auto timestamp = boost::format("%1%") % TANGO_TriggerCallback->Timestamp;
-    DB_LatestShotID++;
-    ui->Label_CurrentShotID->setText(QString::fromStdString(std::to_string(DB_LatestShotID)));
     ui->Label_CurrentShotTimestamp->setText(timestamp.str().c_str());
-    DB_Controller->DBEntry.Timestamp = (int64_t) TANGO_TriggerCallback->Timestamp;
 
     if (DB_IsDBReady) {
+        DB_LatestShotID++;
+        ui->Label_CurrentShotID->setText(QString::fromStdString(std::to_string(DB_LatestShotID)));
+        DB_Controller->DBEntry.Timestamp = (int64_t) TANGO_TriggerCallback->Timestamp;
         DB_Controller->AddEntryShotRecord();
     }
-
-    // FIXME:
-    //  A while loop on a new thread to check if all the images has been available
-    //  Maybe instead of while loop, use for loop with a timeout (there might be problems
-    //  with the CameraServer so the image is not available, in this case the while loop
-    //  will be stuck forever)
 }
 
 void MainWindow::UI_on_WFSReceived() {
-    // FIXME:
-    //  Setting name for TANGO_WFS, need Timestamp from TriggerCallback
-    //  Set flag for TANGO_WFS image available, need to reset the flag after AddEntryShotRecord()
 }
 
 void MainWindow::UI_recallSettings() {

@@ -198,9 +198,6 @@ void FLIRCameraDriver::AcquisitionLoop() {
                 std::copy((Tango::DevUShort *) ResultImagePtr->GetData(),
                           (Tango::DevUShort *) ResultImagePtr->GetData() + ImageWidth * ImageHeight,
                           ImageDataPtr.get());
-#ifdef ENABLE_DEBUG_FEATURES
-                std::cout << "Pushing data ready event for " << TangoCameraPtr->get_name() << std::endl;
-#endif
                 TangoCameraPtr->push_change_event("DynamicImage", ImageDataPtr.get());
             }
         }
