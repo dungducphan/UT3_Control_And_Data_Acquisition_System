@@ -12,31 +12,6 @@
 #=============================================================================
 #
 #
-cmake_minimum_required (VERSION 3.20)
-set(CMAKE_SKIP_RPATH TRUE)
-
-# MAKE_ENV is the path to find common environment to build project
-#
-set(MAKE_ENV /usr/local/tango/share/pogo/preferences)
-#
-# Project definitions
-#
-project(StanfordDG645)
-
-#
-# optional compiler flags
-#
-set(CXXFLAGS_USER -g)
-
-
-#
-# Get global information
-#
-include(${MAKE_ENV}/cmake_tango.opt)
-
-#
-# Tango Class list used by project
-#
 
 #
 # Files for StanfordDG645Control TANGO class

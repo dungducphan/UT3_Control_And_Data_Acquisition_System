@@ -16,7 +16,17 @@ set(CMAKE_CXX_EXTENSIONS ON)
 
 # MAKE_ENV is the path to find common environment to build project
 #
-set(MAKE_ENV /usr/local/tango/share/pogo/preferences)
+if(UNIX AND NOT APPLE)
+    set(MAKE_ENV /usr/local/tango/share/pogo/preferences)
+elseif(APPLE)
+    set(MAKE_ENV /usr/local/tango/share/pogo/preferences)
+elseif(WIN32)
+    if (DEFINED ENV{MAKE_ENV})
+        set(MAKE_ENV $ENV{MAKE_ENV})
+    else()
+        set(MAKE_ENV $(TANGO_HOME))
+    endif()
+endif()
 
 #
 # Project definitions
@@ -28,29 +38,32 @@ project(UT3-CDAq)
 #
 set(CXXFLAGS_USER -g)
 if(UNIX AND NOT APPLE)
-    # for Linux, BSD, Solaris, Minix
     add_definitions(-DPCO_LINUX)
 endif()
 
 #
 # Get global information
 #
-include(${MAKE_ENV}/cmake_tango.opt)
+if (UNIX AND NOT APPLE)
+    include(${MAKE_ENV}/cmake_tango.opt)
+elseif(WIN32)
+    include(CmakeTangoWin.cmake)
+endif()
 
 option(ENABLE_DEBUG_FEATURES "Enable debug-specific features" OFF)
 
 # Dependencies
-find_package(Boost REQUIRED)
+find_package(Boost)
 if(Boost_FOUND)
     find_package(Boost COMPONENTS filesystem system serialization REQUIRED)
 elseif(NOT Boost_FOUND)
     message("Boost not found!")
 endif()
-# find_package(pylon REQUIRED)
-find_package(OpenCV REQUIRED)
-find_package(TIFF REQUIRED)
-find_package(PNG REQUIRED)
-find_package(JPEG REQUIRED)
+#find_package(pylon REQUIRED)
+#find_package(OpenCV REQUIRED)
+#find_package(TIFF REQUIRED)
+#find_package(PNG REQUIRED)
+#find_package(JPEG REQUIRED)
 
 # Subprojects
 set (CAMERA_SERVER_DIR              ${CMAKE_CURRENT_SOURCE_DIR}/DeviceServer/CameraServer)
